@@ -143,22 +143,27 @@ flowchart TD
 
 ---
 
-### Phase 4: Single-Admin Authentication & CMS Core (P1)
+### Phase 4: Single-Admin Authentication & CMS Core (P1) — ✅ COMPLETED
 **Tujuan:** Mengamankan area manajemen internal dengan sistem autentikasi mandiri berbasis Cloudflare D1.
 
-- [ ] **4.1 Skrip Setup Super Admin:**
+- [x] **4.1 Skrip Setup Super Admin:**
   - `node scripts/create-admin.mjs` untuk generate password hash dan inject admin pertama ke D1.
-- [ ] **4.2 Logika Autentikasi & Session:**
-  - Endpoint / Astro Action Login: verifikasi email + password hash.
-  - Pembuatan cryptographically secure random session token.
-  - Simpan token hash di tabel `sessions`.
-  - Set Cookie `saindo_session` dengan flags: `HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=604800`.
-- [ ] **4.3 Auth Middleware (`src/middleware.ts`):**
+- [x] **4.2 Logika Autentikasi & Session (`src/lib/auth.ts`):**
+  - PBKDF2 Web Crypto password hashing & timing-safe verification.
+  - Cryptographically secure 256-bit random session token generation.
+  - Token hashing dengan SHA-256 tersimpan aman di tabel `sessions`.
+  - Cookie `saindo_session` dengan flags `HttpOnly; SameSite=Strict; Path=/; Max-Age=604800`.
+- [x] **4.3 Auth Middleware (`src/middleware.ts`):**
   - Interseptor semua rute `/admin/*` (kecuali `/admin/login`).
-  - Validasi keberadaan session di D1; jika invalid/expired, redirect ke `/admin/login`.
-  - Inject data user ke `Astro.locals.user`.
-- [ ] **4.4 Dashboard Overview (`/admin/dashboard`):**
-  - Ringkasan total artikel, artikel terbit, album foto, dan pengaturan status sistem.
+  - Validasi keberadaan session di D1; jika invalid/expired, redirect ke `/admin/login?redirect=...`.
+  - Auto redirect user terautentikasi dari `/admin/login` ke `/admin/dashboard`.
+  - Inject data user terverifikasi ke `Astro.locals.user`.
+- [x] **4.4 Halaman Login & Logout Admin:**
+  - `src/pages/admin/login.astro`: Form login editorial Japanese Corporate Minimalist dengan proteksi status akun.
+  - `src/pages/admin/logout.astro`: Invalidate session di D1 dan bersihkan cookie.
+- [x] **4.5 Layout CMS & Dashboard Overview:**
+  - `src/layouts/AdminLayout.astro`: Shell admin dengan navigasi sidebar, profil user, indikator D1, dan responsive header.
+  - `src/pages/admin/dashboard.astro`: Ringkasan metrik D1 real-time (total warta terbit/draf, album galeri, berkas media), pintasan aksi cepat, tabel posting terbaru, dan status keamanan sistem.
 
 ---
 

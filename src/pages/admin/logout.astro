@@ -1,0 +1,18 @@
+---
+import { invalidateSession, SESSION_COOKIE_NAME } from '../../lib/auth';
+
+const token = Astro.cookies.get(SESSION_COOKIE_NAME)?.value;
+const db = Astro.locals.runtime?.env?.DB;
+
+if (token && db) {
+  try {
+    await invalidateSession(db, token);
+  } catch (err) {
+    console.error('Failed to invalidate session on logout:', err);
+  }
+}
+
+Astro.cookies.delete(SESSION_COOKIE_NAME, { path: '/' });
+
+return Astro.redirect('/admin/login');
+---

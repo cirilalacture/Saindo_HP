@@ -1,0 +1,344 @@
+---
+import { count, eq, desc } from 'drizzle-orm';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getDb, schema } from '../../db/client';
+
+const user = Astro.locals.user;
+const db = Astro.locals.runtime?.env?.DB;
+
+let totalPosts = 0;
+let publishedPosts = 0;
+let draftPosts = 0;
+let totalAlbums = 0;
+let totalMedia = 0;
+let recentPosts: Array<{
+  id: string;
+  slug: string;
+  titleId: string;
+  titleJa: string | null;
+  status: string;
+  publishedAt: string | null;
+  createdAt: string;
+}> = [];
+
+if (db) {
+  const d1 = getDb(db);
+  try {
+    const postCountRes = await d1.select({ val: count() }).from(schema.posts);
+    totalPosts = postCountRes[0]?.val ?? 0;
+
+    const pubCountRes = await d1
+      .select({ val: count() })
+      .from(schema.posts)
+      .where(eq(schema.posts.status, 'published'));
+    publishedPosts = pubCountRes[0]?.val ?? 0;
+    draftPosts = totalPosts - publishedPosts;
+
+    const albumCountRes = await d1.select({ val: count() }).from(schema.galleryAlbums);
+    totalAlbums = albumCountRes[0]?.val ?? 0;
+
+    const mediaCountRes = await d1.select({ val: count() }).from(schema.media);
+    totalMedia = mediaCountRes[0]?.val ?? 0;
+
+    recentPosts = await d1
+      .select({
+        id: schema.posts.id,
+        slug: schema.posts.slug,
+        titleId: schema.posts.titleId,
+        titleJa: schema.posts.titleJa,
+        status: schema.posts.status,
+        publishedAt: schema.posts.publishedAt,
+        createdAt: schema.posts.createdAt,
+      })
+      .from(schema.posts)
+      .orderBy(desc(schema.posts.createdAt))
+      .limit(5);
+  } catch (err) {
+    console.error('Failed to load dashboard metrics from D1:', err);
+  }
+}
+---
+
+<AdminLayout title="Dashboard Overview" activeNav="dashboard">
+  <div class="space-y-8">
+    
+    <!-- Welcome Greeting Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-brand-border">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-2 text-xs font-heading font-bold text-brand-vermilion uppercase tracking-widest">
+          <span>PORTAL ADMINISTRATOR</span>
+          <span class="text-brand-stone">/</span>
+          <span class="font-japanese text-brand-stone font-normal">ダッシュボード</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+          Selamat Datang, {user?.name || 'Administrator'}
+        </h1>
+        <p class="text-xs sm:text-sm text-brand-slate font-body">
+          Kelola konten publikasi warta, dokumentasi galeri, dan inventaris berkas LPK Saindo.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a
+          href="/admin/posts/new"
+          class="px-4 py-2 rounded bg-brand-charcoal hover:bg-brand-vermilion text-white text-xs font-heading font-bold tracking-wide transition-colors inline-flex items-center gap-1.5 shadow-sm"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Tulis Artikel Baru
+        </a>
+      </div>
+    </div>
+
+    <!-- Metric Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      
+      <!-- Total Posts -->
+      <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-3">
+        <div class="flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+          <span>Total Warta / Artikel</span>
+          <div class="w-8 h-8 rounded bg-brand-sand flex items-center justify-center text-brand-charcoal">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-heading font-extrabold text-brand-charcoal">{totalPosts}</span>
+          <span class="text-xs text-brand-slate font-heading">item</span>
+        </div>
+        <div class="text-[11px] font-heading text-brand-stone pt-2 border-t border-brand-border/60 flex items-center justify-between">
+          <span>Terbit: <strong class="text-green-600">{publishedPosts}</strong></span>
+          <span>Draf: <strong class="text-amber-600">{draftPosts}</strong></span>
+        </div>
+      </div>
+
+      <!-- Total Albums -->
+      <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-3">
+        <div class="flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+          <span>Album Galeri</span>
+          <div class="w-8 h-8 rounded bg-brand-sand flex items-center justify-center text-brand-charcoal">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-heading font-extrabold text-brand-charcoal">{totalAlbums}</span>
+          <span class="text-xs text-brand-slate font-heading">album aktif</span>
+        </div>
+        <div class="text-[11px] font-heading text-brand-stone pt-2 border-t border-brand-border/60">
+          Dokumentasi pelepasan & pelatihan
+        </div>
+      </div>
+
+      <!-- Media Files -->
+      <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-3">
+        <div class="flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+          <span>Berkas Media</span>
+          <div class="w-8 h-8 rounded bg-brand-sand flex items-center justify-center text-brand-charcoal">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-heading font-extrabold text-brand-charcoal">{totalMedia}</span>
+          <span class="text-xs text-brand-slate font-heading">foto tersimpan</span>
+        </div>
+        <div class="text-[11px] font-heading text-brand-stone pt-2 border-t border-brand-border/60">
+          Media storage ImgBB CDN
+        </div>
+      </div>
+
+      <!-- Database & System -->
+      <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-3">
+        <div class="flex items-center justify-between text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+          <span>Status Sistem</span>
+          <div class="w-8 h-8 rounded bg-green-50 text-green-600 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-sm font-heading font-extrabold text-green-700">D1 Connected</span>
+        </div>
+        <div class="text-[11px] font-heading text-brand-stone pt-2 border-t border-brand-border/60 flex items-center justify-between">
+          <span>Role: <strong class="text-brand-charcoal uppercase">{user?.role || 'Admin'}</strong></span>
+          <span class="text-green-600">Active</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Operations & Recent Posts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Recent Posts List (2 Cols) -->
+      <div class="lg:col-span-2 rounded-xl bg-white border border-brand-border p-6 sm:p-7 shadow-sm space-y-5">
+        <div class="flex items-center justify-between pb-4 border-b border-brand-border">
+          <div class="space-y-0.5">
+            <h2 class="text-base font-heading font-bold text-brand-charcoal">
+              Warta & Artikel Terbaru
+            </h2>
+            <p class="text-xs text-brand-stone font-body">
+              Daftar artikel terakhir yang diubah atau dipublikasikan.
+            </p>
+          </div>
+          <a
+            href="/admin/posts"
+            class="text-xs font-heading font-semibold text-brand-vermilion hover:underline"
+          >
+            Lihat Semua →
+          </a>
+        </div>
+
+        {recentPosts.length > 0 ? (
+          <div class="divide-y divide-brand-border/60">
+            {recentPosts.map((post) => (
+              <div class="py-3.5 flex items-center justify-between gap-4 group">
+                <div class="space-y-1 min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span
+                      class={`px-2 py-0.5 rounded text-[10px] font-heading font-bold uppercase tracking-wider ${
+                        post.status === 'published'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {post.status === 'published' ? 'Terbit' : 'Draf'}
+                    </span>
+                    <span class="text-[11px] text-brand-stone font-heading">
+                      {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Belum Terbit'}
+                    </span>
+                  </div>
+                  <h3 class="text-sm font-heading font-bold text-brand-charcoal truncate group-hover:text-brand-vermilion transition-colors">
+                    {post.titleId}
+                  </h3>
+                  {post.titleJa && (
+                    <p class="text-[11px] font-japanese text-brand-stone truncate">
+                      {post.titleJa}
+                    </p>
+                  )}
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  <a
+                    href={`/blog/${post.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Pratinjau Halaman Publik"
+                    class="p-2 rounded text-brand-stone hover:text-brand-charcoal hover:bg-brand-sand transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                  </a>
+                  <a
+                    href={`/admin/posts/${post.id}/edit`}
+                    class="px-2.5 py-1.5 rounded bg-brand-sand hover:bg-brand-border text-brand-charcoal text-xs font-heading font-semibold transition-colors"
+                  >
+                    Edit
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-12 text-brand-stone font-heading text-xs">
+            Belum ada artikel warta yang dibuat.
+          </div>
+        )}
+      </div>
+
+      <!-- Quick Shortcuts & System Details (1 Col) -->
+      <div class="space-y-6">
+        
+        <!-- Quick Actions Panel -->
+        <div class="rounded-xl bg-white border border-brand-border p-6 shadow-sm space-y-4">
+          <h2 class="text-sm font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+            Aksi Cepat
+          </h2>
+
+          <div class="space-y-2">
+            <a
+              href="/admin/posts/new"
+              class="w-full p-3 rounded-lg border border-brand-border hover:border-brand-vermilion hover:bg-brand-porcelain text-xs font-heading font-semibold text-brand-charcoal flex items-center justify-between group transition-colors"
+            >
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-brand-vermilion"></span>
+                <span>Tulis Artikel Baru</span>
+              </div>
+              <span class="text-brand-stone group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+
+            <a
+              href="/admin/gallery/new"
+              class="w-full p-3 rounded-lg border border-brand-border hover:border-brand-vermilion hover:bg-brand-porcelain text-xs font-heading font-semibold text-brand-charcoal flex items-center justify-between group transition-colors"
+            >
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span>Buat Album Galeri Baru</span>
+              </div>
+              <span class="text-brand-stone group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+
+            <a
+              href="/admin/media"
+              class="w-full p-3 rounded-lg border border-brand-border hover:border-brand-vermilion hover:bg-brand-porcelain text-xs font-heading font-semibold text-brand-charcoal flex items-center justify-between group transition-colors"
+            >
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Kelola Media Library</span>
+              </div>
+              <span class="text-brand-stone group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+
+            <a
+              href="/admin/settings"
+              class="w-full p-3 rounded-lg border border-brand-border hover:border-brand-vermilion hover:bg-brand-porcelain text-xs font-heading font-semibold text-brand-charcoal flex items-center justify-between group transition-colors"
+            >
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-brand-slate"></span>
+                <span>Pengaturan Situs & Kontak</span>
+              </div>
+              <span class="text-brand-stone group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Security & Session Info Panel -->
+        <div class="rounded-xl bg-white border border-brand-border p-6 shadow-sm space-y-3">
+          <h2 class="text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+            Keamanan & Sesi
+          </h2>
+
+          <div class="space-y-2 text-xs font-heading">
+            <div class="flex items-center justify-between py-1 border-b border-brand-border/60">
+              <span class="text-brand-stone">Email Pengguna</span>
+              <span class="font-mono text-brand-charcoal font-medium truncate max-w-[150px]">{user?.email}</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-brand-border/60">
+              <span class="text-brand-stone">Hak Akses</span>
+              <span class="text-brand-charcoal font-bold uppercase">{user?.role}</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-brand-border/60">
+              <span class="text-brand-stone">Masa Berlaku Cookie</span>
+              <span class="text-brand-charcoal font-medium">7 Hari (Strict)</span>
+            </div>
+            <div class="flex items-center justify-between py-1">
+              <span class="text-brand-stone">Koneksi Database</span>
+              <span class="text-green-600 font-bold">Cloudflare D1</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</AdminLayout>
