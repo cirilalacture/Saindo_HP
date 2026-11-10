@@ -31,6 +31,35 @@ const {
     <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'id_ID'} />
     <link rel="alternate" hreflang="id" href="https://lpksaindo.com/" />
     <link rel="alternate" hreflang="ja" href="https://lpksaindo.com/ja/" />
+
+    <!-- JSON-LD Structured Data for EducationalOrganization -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'EducationalOrganization',
+      name: 'LPK Saindo',
+      alternateName: '送り出し機関 LPK Saindo',
+      url: 'https://lpksaindo.com',
+      logo: 'https://lpksaindo.com/favicon.svg',
+      description: description,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Jl. Pendidikan Kejuruan No. 88',
+        addressLocality: 'Bogor',
+        addressRegion: 'Jawa Barat',
+        postalCode: '16911',
+        addressCountry: 'ID',
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+62-812-3456-789',
+        contactType: 'customer service',
+        availableLanguage: ['Indonesian', 'Japanese'],
+      },
+      sameAs: [
+        'https://instagram.com/lpksaindo',
+        'https://facebook.com/lpksaindo',
+      ],
+    })} />
   </head>
   <body class="bg-brand-porcelain text-brand-charcoal antialiased selection:bg-brand-vermilion selection:text-white">
     <slot />

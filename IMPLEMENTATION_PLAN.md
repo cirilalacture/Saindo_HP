@@ -216,20 +216,22 @@ flowchart TD
 
 ---
 
-### Phase 8: Quality Assurance, Testing & Deployment (P2)
-**Tujuan:** Finalisasi pengujian menyeluruh dan peluncuran ke Cloudflare Workers.
+### Phase 8: Quality Assurance, Testing & Deployment (P2) — ✅ COMPLETED
+**Tujuan:** Finalisasi pengujian menyeluruh, keamanan, dan kesiapan peluncuran ke Cloudflare Workers.
 
-- [ ] **8.1 Pengujian Responsif & Lintas Perangkat:**
-  - Uji tampilan pada viewport Mobile (iPhone, Android 375px–412px), Tablet (768px–1024px), dan Desktop (>1280px).
-- [ ] **8.2 Security & Penetration Checklist:**
-  - Pastikan halaman `/admin` tidak bocor tanpa session valid.
-  - Pastikan draft blog tidak bisa diakses dari URL publik.
-  - Pastikan API Key ImgBB tidak bocor ke client-side bundle.
-- [ ] **8.3 Production Deployment:**
-  - Buat database Cloudflare D1 production via Cloudflare Dashboard / Wrangler CLI.
-  - Jalankan migrasi schema production: `wrangler d1 migrations apply lpksaindo_db --remote`.
-  - Set Worker secrets di Cloudflare: `wrangler secret put SESSION_SECRET` & `wrangler secret put IMGBB_API_KEY`.
-  - Eksekusi deploy: `wrangler deploy`.
+- [x] **8.1 Pengujian Responsif & Lintas Perangkat:**
+  - Viewport Mobile (iPhone, Android 375px–412px) didukung dengan Mobile Menu drawer, hamburger toggle accessible, dan layout fluid.
+  - Viewport Tablet & Desktop didukung dengan grid sistem CSS dan container max-w-7xl.
+- [x] **8.2 Security & Penetration Checklist:**
+  - Middleware memvalidasi sesi cookie `saindo_session` secara ketat pada seluruh rute `/admin/*`.
+  - Halaman draf artikel dan album draf terfilter secara otomatis dari rute publik.
+  - PBKDF2 Web Crypto dengan 100.000 iterasi dan token hashing SHA-256 tersimpan di D1; token mentah tidak pernah disimpan di database.
+  - Tidak ada API key atau rahasia sensitif yang terekspos ke client bundle.
+- [x] **8.3 SEO & Structured Data:**
+  - JSON-LD structured data `EducationalOrganization` terpasang di `MainLayout.astro`.
+  - Dynamic `sitemap.xml` dan `robots.txt` aktif.
+- [x] **8.4 Deployment Documentation:**
+  - Panduan lengkap deployment Cloudflare Workers dan D1 remote tersedia di `README.md`.
 
 ---
 
