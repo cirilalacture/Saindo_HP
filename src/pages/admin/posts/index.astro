@@ -1,0 +1,243 @@
+---
+import { desc, eq } from 'drizzle-orm';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { getDb, schema } from '../../../db/client';
+
+const db = Astro.locals.runtime?.env?.DB;
+let postsList: Array<{
+  id: string;
+  slug: string;
+  titleId: string;
+  titleJa: string | null;
+  status: string;
+  viewCount: number;
+  publishedAt: string | null;
+  createdAt: string;
+}> = [];
+
+// Handle delete or toggle status via POST if requested
+let noticeMessage = '';
+if (Astro.request.method === 'POST' && db) {
+  const formData = await Astro.request.formData();
+  const actionType = formData.get('_action')?.toString();
+  const postId = formData.get('postId')?.toString();
+
+  if (postId) {
+    const d1 = getDb(db);
+    if (actionType === 'delete') {
+      try {
+        await d1.delete(schema.postCategories).where(eq(schema.postCategories.postId, postId));
+        await d1.delete(schema.postTags).where(eq(schema.postTags.postId, postId));
+        await d1.delete(schema.posts).where(eq(schema.posts.id, postId));
+        noticeMessage = 'Artikel berhasil dihapus dari sistem.';
+      } catch (err) {
+        console.error('Failed to delete post:', err);
+      }
+    } else if (actionType === 'toggle') {
+      try {
+        const found = await d1.select().from(schema.posts).where(eq(schema.posts.id, postId)).limit(1);
+        if (found.length > 0) {
+          const cur = found[0];
+          const newStatus = cur.status === 'published' ? 'draft' : 'published';
+          const now = new Date().toISOString();
+          await d1
+            .update(schema.posts)
+            .set({
+              status: newStatus,
+              publishedAt: newStatus === 'published' ? (cur.publishedAt || now) : cur.publishedAt,
+              updatedAt: now,
+            })
+            .where(eq(schema.posts.id, postId));
+          noticeMessage = `Status artikel berhasil diubah menjadi ${newStatus === 'published' ? 'Terbit' : 'Draf'}.`;
+        }
+      } catch (err) {
+        console.error('Failed to toggle post status:', err);
+      }
+    }
+  }
+}
+
+if (db) {
+  const d1 = getDb(db);
+  try {
+    postsList = await d1
+      .select({
+        id: schema.posts.id,
+        slug: schema.posts.slug,
+        titleId: schema.posts.titleId,
+        titleJa: schema.posts.titleJa,
+        status: schema.posts.status,
+        viewCount: schema.posts.viewCount,
+        publishedAt: schema.posts.publishedAt,
+        createdAt: schema.posts.createdAt,
+      })
+      .from(schema.posts)
+      .orderBy(desc(schema.posts.createdAt));
+  } catch (err) {
+    console.error('Failed to query admin posts list:', err);
+  }
+}
+---
+
+<AdminLayout title="Manajemen Warta & Blog" activeNav="posts">
+  <div class="space-y-6">
+    
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-brand-border">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-2 text-xs font-heading font-bold text-brand-vermilion uppercase tracking-widest">
+          <span>KONTEN WARTA</span>
+          <span class="text-brand-stone">/</span>
+          <span class="font-japanese text-brand-stone font-normal">記事一覧</span>
+        </div>
+        <h1 class="text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+          Daftar Warta & Artikel
+        </h1>
+        <p class="text-xs text-brand-slate font-body">
+          Kelola berita kegiatan, tips bahasa Jepang, dan informasi regulasi kerja sama industri.
+        </p>
+      </div>
+
+      <a
+        href="/admin/posts/new"
+        class="px-4 py-2.5 rounded bg-brand-charcoal hover:bg-brand-vermilion text-white text-xs font-heading font-bold tracking-wide transition-colors inline-flex items-center gap-2 shadow-sm shrink-0"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>Tulis Artikel Baru</span>
+      </a>
+    </div>
+
+    <!-- Notice alert -->
+    {noticeMessage && (
+      <div class="p-4 rounded-md bg-green-50 border border-green-200 text-green-800 text-xs font-heading font-medium flex items-center justify-between">
+        <span>{noticeMessage}</span>
+      </div>
+    )}
+
+    <!-- Table Container -->
+    <div class="rounded-xl bg-white border border-brand-border shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-brand-border bg-brand-sand/40 text-[11px] font-heading font-bold uppercase tracking-wider text-brand-stone">
+              <th class="py-3 px-6">Judul Artikel</th>
+              <th class="py-3 px-4">Status</th>
+              <th class="py-3 px-4">Pembaca</th>
+              <th class="py-3 px-4">Tanggal Rilis</th>
+              <th class="py-3 px-6 text-right">Tindakan</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-brand-border/60 text-xs font-heading">
+            {postsList.length > 0 ? (
+              postsList.map((post) => (
+                <tr class="hover:bg-brand-porcelain/60 transition-colors group">
+                  <td class="py-4 px-6 max-w-md">
+                    <div class="space-y-1">
+                      <a
+                        href={`/admin/posts/${post.id}/edit`}
+                        class="font-bold text-brand-charcoal group-hover:text-brand-vermilion transition-colors block text-sm leading-snug"
+                      >
+                        {post.titleId}
+                      </a>
+                      {post.titleJa && (
+                        <p class="text-[11px] font-japanese text-brand-stone truncate">
+                          {post.titleJa}
+                        </p>
+                      )}
+                      <p class="text-[10px] text-brand-stone font-mono">
+                        slug: /{post.slug}
+                      </p>
+                    </div>
+                  </td>
+
+                  <td class="py-4 px-4 whitespace-nowrap">
+                    <span
+                      class={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                        post.status === 'published'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {post.status === 'published' ? 'Terbit' : 'Draf'}
+                    </span>
+                  </td>
+
+                  <td class="py-4 px-4 whitespace-nowrap text-brand-slate font-mono">
+                    {post.viewCount} views
+                  </td>
+
+                  <td class="py-4 px-4 whitespace-nowrap text-brand-stone">
+                    {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
+                  </td>
+
+                  <td class="py-4 px-6 whitespace-nowrap text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <!-- Live Preview link -->
+                      <a
+                        href={`/blog/${post.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Pratinjau Publik"
+                        class="p-1.5 rounded text-brand-stone hover:text-brand-charcoal hover:bg-brand-sand transition-colors"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                      </a>
+
+                      <!-- Edit Button -->
+                      <a
+                        href={`/admin/posts/${post.id}/edit`}
+                        class="px-2.5 py-1.5 rounded bg-brand-sand hover:bg-brand-border text-brand-charcoal font-semibold transition-colors"
+                      >
+                        Edit
+                      </a>
+
+                      <!-- Toggle Status Form -->
+                      <form method="POST" class="inline">
+                        <input type="hidden" name="_action" value="toggle" />
+                        <input type="hidden" name="postId" value={post.id} />
+                        <button
+                          type="submit"
+                          class="px-2.5 py-1.5 rounded border border-brand-border hover:bg-brand-sand text-brand-slate transition-colors"
+                          title="Ubah Status Draf/Terbit"
+                        >
+                          {post.status === 'published' ? 'Tarik Draf' : 'Terbitkan'}
+                        </button>
+                      </form>
+
+                      <!-- Delete Form -->
+                      <form method="POST" onsubmit="return confirm('Hapus artikel ini secara permanen?');" class="inline">
+                        <input type="hidden" name="_action" value="delete" />
+                        <input type="hidden" name="postId" value={post.id} />
+                        <button
+                          type="submit"
+                          class="p-1.5 rounded hover:bg-red-50 text-brand-stone hover:text-red-600 transition-colors"
+                          title="Hapus Artikel"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                          </svg>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colspan="5" class="py-12 text-center text-brand-stone">
+                  Belum ada artikel warta yang dibuat. Klik tombol "Tulis Artikel Baru" untuk memulai.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</AdminLayout>

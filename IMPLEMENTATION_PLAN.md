@@ -167,20 +167,19 @@ flowchart TD
 
 ---
 
-### Phase 5: TipTap Blog CMS (P1)
+### Phase 5: TipTap Blog CMS (P1) — ✅ COMPLETED
 **Tujuan:** Memberikan admin antarmuka rich-text modern untuk mempublikasikan artikel bilingual.
 
-- [ ] **5.1 Integrasi TipTap Rich Text Editor (`RichTextEditor.tsx`):**
-  - React island editor dengan toolbar minimalis (Bold, Italic, Headings, Bullet List, Ordered List, Image, Quote, Link).
-  - Output konten dalam format TipTap JSON murni.
-- [ ] **5.2 Form Manajemen Artikel:**
-  - Pengisian judul Indonesia & Jepang, auto-slug generator, ringkasan (excerpt).
-  - Pemilihan cover image dari Media Library.
-  - Pilihan kategori dan tag dinamis.
-  - Tab konfigurasi SEO metadata (SEO Title, Meta Description).
-- [ ] **5.3 Astro Actions untuk Mutasi Blog:**
+- [x] **5.1 Integrasi TipTap Rich Text Editor (`RichTextEditor.tsx`):**
+  - React island editor dengan toolbar minimalis (Bold, Italic, Strike, Headings 2/3, Bullet List, Ordered List, Blockquote, Link, Image, Undo, Redo).
+  - Output konten otomatis tersinkronisasi dalam format TipTap JSON murni.
+- [x] **5.2 Form Manajemen & Editor Artikel Dwibahasa:**
+  - `src/pages/admin/posts/index.astro`: Tabel manajemen posting dengan filter status, pratinjau live web, tombol toggle status publikasi, dan hapus.
+  - `src/pages/admin/posts/new.astro`: Formulir pembuatan artikel baru dengan input dwibahasa ID & JA, generator permalink slug, ringkasan, pemilih gambar sampul media library, dan tab SEO metadata.
+  - `src/pages/admin/posts/[id]/edit.astro`: Formulir pengeditan artikel lengkap dengan pemuatan data awal dari D1 ke TipTap Rich Text.
+- [x] **5.3 Astro Actions untuk Mutasi Blog (`src/actions/posts.ts`):**
   - `createPost`, `updatePost`, `deletePost`, `togglePublishStatus`.
-  - Validasi Zod schema server-side.
+  - Validasi Zod schema server-side dan penanganan otentikasi admin.
 
 ---
 

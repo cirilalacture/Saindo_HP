@@ -1,0 +1,409 @@
+---
+import { eq } from 'drizzle-orm';
+import AdminLayout from '../../../../layouts/AdminLayout.astro';
+import RichTextEditor from '../../../../admin/editor/RichTextEditor';
+import { getDb, schema } from '../../../../db/client';
+
+const { id } = Astro.params;
+const db = Astro.locals.runtime?.env?.DB;
+
+if (!id || !db) {
+  return Astro.redirect('/admin/posts');
+}
+
+const d1 = getDb(db);
+
+// Fetch existing post
+const postRes = await d1.select().from(schema.posts).where(eq(schema.posts.id, id)).limit(1);
+if (postRes.length === 0) {
+  return Astro.redirect('/admin/posts');
+}
+
+const post = postRes[0];
+
+// Fetch current category
+const catRes = await d1
+  .select({ categoryId: schema.postCategories.categoryId })
+  .from(schema.postCategories)
+  .where(eq(schema.postCategories.postId, id))
+  .limit(1);
+
+const currentCategoryId = catRes[0]?.categoryId || '';
+
+// Fetch category and media options
+const categoriesList = await d1
+  .select({ id: schema.categories.id, nameId: schema.categories.nameId, nameJa: schema.categories.nameJa })
+  .from(schema.categories);
+
+const mediaList = await d1
+  .select({ id: schema.media.id, filename: schema.media.filename, displayUrl: schema.media.displayUrl })
+  .from(schema.media);
+
+let errorMessage = '';
+
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const titleId = formData.get('titleId')?.toString().trim();
+    const titleJa = formData.get('titleJa')?.toString().trim() || null;
+    let slug = formData.get('slug')?.toString().trim();
+    const excerptId = formData.get('excerptId')?.toString().trim();
+    const excerptJa = formData.get('excerptJa')?.toString().trim() || null;
+    const contentId = formData.get('contentId')?.toString().trim();
+    const contentJa = formData.get('contentJa')?.toString().trim() || null;
+    const categoryId = formData.get('categoryId')?.toString().trim() || null;
+    const coverMediaId = formData.get('coverMediaId')?.toString().trim() || null;
+    const status = formData.get('status')?.toString() === 'published' ? 'published' : 'draft';
+
+    const seoTitleId = formData.get('seoTitleId')?.toString().trim() || null;
+    const seoTitleJa = formData.get('seoTitleJa')?.toString().trim() || null;
+    const metaDescriptionId = formData.get('metaDescriptionId')?.toString().trim() || null;
+    const metaDescriptionJa = formData.get('metaDescriptionJa')?.toString().trim() || null;
+
+    if (!titleId || titleId.length < 3) {
+      errorMessage = 'Judul bahasa Indonesia minimal 3 karakter.';
+    } else if (!excerptId || excerptId.length < 10) {
+      errorMessage = 'Ringkasan artikel bahasa Indonesia minimal 10 karakter.';
+    } else if (!contentId || contentId.length < 5) {
+      errorMessage = 'Konten artikel bahasa Indonesia wajib diisi.';
+    } else {
+      if (!slug) {
+        slug = titleId
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_-]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+
+      const now = new Date().toISOString();
+      let publishedAt = post.publishedAt;
+      if (status === 'published' && !publishedAt) {
+        publishedAt = now;
+      }
+
+      await d1
+        .update(schema.posts)
+        .set({
+          titleId,
+          titleJa,
+          slug,
+          excerptId,
+          excerptJa,
+          contentId,
+          contentJa,
+          coverMediaId,
+          status,
+          seoTitleId,
+          seoTitleJa,
+          metaDescriptionId,
+          metaDescriptionJa,
+          publishedAt,
+          updatedAt: now,
+        })
+        .where(eq(schema.posts.id, id));
+
+      await d1.delete(schema.postCategories).where(eq(schema.postCategories.postId, id));
+      if (categoryId) {
+        await d1.insert(schema.postCategories).values({
+          postId: id,
+          categoryId,
+        });
+      }
+
+      return Astro.redirect('/admin/posts');
+    }
+  } catch (err: any) {
+    console.error('Failed to update post:', err);
+    errorMessage = err.message || 'Gagal memperbarui artikel.';
+  }
+}
+---
+
+<AdminLayout title={`Edit: ${post.titleId}`} activeNav="posts">
+  <div class="space-y-6 max-w-5xl">
+    
+    <!-- Header Back Breadcrumb -->
+    <div class="flex items-center justify-between pb-4 border-b border-brand-border">
+      <div class="space-y-1">
+        <a href="/admin/posts" class="text-xs font-heading font-semibold text-brand-slate hover:text-brand-charcoal inline-flex items-center gap-1.5 transition-colors">
+          ← Kembali ke Daftar Artikel
+        </a>
+        <h1 class="text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+          Perbarui Warta: {post.titleId}
+        </h1>
+      </div>
+
+      <a
+        href={`/blog/${post.slug}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-xs font-heading font-bold text-brand-vermilion hover:underline inline-flex items-center gap-1"
+      >
+        <span>Lihat Tampilan Publik</span>
+        <span>↗</span>
+      </a>
+    </div>
+
+    <!-- Error Alert Box -->
+    {errorMessage && (
+      <div class="p-4 rounded-md bg-red-50 border border-red-200 text-red-700 text-xs font-heading font-medium flex items-center gap-2">
+        <svg class="w-4 h-4 shrink-0 text-brand-vermilion" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{errorMessage}</span>
+      </div>
+    )}
+
+    <!-- Main Creation Form -->
+    <form method="POST" class="space-y-8">
+      
+      <!-- Split Form Grid: Content Left, Options Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        
+        <!-- Left: Editorial Content (2 cols) -->
+        <div class="lg:col-span-2 space-y-8">
+          
+          <!-- Tab Box: Indonesian (Primary) -->
+          <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+            <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-brand-vermilion"></span>
+                <h2 class="text-sm font-heading font-bold text-brand-charcoal uppercase tracking-wider">
+                  Konten Bahasa Indonesia (Wajib)
+                </h2>
+              </div>
+              <span class="text-[11px] text-brand-stone font-heading">Bahasa Utama</span>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="titleId" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+                Judul Artikel <span class="text-brand-vermilion">*</span>
+              </label>
+              <input
+                id="titleId"
+                name="titleId"
+                type="text"
+                required
+                value={post.titleId}
+                class="w-full px-4 py-2.5 rounded border border-brand-border bg-white text-sm text-brand-charcoal font-sans focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+              />
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="slug" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+                Slug URL (Permalink)
+              </label>
+              <div class="flex rounded border border-brand-border bg-brand-sand/30 overflow-hidden focus-within:ring-2 focus-within:ring-brand-vermilion/20 focus-within:border-brand-vermilion">
+                <span class="px-3 py-2 text-xs font-mono text-brand-stone border-r border-brand-border">
+                  /blog/
+                </span>
+                <input
+                  id="slug"
+                  name="slug"
+                  type="text"
+                  value={post.slug}
+                  class="flex-1 px-3 py-2 bg-transparent text-xs text-brand-charcoal font-mono focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="excerptId" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+                Ringkasan / Excerpt <span class="text-brand-vermilion">*</span>
+              </label>
+              <textarea
+                id="excerptId"
+                name="excerptId"
+                rows="2"
+                required
+                class="w-full px-4 py-2 rounded border border-brand-border bg-white text-xs text-brand-charcoal font-sans focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion leading-relaxed"
+              >{post.excerptId}</textarea>
+            </div>
+
+            <div class="space-y-1.5">
+              <RichTextEditor
+                client:only="react"
+                name="contentId"
+                label="Isi Konten Lengkap (TipTap Rich Text)"
+                initialValue={post.contentId}
+              />
+            </div>
+          </div>
+
+          <!-- Japanese Section (Optional) -->
+          <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+            <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                <h2 class="text-sm font-heading font-bold text-brand-charcoal uppercase tracking-wider">
+                  Terjemahan Bahasa Jepang (Opsional)
+                </h2>
+              </div>
+              <span class="font-japanese text-[11px] text-brand-stone">日本語記事</span>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="titleJa" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+                Judul Bahasa Jepang (記事タイトル)
+              </label>
+              <input
+                id="titleJa"
+                name="titleJa"
+                type="text"
+                value={post.titleJa || ''}
+                class="w-full px-4 py-2.5 rounded border border-brand-border bg-white text-sm text-brand-charcoal font-ja focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+              />
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="excerptJa" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+                Ringkasan Bahasa Jepang (概要)
+              </label>
+              <textarea
+                id="excerptJa"
+                name="excerptJa"
+                rows="2"
+                class="w-full px-4 py-2 rounded border border-brand-border bg-white text-xs text-brand-charcoal font-ja focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion leading-relaxed"
+              >{post.excerptJa || ''}</textarea>
+            </div>
+
+            <div class="space-y-1.5">
+              <RichTextEditor
+                client:only="react"
+                name="contentJa"
+                label="Isi Konten Jepang (本文 - TipTap)"
+                initialValue={post.contentJa}
+              />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Publishing Controls & Meta (1 col) -->
+        <div class="space-y-6">
+          
+          <!-- Publish Action Box -->
+          <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-4">
+            <h2 class="text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal pb-2 border-b border-brand-border">
+              Status & Publikasi
+            </h2>
+
+            <div class="space-y-2">
+              <label for="status" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+                Status Terbit
+              </label>
+              <select
+                id="status"
+                name="status"
+                class="w-full px-3 py-2 rounded border border-brand-border bg-brand-porcelain text-xs font-heading font-bold text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+              >
+                <option value="draft" selected={post.status === 'draft'}>Draf (Belum Tayang)</option>
+                <option value="published" selected={post.status === 'published'}>Terbitkan (Publik)</option>
+              </select>
+            </div>
+
+            <div class="space-y-2">
+              <label for="categoryId" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+                Kategori Berita
+              </label>
+              <select
+                id="categoryId"
+                name="categoryId"
+                class="w-full px-3 py-2 rounded border border-brand-border bg-brand-porcelain text-xs font-heading text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+              >
+                <option value="">— Tanpa Kategori —</option>
+                {categoriesList.map((cat) => (
+                  <option value={cat.id} selected={cat.id === currentCategoryId}>
+                    {cat.nameId} {cat.nameJa ? `(${cat.nameJa})` : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div class="pt-4 border-t border-brand-border/60 space-y-2">
+              <button
+                type="submit"
+                class="w-full py-2.5 px-4 rounded bg-brand-charcoal hover:bg-brand-vermilion text-white font-heading font-bold text-xs tracking-wider transition-colors shadow-sm flex items-center justify-center gap-2"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Perbarui Artikel</span>
+              </button>
+
+              <a
+                href="/admin/posts"
+                class="w-full py-2 px-4 rounded border border-brand-border hover:bg-brand-sand text-brand-slate font-heading font-semibold text-xs transition-colors flex items-center justify-center"
+              >
+                Batal
+              </a>
+            </div>
+          </div>
+
+          <!-- Cover Image Selector -->
+          <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-4">
+            <h2 class="text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal pb-2 border-b border-brand-border">
+              Gambar Sampul (Cover)
+            </h2>
+
+            <div class="space-y-2">
+              <label for="coverMediaId" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">
+                Pilih Dari Media Library
+              </label>
+              <select
+                id="coverMediaId"
+                name="coverMediaId"
+                class="w-full px-3 py-2 rounded border border-brand-border bg-brand-porcelain text-xs font-heading text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+              >
+                <option value="">— Tanpa Gambar Sampul —</option>
+                {mediaList.map((med) => (
+                  <option value={med.id} selected={med.id === post.coverMediaId}>
+                    {med.filename}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <!-- SEO Metadata Accordion -->
+          <div class="p-6 rounded-xl bg-white border border-brand-border shadow-sm space-y-4">
+            <h2 class="text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal pb-2 border-b border-brand-border">
+              SEO & Metadata Sosial
+            </h2>
+
+            <div class="space-y-3">
+              <div class="space-y-1">
+                <label for="seoTitleId" class="block text-[11px] font-heading font-semibold text-brand-stone">
+                  SEO Title (ID)
+                </label>
+                <input
+                  id="seoTitleId"
+                  name="seoTitleId"
+                  type="text"
+                  value={post.seoTitleId || ''}
+                  class="w-full px-3 py-1.5 rounded border border-brand-border text-xs text-brand-charcoal font-sans focus:outline-none focus:ring-1 focus:ring-brand-vermilion"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <label for="metaDescriptionId" class="block text-[11px] font-heading font-semibold text-brand-stone">
+                  Meta Description (ID)
+                </label>
+                <textarea
+                  id="metaDescriptionId"
+                  name="metaDescriptionId"
+                  rows="2"
+                  class="w-full px-3 py-1.5 rounded border border-brand-border text-xs text-brand-charcoal font-sans focus:outline-none focus:ring-1 focus:ring-brand-vermilion"
+                >{post.metaDescriptionId || ''}</textarea>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+</AdminLayout>

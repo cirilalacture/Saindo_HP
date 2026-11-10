@@ -1,6 +1,7 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'zod';
 import { getAllSettings } from '../db/queries/settings';
+import { postsActions } from './posts';
 
 export const server = {
   healthCheck: defineAction({
@@ -17,7 +18,7 @@ export const server = {
           const settings = await getAllSettings(runtime.env.DB);
           d1Connected = true;
           settingsCount = Object.keys(settings).length;
-        } catch (e) {
+        } catch {
           d1Connected = false;
         }
       }
@@ -32,4 +33,5 @@ export const server = {
       };
     },
   }),
+  ...postsActions,
 };
