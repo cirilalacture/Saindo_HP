@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "programs": "Program",
+    "gallery": "Galeri",
+    "blog": "Blog",
+    "contact": "Kontak",
+    "cta": "Daftar Sekarang"
+  },
+  "hero": {
+    "badge": "LPK RESMI KE JEPANG — SO & TOKUTEI GINOU",
+    "headline": "Masa Depanmu Dimulai dari Sini. Melangkah Bersama Saindo Menuju Jepang.",
+    "subheadline": "Persiapkan kemampuan bahasa, keterampilan spesifik, dan mentalitas kerja profesional untuk membangun karier gemilang di Jepang bersama LPK Saindo.",
+    "ctaPrimary": "Daftar Sekarang",
+    "ctaSecondary": "Pelajari Program"
+  },
+  "trust": {
+    "alumniCount": "500+",
+    "alumniLabel": "Alumni Berangkat ke Jepang",
+    "passRate": "98%",
+    "passLabel": "Kelulusan JLPT & JFT",
+    "partners": "35+",
+    "partnersLabel": "Mitra Asosiasi & Perusahaan Jepang",
+    "years": "8+",
+    "yearsLabel": "Tahun Pengalaman Profesional"
+  },
+  "footer": {
+    "tagline": "Lembaga Pelatihan Kerja Terpercaya Menuju Karier Masa Depan di Jepang.",
+    "quickLinks": "Tautan Cepat",
+    "legal": "Legalitas & Perizinan",
+    "contact": "Hubungi Kami",
+    "copyright": "© 2026 LPK Saindo. Seluruh Hak Cipta Dilindungi."
+  }
+}

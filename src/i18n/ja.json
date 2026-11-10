@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "about": "私たちについて",
+    "programs": "研修プログラム",
+    "gallery": "活動ギャラリー",
+    "blog": "お知らせ・ブログ",
+    "contact": "お問い合わせ",
+    "cta": "今すぐ相談する"
+  },
+  "hero": {
+    "badge": "インドネシア送出機関 (SO) ・ 特定技能人材育成",
+    "headline": "あなたの未来はここから始まる。Saindoと共に日本へ。",
+    "subheadline": "LPK Saindoは、日本での就労・キャリア形成を目指す優秀な若者に向け、高度な日本語教育、実務専門技能、そして日本のビジネスマナー研修を提供しています。",
+    "ctaPrimary": "受入相談・お問い合わせ",
+    "ctaSecondary": "プログラム詳細"
+  },
+  "trust": {
+    "alumniCount": "500+",
+    "alumniLabel": "日本への派遣実績（名）",
+    "passRate": "98%",
+    "passLabel": "JLPT / JFT 合格率",
+    "partners": "35+",
+    "partnersLabel": "提携監理団体・受入企業",
+    "years": "8+",
+    "yearsLabel": "育成・送出の実績年数"
+  },
+  "footer": {
+    "tagline": "日本企業とインドネシアの有望な若者を結ぶ、信頼の人材育成送り出し機関。",
+    "quickLinks": "クイックリンク",
+    "legal": "許認可・コンプライアンス",
+    "contact": "お問い合わせ先",
+    "copyright": "© 2026 LPK Saindo. 無断転載を禁じます。"
+  }
+}

@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'id' | 'ja';
+}
+
+const {
+  title = 'LPK Saindo — Pelatihan Bahasa & Penempatan Kerja ke Jepang',
+  description = 'Lembaga Pelatihan Kerja resmi ke Jepang. Program Pemagangan (Ginou Jisshuusei) dan Tenaga Kerja Berketerampilan Spesifik (Tokutei Ginou / SSW).',
+  lang = 'id',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'id_ID'} />
+    <link rel="alternate" hreflang="id" href="https://lpksaindo.com/" />
+    <link rel="alternate" hreflang="ja" href="https://lpksaindo.com/ja/" />
+  </head>
+  <body class="bg-brand-porcelain text-brand-charcoal antialiased selection:bg-brand-vermilion selection:text-white">
+    <slot />
+  </body>
+</html>

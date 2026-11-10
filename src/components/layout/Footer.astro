@@ -1,0 +1,85 @@
+---
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+---
+
+<footer class="bg-brand-charcoal text-white pt-16 pb-12 border-t border-brand-charcoal">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+      
+      <!-- Brand & Mission Column -->
+      <div class="md:col-span-5 space-y-5">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded bg-brand-vermilion flex items-center justify-center text-white font-heading font-extrabold text-lg">
+            S
+          </div>
+          <span class="font-heading font-extrabold text-xl tracking-tight text-white">
+            LPK SAINDO
+          </span>
+        </div>
+        <p class="text-sm font-body text-gray-400 leading-relaxed max-w-sm">
+          {currentLang === 'ja'
+            ? 'LPK Saindoは、インドネシアの有望な若者を育成し、日本の優良企業および監理団体へ送り出す認定教育機関です。'
+            : 'Lembaga Pelatihan Kerja resmi ke Jepang berizin SO & Kemnaker. Membina generasi muda berkarakter, mahir berbahasa Jepang, dan memiliki keahlian vokasi terstandar industri.'}
+        </p>
+        <div class="pt-2 text-xs text-gray-400 space-y-1">
+          <p><span class="text-gray-300 font-semibold">Izin Resmi SO:</span> KEMNAKER RI No. 2/XXX/HK.01/2022</p>
+          <p><span class="text-gray-300 font-semibold">VIN Lembaga:</span> 2209320401</p>
+        </div>
+      </div>
+
+      <!-- Quick Navigation -->
+      <div class="md:col-span-3 space-y-4">
+        <h4 class="font-heading font-semibold text-xs uppercase tracking-widest text-brand-sand">
+          {currentLang === 'ja' ? 'ナビゲーション' : 'Menu Navigasi'}
+        </h4>
+        <ul class="space-y-2.5 text-sm font-body text-gray-400">
+          <li><a href={currentLang === 'ja' ? '/ja' : '/'} class="hover:text-white transition-colors">Beranda</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/about' : '/about'} class="hover:text-white transition-colors">Tentang Kami</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/programs' : '/programs'} class="hover:text-white transition-colors">Program Pelatihan</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/gallery' : '/gallery'} class="hover:text-white transition-colors">Galeri Dokumentasi</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/blog' : '/blog'} class="hover:text-white transition-colors">Warta & Artikel</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/contact' : '/contact'} class="hover:text-white transition-colors">Kontak & Lokasi</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="md:col-span-4 space-y-4">
+        <h4 class="font-heading font-semibold text-xs uppercase tracking-widest text-brand-sand">
+          {currentLang === 'ja' ? '連絡先' : 'Kantor & Pusat Pelatihan'}
+        </h4>
+        <p class="text-sm font-body text-gray-400 leading-relaxed">
+          Jl. Pendidikan Kejuruan No. 88, Jawa Barat, Indonesia
+        </p>
+        <div class="space-y-2 text-sm text-gray-400 font-body">
+          <p class="flex items-center gap-2">
+            <span class="text-brand-vermilion">WA:</span>
+            <a href="https://wa.me/628123456789" class="hover:text-white transition-colors">+62 812-3456-7890</a>
+          </p>
+          <p class="flex items-center gap-2">
+            <span class="text-brand-vermilion">Email:</span>
+            <a href="mailto:info@lpksaindo.com" class="hover:text-white transition-colors">info@lpksaindo.com</a>
+          </p>
+          <p class="flex items-center gap-2">
+            <span class="text-brand-vermilion">Jam:</span>
+            <span>Senin - Sabtu: 08.00 - 17.00 WIB</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
+      <p>© 2026 LPK Saindo. All Rights Reserved. Japanese Corporate Minimalist Architecture.</p>
+      <div class="flex items-center gap-6">
+        <a href="/admin/login" class="hover:text-gray-300 transition-colors">Portal Admin</a>
+        <a href="#" class="hover:text-gray-300 transition-colors">Kebijakan Privasi</a>
+        <a href="#" class="hover:text-gray-300 transition-colors">Syarat & Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
