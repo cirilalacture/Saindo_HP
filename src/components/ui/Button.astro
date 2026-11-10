@@ -1,0 +1,53 @@
+---
+interface Props {
+  variant?: 'primary' | 'outline' | 'ghost' | 'sand' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  target?: string;
+  rel?: string;
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  id?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  target,
+  rel,
+  class: className = '',
+  type = 'button',
+  id,
+} = Astro.props;
+
+const baseStyles = 'inline-flex items-center justify-center font-heading font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2';
+
+const sizeStyles = {
+  sm: 'px-3.5 py-1.5 text-xs rounded',
+  md: 'px-5 py-2.5 text-sm rounded',
+  lg: 'px-7 py-3.5 text-base rounded',
+};
+
+const variantStyles = {
+  primary: 'bg-brand-vermilion text-white hover:bg-brand-crimson shadow-sm border border-transparent',
+  outline: 'bg-transparent text-brand-charcoal border border-brand-charcoal hover:bg-brand-charcoal hover:text-white',
+  ghost: 'bg-transparent text-brand-charcoal hover:text-brand-vermilion relative after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-brand-vermilion hover:after:w-full after:transition-all',
+  sand: 'bg-brand-sand text-brand-charcoal hover:bg-brand-border border border-brand-border',
+  dark: 'bg-brand-charcoal text-white hover:bg-black border border-white/20',
+};
+
+const finalClass = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} target={target} rel={rel} class={finalClass} id={id}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={finalClass} id={id}>
+      <slot />
+    </button>
+  )
+}

@@ -1,0 +1,62 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+---
+
+<section class="py-16 md:py-24 bg-brand-porcelain border-b border-brand-border">
+  <Container>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      
+      <!-- Left Column: Title & Mission -->
+      <div class="lg:col-span-5 space-y-5">
+        <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+          <span>{isJa ? '私たちについて' : 'TENTANG LEMBAGA'}</span>
+          <span class="text-brand-stone">/</span>
+          <span class="font-japanese text-brand-stone">{isJa ? 'LPK SAINDO' : '私たちについて'}</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-brand-charcoal leading-tight tracking-tight">
+          {isJa
+            ? '規律と誠実さを備えた、即戦力となる若手人材を日本へ。'
+            : 'Mempersiapkan Generasi Muda Berintegritas & Siap Kerja di Jepang.'}
+        </h2>
+
+        <p class="text-sm font-heading font-semibold text-brand-stone uppercase tracking-wider">
+          {isJa ? '理念：姿勢（SHISEI）と間（MA）' : 'Filosofi Pendidikan: Shisei (Integritas) & Ma (Ketelitian)'}
+        </p>
+      </div>
+
+      <!-- Right Column: Narrative & Values -->
+      <div class="lg:col-span-7 space-y-6 text-brand-slate font-body text-base leading-relaxed">
+        <p>
+          {isJa
+            ? 'LPK Saindoは、インドネシアの意欲的な若者に対し、単なる語学学習にとどまらず、日本の企業文化に根ざした「5S（整理・整頓・清掃・清潔・躾）」や「報連相（ほうれんそう）」を徹底教育しています。'
+            : 'LPK Saindo didirikan dengan tekad mulia: menjembatani potensi anak muda Indonesia dengan standar disiplin dan etos kerja industri di Jepang. Kami menerapkan metode pendidikan holistik berprinsip Shisei (ketegasan & integritas).'}
+        </p>
+
+        <p>
+          {isJa
+            ? '受入企業様や監理団体様との緊密な連携により、現場のニーズに応じた専門技術実習を実施。派遣後も継続的なフォローアップを行い、信頼されるパートナーシップを築いています。'
+            : 'Bukan sekadar mengajarkan kosakata bahasa Jepang, kami menanamkan kebiasaan 5S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke), budaya komunikasi kerja Horenso, serta ketahanan fisik dan mental yang membuat lulusan Saindo disegani oleh rekanan perusahaan di Jepang.'}
+        </p>
+
+        <div class="pt-2">
+          <Button variant="ghost" size="md" href={isJa ? '/ja/about' : '/about'}>
+            {isJa ? '組織概要・許認可を見る' : 'Baca Profil Lengkap & Legalitas Lembaga'}
+            <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </Button>
+        </div>
+      </div>
+
+    </div>
+  </Container>
+</section>

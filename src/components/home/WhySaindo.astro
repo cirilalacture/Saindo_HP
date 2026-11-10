@@ -1,0 +1,109 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const advantages = isJa ? [
+  {
+    num: '01',
+    title: '労働省公認の正規送出機関（SO）',
+    desc: 'インドネシア政府およびKEMNAKER RI認可の適法な機関であり、不透明な費用請求やトラブルは一切ありません。',
+  },
+  {
+    num: '02',
+    title: '日本人講師と経験豊富な指導陣',
+    desc: '日本語ネイティブ教員による毎日の会話（Kaiwa）指導と、日本での就労経験を持つバイリンガル講師陣が伴走。',
+  },
+  {
+    num: '03',
+    title: '全国主要都市の監理団体・企業ネットワーク',
+    desc: '東京、大阪、名古屋、広島など日本全国の優良企業・監理団体と直接提携し、幅広い職種の求人を紹介。',
+  },
+  {
+    num: '04',
+    title: '入国から帰国までの手厚い一貫サポート',
+    desc: '在留資格認定証明書（COE）や就労ビザ取得、渡航手続き、入国後の生活適応支援まで責任を持って対応。',
+  },
+] : [
+  {
+    num: '01',
+    title: 'Legalitas Terdaftar & Transparan',
+    desc: 'Berizin resmi Kementerian Ketenagakerjaan RI sebagai Sending Organization (SO). Bebas calo dan tanpa biaya tersembunyi.',
+  },
+  {
+    num: '02',
+    title: 'Sensei Bersertifikat & Native Speaker',
+    desc: 'Instruktur lulusan sastra Jepang dan praktisi berpengalaman, didukung native speaker untuk latihan percakapan (kaiwa) intensif.',
+  },
+  {
+    num: '03',
+    title: 'Jaringan Mitra Kumiai & Perusahaan Luas',
+    desc: 'Kerja sama langsung dengan puluhan organisasi pengawas (AO) dan perusahaan di Tokyo, Osaka, Aichi, Hiroshima, hingga Hokkaido.',
+  },
+  {
+    num: '04',
+    title: 'Pendampingan Penuh Hingga Tiba di Jepang',
+    desc: 'Kami mengawal pengurusan dokumen COE, visa kerja, tiket penerbangan, hingga monitoring adaptasi siswa selama bekerja di Jepang.',
+  },
+];
+---
+
+<section class="py-20 md:py-28 bg-brand-porcelain border-b border-brand-border">
+  <Container>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      
+      <!-- Left Visual Card -->
+      <div class="lg:col-span-6 relative">
+        <div class="rounded-lg overflow-hidden border border-brand-border bg-white p-3 shadow-sm">
+          <div class="rounded aspect-[4/3] bg-brand-sand overflow-hidden relative group">
+            <img
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
+              alt="Fasilitas ruang kelas dan asrama LPK Saindo modern dan tertata rapi"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+              <span class="text-xs font-heading font-medium text-white tracking-wide">
+                Fasilitas Asrama & Ruang Pelatihan Berstandar Jepang
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Editorial List -->
+      <div class="lg:col-span-6 space-y-8">
+        <SectionHeader
+          tagline={isJa ? '私たちの強み' : 'KEUNGGULAN LEMBAGA'}
+          taglineJa={isJa ? 'WHY SAINDO' : '選ばれる理由'}
+          title={isJa ? 'なぜ多くの受入機関から信頼されるのか？' : 'Mengapa Memilih LPK Saindo Sebagai Mitra Menuju Jepang?'}
+        />
+
+        <div class="space-y-6 pt-2">
+          {advantages.map((item) => (
+            <div class="flex items-start gap-4 sm:gap-5">
+              <div class="w-9 h-9 rounded bg-brand-sand text-brand-vermilion flex items-center justify-center font-heading font-extrabold text-sm shrink-0 border border-brand-border mt-0.5">
+                {item.num}
+              </div>
+              <div class="space-y-1">
+                <h4 class="font-heading font-bold text-base sm:text-lg text-brand-charcoal">
+                  {item.title}
+                </h4>
+                <p class="text-sm font-body text-brand-slate leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </Container>
+</section>

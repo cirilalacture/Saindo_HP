@@ -1,0 +1,42 @@
+---
+import Container from '../ui/Container.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const metrics = isJa ? [
+  { value: '500+', label: '日本への派遣実績（名）', note: '技能実習・特定技能' },
+  { value: '98%', label: 'JLPT / JFT 合格率', note: 'N4・N3・A2' },
+  { value: '35+', label: '提携監理団体・受入企業', note: '全国主要都市' },
+  { value: '8+', label: '人材育成・送出の実績年数', note: '2018年設立' },
+] : [
+  { value: '500+', label: 'Alumni Berangkat ke Jepang', note: 'Program Magang & SSW' },
+  { value: '98%', label: 'Tingkat Kelulusan Ujian', note: 'Sertifikasi JLPT & JFT-Basic' },
+  { value: '35+', label: 'Mitra Asosiasi & Perusahaan', note: 'Jaringan Kumiai Jepang' },
+  { value: '8+', label: 'Tahun Pengalaman Pembinaan', note: 'Berdiri Sejak 2018' },
+];
+---
+
+<section class="py-12 bg-white border-b border-brand-border">
+  <Container>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      {metrics.map((item) => (
+        <div class="relative pl-5 sm:pl-6 border-l-2 border-brand-vermilion">
+          <div class="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+            {item.value}
+          </div>
+          <div class="text-xs sm:text-sm font-heading font-bold text-brand-charcoal mt-1.5 leading-snug">
+            {item.label}
+          </div>
+          <div class="text-[11px] sm:text-xs font-body text-brand-stone mt-0.5">
+            {item.note}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>

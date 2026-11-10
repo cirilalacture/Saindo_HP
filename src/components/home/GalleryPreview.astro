@@ -1,0 +1,75 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const photos = [
+  {
+    src: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80',
+    title: isJa ? 'ネイティブ講師との実践会話授業' : 'Praktik Kaiwa Bersama Native Speaker',
+    tag: isJa ? '語学研修' : 'Kelas Bahasa',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80',
+    title: isJa ? 'JFT-Basic / JLPT 模擬試験' : 'Simulasi Ujian JFT-Basic A2',
+    tag: isJa ? '試験対策' : 'Simulasi Ujian',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80',
+    title: isJa ? '第14期生 日本渡航壮行会' : 'Upacara Pelepasan Siswa ke Osaka',
+    tag: isJa ? '日本渡航' : 'Pelepasan',
+  },
+];
+---
+
+<section class="py-20 md:py-28 bg-brand-porcelain border-b border-brand-border">
+  <Container>
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <SectionHeader
+        tagline={isJa ? '活動ギャラリー' : 'DOKUMENTASI KEGIATAN'}
+        taglineJa={isJa ? 'LIFE AT SAINDO' : '日常の風景'}
+        title={isJa ? 'Saindoでの研修生活 — 実践と成長の日々。' : 'Life at Saindo — Suasana Pelatihan Sehari-hari.'}
+      />
+      <div>
+        <a
+          href={isJa ? '/ja/gallery' : '/gallery'}
+          class="inline-flex items-center text-sm font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion transition-colors"
+        >
+          {isJa ? 'すべての写真を見る' : 'Lihat Seluruh Galeri'} <span class="ml-1.5">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Asymmetrical Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {photos.map((photo) => (
+        <div class="rounded overflow-hidden border border-brand-border bg-white p-2.5 shadow-sm group">
+          <div class="aspect-[4/3] rounded bg-brand-sand overflow-hidden relative">
+            <img
+              src={photo.src}
+              alt={photo.title}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex flex-col justify-end p-5 text-white">
+              <span class="text-[11px] font-heading font-semibold uppercase tracking-wider text-brand-sand mb-1">
+                {photo.tag}
+              </span>
+              <p class="text-sm font-heading font-semibold text-white leading-snug">
+                {photo.title}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </Container>
+</section>

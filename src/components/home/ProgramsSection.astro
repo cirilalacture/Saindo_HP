@@ -1,0 +1,123 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const programs = [
+  {
+    badge: 'n4',
+    badgeText: isJa ? '日本語教育' : 'Bahasa Jepang',
+    title: isJa ? 'JLPT・JFT-Basic 集中講座' : 'Kursus Intensif JLPT & JFT-Basic',
+    titleJa: '日本語集中研修',
+    description: isJa
+      ? 'ひらがな・カタカナの基礎から、JLPT N4/N3およびJFT-Basic A2の合格を最短で目指す集中カリキュラム。'
+      : 'Pembelajaran akselerasi dari dasar hingga target JLPT N4/N3 dan JFT-Basic A2 dengan simulasi ujian teratur dan latihan kaiwa harian.',
+    specs: isJa ? ['期間：3〜4ヶ月', '対象：JLPT N4 / N3', '模擬試験毎週実施'] : ['Durasi: 3–4 Bulan', 'Target: N4 / N3 / JFT A2', 'Simulasi Ujian Mingguan'],
+    slug: '/programs/bahasa-jepang',
+  },
+  {
+    badge: 'ssw',
+    badgeText: isJa ? '特定技能' : 'Tokutei Ginou',
+    title: isJa ? '特定技能（SSW）専門訓練' : 'Specified Skilled Worker (SSW)',
+    titleJa: '特定技能1号',
+    description: isJa
+      ? '外食業・飲食料品製造・農業・介護など、人手不足分野の即戦力として必要な専門知識と実技を習得。'
+      : 'Pelatihan keahlian kerja spesifik: Pengolahan Makanan, Pertanian, Perhotelan, dan Kaigo (Perawat Lansia) dengan kontrak kerja resmi.',
+    specs: isJa ? ['対象分野：食品・介護・農業', '給与：日本企業規定', '最長5年就業'] : ['Bidang: Makanan, Kaigo, Tani', 'Gaji Standar UMR Jepang', 'Kontrak Kerja Resmi'],
+    slug: '/programs/tokutei-ginou',
+  },
+  {
+    badge: 'magang',
+    badgeText: isJa ? '技能実習' : 'Ginou Jisshuusei',
+    title: isJa ? '技能実習生プログラム' : 'Program Pemagangan Industri',
+    titleJa: '外国人技能実習制度',
+    description: isJa
+      ? '日本の製造業・建設・機械加工現場での3〜5年間の実習を通じて、高度な日本の産業技術を習得。'
+      : 'Program magang kerja 3–5 tahun di perusahaan manufaktur, konstruksi, dan otomotif terkemuka di berbagai prefektur Jepang.',
+    specs: isJa ? ['実習期間：3〜5年間', '全国優良企業へ配属', '帰国後キャリア支援'] : ['Durasi: 3–5 Tahun', 'Penempatan Seluruh Jepang', 'Sertifikat JITCO/OTIT'],
+    slug: '/programs/magang-jepang',
+  },
+  {
+    badge: 'neutral',
+    badgeText: isJa ? '面接・マナー' : 'Simulasi Seleksi',
+    title: isJa ? '採用面接指導・ビジネスマナー' : 'Bimbingan Wawancara & Etika Kerja',
+    titleJa: '面接対策・報連相',
+    description: isJa
+      ? '日本企業の採用担当者とのオンライン・対面面接対策、履歴書（Rirekisho）添削、および報連相の実践指導。'
+      : 'Mentoring langsung menghadapi pewawancara native Jepang (Menseki), penulisan berkas riwayat hidup (Rirekisho), dan etika kerja 5S.',
+    specs: isJa ? ['模擬面接実施', '履歴書作成添削', '現場マナー徹底'] : ['Simulasi Wawancara Native', 'Pembuatan Rirekisho', 'Etika 5S & Horenso'],
+    slug: '/programs/simulasi-wawancara',
+  },
+];
+---
+
+<section id="programs" class="py-20 md:py-28 bg-white border-b border-brand-border">
+  <Container>
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <SectionHeader
+        tagline={isJa ? '研修プログラム' : 'PROGRAM PELATIHAN'}
+        taglineJa={isJa ? 'PROGRAMS' : '研修プログラム'}
+        title={isJa ? '目的に合わせた最適な就労・研修ルート。' : 'Pilih Jalur Keberangkatan Sesuai Minat & Kariermu.'}
+        description={isJa ? '日本の受入基準と公式資格試験に完全準拠した実践的なカリキュラムを提供しています。' : 'Kurikulum terstruktur yang disesuaikan langsung dengan syarat kelulusan sertifikasi resmi dan standar industri di Jepang.'}
+      />
+      <div>
+        <a
+          href={isJa ? '/ja/programs' : '/programs'}
+          class="inline-flex items-center text-sm font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion transition-colors"
+        >
+          {isJa ? 'すべてのプログラムを見る' : 'Lihat Seluruh Program'} <span class="ml-1.5">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4 Programs Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {programs.map((item) => (
+        <div class="card-shoji rounded p-6 sm:p-7 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <Badge variant={item.badge as any}>{item.badgeText}</Badge>
+              <span class="text-[11px] font-japanese font-medium text-brand-stone">{item.titleJa}</span>
+            </div>
+
+            <h3 class="text-xl font-heading font-bold text-brand-charcoal leading-snug group-hover:text-brand-vermilion transition-colors">
+              {item.title}
+            </h3>
+
+            <p class="text-sm font-body text-brand-slate leading-relaxed">
+              {item.description}
+            </p>
+
+            <!-- Key Specs List -->
+            <ul class="pt-3 border-t border-brand-border/60 space-y-1.5 text-xs font-body text-brand-stone">
+              {item.specs.map((spec) => (
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand-vermilion"></span>
+                  <span>{spec}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="pt-6 border-t border-brand-border/60 mt-6">
+            <a
+              href={item.slug}
+              class="text-xs font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion inline-flex items-center group-hover:translate-x-0.5 transition-transform"
+            >
+              {isJa ? '詳細を見る' : 'Pelajari Detail'} <span class="ml-1">→</span>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </Container>
+</section>

@@ -1,0 +1,127 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const articles = isJa ? [
+  {
+    category: '試験対策',
+    date: '2026.11.10',
+    title: '3ヶ月で合格するJFT-Basic A2攻略法：聴解と文字語彙の重点対策',
+    excerpt: '出題傾向を徹底分析し、短期間でスコアを伸ばすための効率的な反復学習メソッドを解説。',
+    img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80',
+    slug: '/ja/blog/panduan-jft-basic-a2',
+  },
+  {
+    category: '求人情報',
+    date: '2026.11.05',
+    title: '特定技能 介護分野（東京都）：2026年度募集要項および福利厚生',
+    excerpt: '都内特別養護老人ホームでの就労条件、宿舎手当、資格取得支援制度についての最新情報。',
+    img: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80',
+    slug: '/ja/blog/tokutei-ginou-kaigo-tokyo',
+  },
+  {
+    category: 'ビジネスマナー',
+    date: '2026.10.28',
+    title: '日本の職場で必須となる「報連相（ほうれんそう）」の真髄と実践法',
+    excerpt: '報告・連絡・相談がなぜ日本企業で重要視されるのか、実例を交えてわかりやすくレクチャー。',
+    img: 'https://images.unsplash.com/photo-1538332576228-eb5b4c4de6f5?auto=format&fit=crop&w=800&q=80',
+    slug: '/ja/blog/prinsip-horenso-jepang',
+  },
+] : [
+  {
+    category: 'Tips Belajar',
+    date: '10 Nov 2026',
+    title: 'Panduan Lengkap Lolos JFT-Basic A2 Dalam 3 Bulan Persiapan Intensif',
+    excerpt: 'Strategi menguasai listening dan vocabulary kanji paling sering muncul pada ujian bahasa Jepang JFT.',
+    img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80',
+    slug: '/blog/panduan-jft-basic-a2',
+  },
+  {
+    category: 'Info Loker',
+    date: '05 Nov 2026',
+    title: 'Peluang Kerja Tokutei Ginou Kaigo di Tokyo: Fasilitas & Standar Gaji 2026',
+    excerpt: 'Ulasan mendalam mengenai benefit, fasilitas asrama, dan jenjang karier tenaga perawat lansia di Jepang.',
+    img: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80',
+    slug: '/blog/tokutei-ginou-kaigo-tokyo',
+  },
+  {
+    category: 'Budaya Kerja',
+    date: '28 Okt 2026',
+    title: 'Mengenal Prinsip Horenso: Kunci Keberhasilan Bekerja di Perusahaan Jepang',
+    excerpt: 'Mengapa konsep Houkoku (lapor), Renraku (komunikasi), dan Soudan (konsultasi) sangat krusial bagi pekerja asing.',
+    img: 'https://images.unsplash.com/photo-1538332576228-eb5b4c4de6f5?auto=format&fit=crop&w=800&q=80',
+    slug: '/blog/prinsip-horenso-jepang',
+  },
+];
+---
+
+<section class="py-20 md:py-28 bg-brand-porcelain border-b border-brand-border">
+  <Container>
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <SectionHeader
+        tagline={isJa ? '最新情報・ブログ' : 'WARTA & INFORMASI'}
+        taglineJa={isJa ? 'LATEST NEWS' : '最新ニュース'}
+        title={isJa ? '日本就労に役立つ最新ニュースと解説記事。' : 'Berita & Panduan Karier ke Jepang Terkini.'}
+      />
+      <div>
+        <a
+          href={isJa ? '/ja/blog' : '/blog'}
+          class="inline-flex items-center text-sm font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion transition-colors"
+        >
+          {isJa ? 'すべての記事を見る' : 'Lihat Seluruh Artikel'} <span class="ml-1.5">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {articles.map((item) => (
+        <article class="card-shoji rounded overflow-hidden flex flex-col justify-between group">
+          <div>
+            <div class="aspect-[16/9] bg-brand-sand overflow-hidden relative">
+              <img
+                src={item.img}
+                alt={item.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+            </div>
+            
+            <div class="p-6 sm:p-7 space-y-3">
+              <div class="flex items-center gap-3 text-xs text-brand-stone font-heading">
+                <span class="text-brand-vermilion font-bold uppercase tracking-wider">{item.category}</span>
+                <span>•</span>
+                <span>{item.date}</span>
+              </div>
+
+              <h3 class="font-heading font-bold text-lg text-brand-charcoal leading-snug group-hover:text-brand-vermilion transition-colors">
+                {item.title}
+              </h3>
+
+              <p class="text-xs sm:text-sm font-body text-brand-slate line-clamp-2 leading-relaxed">
+                {item.excerpt}
+              </p>
+            </div>
+          </div>
+
+          <div class="px-6 sm:px-7 pb-6 pt-2">
+            <a
+              href={item.slug}
+              class="text-xs font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion inline-flex items-center group-hover:translate-x-0.5 transition-transform"
+            >
+              {isJa ? '続きを読む' : 'Baca Selengkapnya'} <span class="ml-1">→</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </Container>
+</section>

@@ -1,0 +1,43 @@
+---
+interface Props {
+  tagline?: string;
+  taglineJa?: string;
+  title: string;
+  description?: string;
+  centered?: boolean;
+  class?: string;
+}
+
+const {
+  tagline,
+  taglineJa,
+  title,
+  description,
+  centered = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class={`space-y-3 ${centered ? 'text-center mx-auto max-w-2xl' : 'max-w-2xl'} ${className}`}>
+  {
+    (tagline || taglineJa) && (
+      <div class={`flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion ${centered ? 'justify-center' : ''}`}>
+        {tagline && <span>{tagline}</span>}
+        {tagline && taglineJa && <span class="text-brand-stone">/</span>}
+        {taglineJa && <span class="font-japanese font-medium text-brand-stone tracking-normal">{taglineJa}</span>}
+      </div>
+    )
+  }
+
+  <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-brand-charcoal leading-tight tracking-tight">
+    {title}
+  </h2>
+
+  {
+    description && (
+      <p class="text-base sm:text-lg text-brand-slate font-body leading-relaxed">
+        {description}
+      </p>
+    )
+  }
+</div>

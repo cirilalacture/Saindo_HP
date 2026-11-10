@@ -1,0 +1,58 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import HeroSection from '../../components/home/HeroSection.astro';
+import TrustMetrics from '../../components/home/TrustMetrics.astro';
+import IntroSection from '../../components/home/IntroSection.astro';
+import ProgramsSection from '../../components/home/ProgramsSection.astro';
+import WhySaindo from '../../components/home/WhySaindo.astro';
+import LearningJourney from '../../components/home/LearningJourney.astro';
+import GalleryPreview from '../../components/home/GalleryPreview.astro';
+import TestimonialsSection from '../../components/home/TestimonialsSection.astro';
+import LatestNews from '../../components/home/LatestNews.astro';
+import ConsultationCta from '../../components/home/ConsultationCta.astro';
+---
+
+<MainLayout
+  title="LPK Saindo — インドネシア送出機関 (SO) ・ 日本語・特定技能人材育成"
+  description="インドネシア労働省認定の公式送出機関 (Sending Organization)。規律ある日本語教育、技能実習生・特定技能（SSW）人材の育成と日本企業への派遣。"
+  lang="ja"
+>
+  <Navbar currentLang="ja" />
+  
+  <main class="font-ja">
+    <!-- 02. Hero Section (Japanese) -->
+    <HeroSection currentLang="ja" />
+
+    <!-- 03. Trust Indicators & Metrics -->
+    <TrustMetrics currentLang="ja" />
+
+    <!-- 04. Introduction & Philosophy -->
+    <IntroSection currentLang="ja" />
+
+    <!-- 05. Programs & Curriculum Tracks -->
+    <ProgramsSection currentLang="ja" />
+
+    <!-- 06. Why Saindo (Split Editorial) -->
+    <WhySaindo currentLang="ja" />
+
+    <!-- 07. Learning Journey Roadmap -->
+    <LearningJourney currentLang="ja" />
+
+    <!-- 08. Life at Saindo (Gallery Preview) -->
+    <GalleryPreview currentLang="ja" />
+
+    <!-- 09. Alumni Stories & Testimonials -->
+    <TestimonialsSection currentLang="ja" />
+
+    <!-- 10. Latest Articles & News -->
+    <LatestNews currentLang="ja" />
+
+    <!-- 11. Final Call To Action Banner -->
+    <ConsultationCta currentLang="ja" />
+  </main>
+
+  <!-- 12. Corporate Japanese Footer -->
+  <Footer currentLang="ja" />
+</MainLayout>

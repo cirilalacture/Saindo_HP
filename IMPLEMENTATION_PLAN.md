@@ -82,38 +82,39 @@ flowchart TD
 
 ---
 
-### Phase 2: Japanese Corporate Design System & Homepage (P0)
+### Phase 2: Japanese Corporate Design System & Homepage (P0) — ✅ COMPLETED
 **Tujuan:** Mengimplementasikan visual language **Japanese Corporate Minimalist** berpatokan pada referensi Stitch (`5513990903207659469`), membangun komponen dasar, dan merilis Beranda publik 100% responsif.
 
-- [ ] **2.1 Token Styling & Typography:**
+- [x] **2.1 Token Styling & Typography:**
   - Impor font `Manrope` (Headings/Display), `Inter` (Body Text), dan `Noto Sans JP` (Aksen & Teks Jepang).
-  - Setup palet warna di `tailwind.config.mjs`:
+  - Setup palet warna di `tailwind.config.mjs` dan `src/styles/global.css`:
     - Vermilion Red: `#B91C2C`, Deep Vermilion: `#991B1B`.
     - Deep Charcoal: `#171717`, Slate: `#525252`, Stone: `#737373`.
     - Porcelain Canvas: `#FAFAF8`, Off-White: `#F5F4F0`, Clean White: `#FFFFFF`.
     - Hairline Border: `#E5E4DE`, Sand Tint: `#ECEAE4`.
-- [ ] **2.2 Core UI Components (`src/components/ui/`):**
-  - `Button.astro` (Primary Vermilion, Outline Sumi, Ghost with animated underline).
-  - `Badge.astro` (Pill JLPT tags, Visa categories, Status chips).
+- [x] **2.2 Core UI Components (`src/components/ui/`):**
+  - `Button.astro` (Primary Vermilion, Outline Sumi, Ghost with animated underline, Sand, Dark).
+  - `Badge.astro` (Pill JLPT tags N5/N4/N3, Visa categories SSW/Magang, Status chips).
   - `SectionHeader.astro` (Bilingual label kecil, heading tegas, subline berjarak lega).
   - `Container.astro` (Max-width 1280px dengan margin responsif).
-- [ ] **2.3 Layout & Navigasi (`src/components/layout/`):**
+- [x] **2.3 Layout & Navigasi (`src/components/layout/`):**
   - `Navbar.astro`: Header sticky dengan backdrop blur halus, logo Saindo, navigasi link, toggle bahasa (`ID` / `JA`), dan tombol 'Daftar Sekarang'.
-  - `MobileMenu.tsx`: Drawer navigasi mobile yang ringan, accessible, dan mulus.
-  - `Footer.astro`: Footer korporat bergaya majalah Jepang dengan legalitas lembaga, kontak, dan tautan sosial.
-- [ ] **2.4 Implementasi 12 Section Beranda (`src/components/home/`):**
+  - `MobileMenu.tsx`: Drawer navigasi mobile yang ringan, accessible, keyboard-friendly (ESC), dan mulus.
+  - `Footer.astro`: Footer korporat bergaya majalah Jepang dengan legalitas lembaga (Izin SO & VIN), kontak, jam kerja, dan tautan sosial.
+- [x] **2.4 Implementasi 10 Section Beranda Modular (`src/components/home/`):**
   1. `HeroSection.astro`: Split editorial dengan headline presisi, dual CTA, dan foto pelatihan.
-  2. `IntroSection.astro`: Pernyataan institusi, filosofi *Shisei* & *Ma*, foto kelas.
-  3. `TrustMetrics.astro`: 4 metrik kredibilitas (Alumni, Persentase Lulus, Mitra, Pengalaman).
-  4. `ProgramsPreview.astro`: 4 kartu jalur program (Bahasa, SSW, Interview, Budaya).
+  2. `TrustMetrics.astro`: 4 metrik kredibilitas (Alumni 500+, Kelulusan 98%, Mitra 35+, Pengalaman 8+).
+  3. `IntroSection.astro`: Pernyataan institusi, filosofi *Shisei* & *Ma*, foto kelas.
+  4. `ProgramsSection.astro`: 4 kartu jalur program (Bahasa, SSW, Magang, Interview/Etika).
   5. `WhySaindo.astro`: Split layout keunggulan kurikulum & native sensei.
   6. `LearningJourney.astro`: Step tracker 5 tahap dari pendaftaran hingga keberangkatan ke Jepang.
-  7. `GalleryPreview.astro`: Masonry grid asimetris kegiatan siswa.
+  7. `GalleryPreview.astro`: Masonry grid asimetris kegiatan harian siswa.
   8. `TestimonialsSection.astro`: Testimoni riil alumni di Jepang dengan kartu editorial.
   9. `LatestNews.astro`: 3 kartu artikel blog terbaru.
   10. `ConsultationCta.astro`: Banner konversi WhatsApp.
-- [ ] **2.5 Aset Lokal & Optimasi Gambar:**
-  - Tempatkan foto identitas beresolusi tinggi WebP di `public/assets/images/` dan `public/assets/logo/`.
+- [x] **2.5 Halaman Beranda Bilingual (`/` dan `/ja`):**
+  - `src/pages/index.astro`: Beranda bahasa Indonesia lengkap dengan 10 modular sections.
+  - `src/pages/ja/index.astro`: Beranda bahasa Jepang lengkap dengan tipografi kanji Noto Sans JP.
 
 **Deliverables:**
 - Halaman beranda desktop & mobile selesai sempurna sesuai spesifikasi Stitch.

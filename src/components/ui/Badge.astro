@@ -1,0 +1,24 @@
+---
+interface Props {
+  variant?: 'n5' | 'n4' | 'n3' | 'ssw' | 'magang' | 'neutral' | 'vermilion';
+  class?: string;
+}
+
+const { variant = 'neutral', class: className = '' } = Astro.props;
+
+const variants = {
+  n5: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  n4: 'bg-teal-50 text-teal-800 border-teal-200',
+  n3: 'bg-amber-50 text-amber-800 border-amber-200',
+  ssw: 'bg-red-50 text-brand-vermilion border-red-200',
+  magang: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+  neutral: 'bg-brand-sand text-brand-charcoal border-brand-border',
+  vermilion: 'bg-brand-vermilion/10 text-brand-vermilion border-brand-vermilion/20',
+};
+---
+
+<span
+  class={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-heading font-semibold uppercase tracking-wider border ${variants[variant]} ${className}`}
+>
+  <slot />
+</span>

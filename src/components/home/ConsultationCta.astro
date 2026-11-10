@@ -1,0 +1,85 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+---
+
+<section class="py-20 md:py-28 bg-brand-charcoal text-white relative overflow-hidden">
+  <!-- Subtle Japanese Geometric Accent Background Lines -->
+  <div class="absolute inset-0 opacity-5 pointer-events-none" aria-hidden="true">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="1" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+    </svg>
+  </div>
+
+  <Container class="relative z-10">
+    <div class="max-w-4xl mx-auto text-center space-y-7">
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-brand-sand border border-white/15 text-xs font-heading font-semibold uppercase tracking-widest">
+        <span class="w-2 h-2 rounded-full bg-brand-vermilion"></span>
+        <span>{isJa ? '無料受入・研修相談受付中' : 'KONSULTASI PENDAFTARAN GRATIS'}</span>
+      </div>
+
+      <h2 class="text-3xl sm:text-5xl font-heading font-extrabold tracking-tight leading-[1.15]">
+        {isJa ? (
+          <>
+            意欲あふれるインドネシア人材の採用・育成は、<br class="hidden sm:inline" />
+            <span class="text-brand-vermilion">LPK Saindo</span> にご相談ください。
+          </>
+        ) : (
+          <>
+            Siap Meraih Karier Masa Depan di Jepang <br class="hidden sm:inline" />
+            Bersama <span class="text-brand-vermilion">LPK Saindo</span>?
+          </>
+        )}
+      </h2>
+
+      <p class="text-base sm:text-lg text-gray-300 font-body max-w-2xl mx-auto leading-relaxed">
+        {isJa
+          ? '求人要件に合わせた候補者の選考、面接日程の調整、査証手続きまで専任スタッフが迅速かつ丁寧に対応いたします。'
+          : 'Hubungi konselor pendidikan kami hari ini untuk konsultasi pemilihan jalur program, persyaratan pendaftaran, dan jadwal kelas angkatan terdekat.'}
+      </p>
+
+      <div class="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <Button
+          variant="primary"
+          size="lg"
+          href="https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20pendaftaran%20ke%20Jepang"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {isJa ? '公式WhatsAppで問い合わせる' : 'Konsultasi Sekarang via WhatsApp'}
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </Button>
+
+        <Button
+          variant="dark"
+          size="lg"
+          href={isJa ? '/ja/contact' : '/contact'}
+        >
+          {isJa ? 'お問い合わせ窓口へ' : 'Kunjungi Kantor Kami'}
+        </Button>
+      </div>
+
+      <div class="pt-6 text-xs text-gray-400 font-heading">
+        {isJa
+          ? '※ 日本語での直接のご相談およびオンライン面談も随時承っております。'
+          : 'Bebas biaya konsultasi. Konselor kami siap memandu proses langkah demi langkah.'}
+      </div>
+
+    </div>
+  </Container>
+</section>

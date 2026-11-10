@@ -1,0 +1,106 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const steps = isJa ? [
+  {
+    step: '01',
+    title: '募集・適性検査',
+    desc: '面談による進路相談、健康診断（MCU）、および基礎適性テストの実施。',
+  },
+  {
+    step: '02',
+    title: '日本語集中講義',
+    desc: '3〜4ヶ月の全寮制研修。文字・文法・聴解・会話の実践とJLPT/JFT合格。',
+  },
+  {
+    step: '03',
+    title: '職種技能・マナー',
+    desc: '配属分野の実技訓練、ビジネスマナー、5S、体力測定・メンタル強化。',
+  },
+  {
+    step: '04',
+    title: '企業面接・内定',
+    desc: '日本企業担当者との公式面接（オンラインまたは対面）および雇用契約締結。',
+  },
+  {
+    step: '05',
+    title: 'ビザ発給・日本渡航',
+    desc: '在留資格（COE）申請、査証受領、出国前オリエンテーション、空港見送り。',
+  },
+] : [
+  {
+    step: '01',
+    title: 'Pendaftaran & Seleksi',
+    desc: 'Konsultasi minat bakat, tes kesehatan dasar (medical check-up), dan verifikasi kelengkapan berkas administrasi.',
+  },
+  {
+    step: '02',
+    title: 'Pendidikan Bahasa',
+    desc: 'Pelatihan intensif 3–4 bulan di asrama, pendalaman tata bahasa, kaiwa, kanji, dan ujian sertifikasi JLPT / JFT.',
+  },
+  {
+    step: '03',
+    title: 'Skill & Kedisiplinan',
+    desc: 'Praktik keahlian sesuai bidang kerja, penanaman budaya 5S, simulasi kerja, serta pembinaan fisik dan mental.',
+  },
+  {
+    step: '04',
+    title: 'Wawancara Perusahaan',
+    desc: 'Pelaksanaan seleksi wawancara langsung dengan pimpinan perusahaan Jepang dan penandatanganan kontrak kerja.',
+  },
+  {
+    step: '05',
+    title: 'COE & Keberangkatan',
+    desc: 'Penerbitan visa kerja oleh kedutaan besar Jepang, pembekalan pra-keberangkatan, dan pendampingan di bandara.',
+  },
+];
+---
+
+<section class="py-20 md:py-28 bg-white border-b border-brand-border">
+  <Container>
+    
+    <SectionHeader
+      centered
+      tagline={isJa ? '出発までの流れ' : 'ALUR PERJALANAN'}
+      taglineJa={isJa ? 'LEARNING JOURNEY' : '出発までの流れ'}
+      title={isJa ? '夢の日本就労を実現する5つのステップ。' : '5 Langkah Menuju Karier Masa Depan di Jepang.'}
+      description={isJa ? '応募から日本への入国まで、明確で透明性の高いプロセスで確実に導きます。' : 'Proses terukur, transparan, dan terarah dari awal pendaftaran hingga mendarat di bandara Jepang.'}
+      class="mb-16"
+    />
+
+    <!-- Steps Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+      {steps.map((item, index) => (
+        <div class="card-shoji rounded p-6 flex flex-col justify-between relative group">
+          <div class="space-y-3">
+            <div class="text-brand-vermilion font-heading font-extrabold text-2xl tracking-tight flex items-center justify-between">
+              <span>{item.step}</span>
+              <span class="w-2 h-2 rounded-full bg-brand-sand group-hover:bg-brand-vermilion transition-colors"></span>
+            </div>
+            
+            <h4 class="font-heading font-bold text-base text-brand-charcoal leading-snug">
+              {item.title}
+            </h4>
+
+            <p class="text-xs font-body text-brand-slate leading-relaxed">
+              {item.desc}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-brand-border/60 mt-4 text-[11px] font-heading font-semibold text-brand-stone">
+            {isJa ? `STEP ${index + 1}` : `Tahap 0${index + 1}`}
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </Container>
+</section>

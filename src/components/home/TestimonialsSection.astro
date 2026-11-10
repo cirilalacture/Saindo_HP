@@ -1,0 +1,110 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  currentLang?: 'id' | 'ja';
+}
+
+const { currentLang = 'id' } = Astro.props;
+const isJa = currentLang === 'ja';
+
+const testimonials = isJa ? [
+  {
+    name: 'リズキ・プラタマ (Rizki Pratama)',
+    role: '機械加工実習生（愛知県）',
+    quote: 'Saindoでは日本語だけでなく、日本の製造現場で必須となる5Sや報連相の徹底を教わりました。入社後も戸惑うことなく、リーダーからも評価されています。',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    batch: '第11期生',
+  },
+  {
+    name: 'ヌルル・アイニ (Nurul Aini)',
+    role: '特定技能 介護職（東京都）',
+    quote: 'オンライン面接対策を何度も日本人講師と練習したおかげで、希望の東京都内の特別養護老人ホームに内定を頂けました。熱心な指導に心から感謝しています。',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+    batch: '特定技能2期生',
+  },
+  {
+    name: 'ブディ・セティアワン (Budi Setiawan)',
+    role: '食品製造実習生（千葉県）',
+    quote: '手続き費用が明確で、入国まで安心して勉強に専念できました。寮生活で培った協調性と体力が、現在の日本での充実した仕事と生活を支えています。',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    batch: '第9期生',
+  },
+] : [
+  {
+    name: 'Rizki Pratama',
+    role: 'Manufaktur Mesin — Aichi Prefecture',
+    quote: 'Di Saindo saya tidak hanya diajari bahasa Jepang sampai lulus N3, tapi kedisiplinan dan mental kerja benar-benar dibentuk. Saat tiba di pabrik di Aichi, saya tidak kaget dengan ritme kerja presisi Jepang.',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    batch: 'Alumni Angkatan 11',
+  },
+  {
+    name: 'Nurul Aini',
+    role: 'Tokutei Ginou Kaigo — Tokyo',
+    quote: 'Proses wawancara user SSW Kaigo sangat lancar karena di LPK sering diadakan simulasi wawancara dengan native speaker. Terima kasih Sensei atas bimbingan tulus dan motivasinya!',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+    batch: 'Alumni SSW Batch 2',
+  },
+  {
+    name: 'Budi Setiawan',
+    role: 'Pengolahan Makanan — Chiba',
+    quote: 'Biaya transparan dan dijelaskan secara terbuka sejak awal pendaftaran. Fasilitas asrama sangat nyaman untuk fokus belajar bahasa setiap hari. Sangat direkomendasikan bagi calon peserta!',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    batch: 'Alumni Angkatan 9',
+  },
+];
+---
+
+<section class="py-20 md:py-28 bg-white border-b border-brand-border">
+  <Container>
+    
+    <SectionHeader
+      centered
+      tagline={isJa ? '修了生の声' : 'CERITA ALUMNI'}
+      taglineJa={isJa ? 'ALUMNI STORIES' : '修了生の声'}
+      title={isJa ? '日本全国で活躍するSaindo修了生たち。' : 'Cerita Sukses Alumni Saindo yang Telah Berada di Jepang.'}
+      description={isJa ? '夢を実現し、日本企業で活躍する先輩たちの生の声をご紹介します。' : 'Pengalaman nyata alumni yang telah meraih impian dan bekerja di berbagai industri di seluruh penjuru Jepang.'}
+      class="mb-16"
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {testimonials.map((item) => (
+        <div class="card-shoji rounded p-7 sm:p-8 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center gap-1 text-amber-500 text-sm">
+              ★★★★★
+            </div>
+
+            <p class="text-sm font-body text-brand-slate italic leading-relaxed">
+              "{item.quote}"
+            </p>
+          </div>
+
+          <div class="pt-6 border-t border-brand-border/60 mt-6 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-brand-sand overflow-hidden shrink-0 border border-brand-border">
+              <img
+                src={item.avatar}
+                alt={item.name}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div>
+              <div class="font-heading font-bold text-sm text-brand-charcoal">
+                {item.name}
+              </div>
+              <div class="text-xs text-brand-stone font-body">
+                {item.role}
+              </div>
+              <div class="text-[10px] font-heading font-semibold text-brand-vermilion uppercase mt-0.5">
+                {item.batch}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </Container>
+</section>
