@@ -4,6 +4,7 @@ import { getAllSettings } from '../db/queries/settings';
 import { postsActions } from './posts';
 import { mediaActions } from './media';
 import { galleryActions } from './gallery';
+import { settingsActions } from './settings';
 
 export const server = {
   healthCheck: defineAction({
@@ -38,4 +39,5 @@ export const server = {
   ...postsActions,
   ...mediaActions,
   ...galleryActions,
+  ...settingsActions,
 };

@@ -16,3 +16,34 @@ export async function getSetting(d1: D1Database, key: string): Promise<string | 
   const rows = await db.select().from(schema.settings).where(eq(schema.settings.key, key)).limit(1);
   return rows.length > 0 ? rows[0].value : null;
 }
+
+export async function setSetting(d1: D1Database, key: string, value: string): Promise<void> {
+  const db = getDb(d1);
+  const now = new Date().toISOString();
+  await db
+    .insert(schema.settings)
+    .values({ key, value, updatedAt: now })
+    .onConflictDoUpdate({
+      target: schema.settings.key,
+      set: { value, updatedAt: now },
+    });
+}
+
+export async function updateManySettings(
+  d1: D1Database,
+  settingsMap: Record<string, string>
+): Promise<void> {
+  const db = getDb(d1);
+  const now = new Date().toISOString();
+  for (const [key, value] of Object.entries(settingsMap)) {
+    if (value !== undefined) {
+      await db
+        .insert(schema.settings)
+        .values({ key, value, updatedAt: now })
+        .onConflictDoUpdate({
+          target: schema.settings.key,
+          set: { value, updatedAt: now },
+        });
+    }
+  }
+}

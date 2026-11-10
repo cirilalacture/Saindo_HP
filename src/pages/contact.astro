@@ -4,6 +4,23 @@ import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
 import Container from '../components/ui/Container.astro';
 import Button from '../components/ui/Button.astro';
+import { getAllSettings } from '../db/queries/settings';
+
+const db = Astro.locals.runtime?.env?.DB;
+let settings: Record<string, string> = {};
+if (db) {
+  try {
+    settings = await getAllSettings(db);
+  } catch (err) {
+    console.error('Failed to load contact settings:', err);
+  }
+}
+
+const address = settings.address_id || 'Jl. Pendidikan Kejuruan No. 88, Cibinong, Bogor, Jawa Barat 16911, Indonesia';
+const whatsapp = settings.whatsapp_number || '628123456789';
+const email = settings.contact_email || 'info@lpksaindo.com';
+const workingHours = settings.working_hours_id || 'Senin — Sabtu: 08.00 – 17.00 WIB';
+const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126844.06348658826!2d106.77253455!3d-6.537234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5e31706b865%3A0x6b8769389e600570!2sBogor%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid';
 ---
 
 <MainLayout
@@ -60,7 +77,7 @@ import Button from '../components/ui/Button.astro';
                 <div>
                   <h3 class="font-heading font-bold text-base text-brand-charcoal">Alamat Kampus:</h3>
                   <p class="mt-1 leading-relaxed">
-                    Jl. Pendidikan Kejuruan No. 88, Cibinong, Bogor, Jawa Barat 16911, Indonesia
+                    {address}
                   </p>
                 </div>
               </div>
@@ -74,8 +91,8 @@ import Button from '../components/ui/Button.astro';
                 <div>
                   <h3 class="font-heading font-bold text-base text-brand-charcoal">WhatsApp & Hotline:</h3>
                   <p class="mt-1 leading-relaxed">
-                    <a href="https://wa.me/628123456789" class="text-brand-charcoal font-semibold hover:text-brand-vermilion">
-                      +62 812-3456-7890
+                    <a href={`https://wa.me/${whatsapp}`} class="text-brand-charcoal font-semibold hover:text-brand-vermilion">
+                      +{whatsapp}
                     </a> (Fast Response)
                   </p>
                 </div>
@@ -90,8 +107,8 @@ import Button from '../components/ui/Button.astro';
                 <div>
                   <h3 class="font-heading font-bold text-base text-brand-charcoal">Email Resmi:</h3>
                   <p class="mt-1 leading-relaxed">
-                    <a href="mailto:info@lpksaindo.com" class="text-brand-charcoal font-semibold hover:text-brand-vermilion">
-                      info@lpksaindo.com
+                    <a href={`mailto:${email}`} class="text-brand-charcoal font-semibold hover:text-brand-vermilion">
+                      {email}
                     </a>
                   </p>
                 </div>
@@ -106,8 +123,7 @@ import Button from '../components/ui/Button.astro';
                 <div>
                   <h3 class="font-heading font-bold text-base text-brand-charcoal">Jam Operasional:</h3>
                   <p class="mt-1 leading-relaxed">
-                    Senin — Sabtu: 08.00 – 17.00 WIB<br />
-                    Minggu / Hari Libur Nasional: Tutup
+                    {workingHours}
                   </p>
                 </div>
               </div>
@@ -124,7 +140,7 @@ import Button from '../components/ui/Button.astro';
               <Button
                 variant="primary"
                 size="md"
-                href="https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20langsung"
+                href={`https://wa.me/${whatsapp}?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20langsung`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full"
@@ -240,7 +256,7 @@ import Button from '../components/ui/Button.astro';
         <div class="rounded-lg overflow-hidden border border-brand-border bg-brand-sand aspect-[21/9] min-h-[350px] shadow-sm relative">
           <iframe
             title="Peta Lokasi Kampus LPK Saindo"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126844.06348658826!2d106.77253455!3d-6.537234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5e31706b865%3A0x6b8769389e600570!2sBogor%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+            src={mapsUrl}
             width="100%"
             height="100%"
             style="border:0;"

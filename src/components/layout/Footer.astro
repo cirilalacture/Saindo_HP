@@ -1,9 +1,32 @@
 ---
+import { getAllSettings } from '../../db/queries/settings';
+
 interface Props {
   currentLang?: 'id' | 'ja';
 }
 
 const { currentLang = 'id' } = Astro.props;
+const db = Astro.locals.runtime?.env?.DB;
+
+let settings: Record<string, string> = {};
+if (db) {
+  try {
+    settings = await getAllSettings(db);
+  } catch (err) {
+    console.error('Failed to load settings in footer:', err);
+  }
+}
+
+const soLicense = settings.so_license_number || 'KEMNAKER RI No. 2/XXX/HK.01/2022';
+const vinNumber = settings.vin_number || '2209320401';
+const whatsapp = settings.whatsapp_number || '628123456789';
+const email = settings.contact_email || 'info@lpksaindo.com';
+const address = currentLang === 'ja'
+  ? (settings.address_ja || settings.address_id || 'インドネシア西ジャワ州 職業訓練教育通り88号')
+  : (settings.address_id || 'Jl. Pendidikan Kejuruan No. 88, Jawa Barat, Indonesia');
+const workingHours = currentLang === 'ja'
+  ? (settings.working_hours_ja || '月曜日〜金曜日: 08:00〜17:00 (WIB)')
+  : (settings.working_hours_id || 'Senin – Sabtu: 08:00 – 17:00 WIB');
 ---
 
 <footer class="bg-brand-charcoal text-white pt-16 pb-12 border-t border-brand-charcoal">
@@ -17,17 +40,17 @@ const { currentLang = 'id' } = Astro.props;
             S
           </div>
           <span class="font-heading font-extrabold text-xl tracking-tight text-white">
-            LPK SAINDO
+            {settings.site_name || 'LPK SAINDO'}
           </span>
         </div>
         <p class="text-sm font-body text-gray-400 leading-relaxed max-w-sm">
           {currentLang === 'ja'
-            ? 'LPK Saindoは、インドネシアの有望な若者を育成し、日本の優良企業および監理団体へ送り出す認定教育機関です。'
-            : 'Lembaga Pelatihan Kerja resmi ke Jepang berizin SO & Kemnaker. Membina generasi muda berkarakter, mahir berbahasa Jepang, dan memiliki keahlian vokasi terstandar industri.'}
+            ? (settings.tagline_ja || 'LPK Saindoは、インドネシアの有望な若者を育成し、日本の優良企業および監理団体へ送り出す認定教育機関です。')
+            : (settings.tagline_id || 'Lembaga Pelatihan Kerja resmi ke Jepang berizin SO & Kemnaker. Membina generasi muda berkarakter, mahir berbahasa Jepang, dan memiliki keahlian vokasi terstandar industri.')}
         </p>
         <div class="pt-2 text-xs text-gray-400 space-y-1">
-          <p><span class="text-gray-300 font-semibold">Izin Resmi SO:</span> KEMNAKER RI No. 2/XXX/HK.01/2022</p>
-          <p><span class="text-gray-300 font-semibold">VIN Lembaga:</span> 2209320401</p>
+          <p><span class="text-gray-300 font-semibold">Izin Resmi SO:</span> {soLicense}</p>
+          <p><span class="text-gray-300 font-semibold">VIN Lembaga:</span> {vinNumber}</p>
         </div>
       </div>
 
@@ -37,12 +60,12 @@ const { currentLang = 'id' } = Astro.props;
           {currentLang === 'ja' ? 'ナビゲーション' : 'Menu Navigasi'}
         </h4>
         <ul class="space-y-2.5 text-sm font-body text-gray-400">
-          <li><a href={currentLang === 'ja' ? '/ja' : '/'} class="hover:text-white transition-colors">Beranda</a></li>
-          <li><a href={currentLang === 'ja' ? '/ja/about' : '/about'} class="hover:text-white transition-colors">Tentang Kami</a></li>
-          <li><a href={currentLang === 'ja' ? '/ja/programs' : '/programs'} class="hover:text-white transition-colors">Program Pelatihan</a></li>
-          <li><a href={currentLang === 'ja' ? '/ja/gallery' : '/gallery'} class="hover:text-white transition-colors">Galeri Dokumentasi</a></li>
-          <li><a href={currentLang === 'ja' ? '/ja/blog' : '/blog'} class="hover:text-white transition-colors">Warta & Artikel</a></li>
-          <li><a href={currentLang === 'ja' ? '/ja/contact' : '/contact'} class="hover:text-white transition-colors">Kontak & Lokasi</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja' : '/'} class="hover:text-white transition-colors">{currentLang === 'ja' ? 'ホーム' : 'Beranda'}</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/about' : '/about'} class="hover:text-white transition-colors">{currentLang === 'ja' ? '私たちについて' : 'Tentang Kami'}</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/programs' : '/programs'} class="hover:text-white transition-colors">{currentLang === 'ja' ? '研修プログラム' : 'Program Pelatihan'}</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/gallery' : '/gallery'} class="hover:text-white transition-colors">{currentLang === 'ja' ? '活動ギャラリー' : 'Galeri Dokumentasi'}</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/blog' : '/blog'} class="hover:text-white transition-colors">{currentLang === 'ja' ? 'お知らせ' : 'Warta & Artikel'}</a></li>
+          <li><a href={currentLang === 'ja' ? '/ja/contact' : '/contact'} class="hover:text-white transition-colors">{currentLang === 'ja' ? 'お問い合わせ' : 'Kontak & Lokasi'}</a></li>
         </ul>
       </div>
 
@@ -52,20 +75,20 @@ const { currentLang = 'id' } = Astro.props;
           {currentLang === 'ja' ? '連絡先' : 'Kantor & Pusat Pelatihan'}
         </h4>
         <p class="text-sm font-body text-gray-400 leading-relaxed">
-          Jl. Pendidikan Kejuruan No. 88, Jawa Barat, Indonesia
+          {address}
         </p>
         <div class="space-y-2 text-sm text-gray-400 font-body">
           <p class="flex items-center gap-2">
             <span class="text-brand-vermilion">WA:</span>
-            <a href="https://wa.me/628123456789" class="hover:text-white transition-colors">+62 812-3456-7890</a>
+            <a href={`https://wa.me/${whatsapp}`} class="hover:text-white transition-colors">+{whatsapp}</a>
           </p>
           <p class="flex items-center gap-2">
             <span class="text-brand-vermilion">Email:</span>
-            <a href="mailto:info@lpksaindo.com" class="hover:text-white transition-colors">info@lpksaindo.com</a>
+            <a href={`mailto:${email}`} class="hover:text-white transition-colors">{email}</a>
           </p>
           <p class="flex items-center gap-2">
             <span class="text-brand-vermilion">Jam:</span>
-            <span>Senin - Sabtu: 08.00 - 17.00 WIB</span>
+            <span>{workingHours}</span>
           </p>
         </div>
       </div>
@@ -74,9 +97,9 @@ const { currentLang = 'id' } = Astro.props;
 
     <!-- Bottom Copyright -->
     <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
-      <p>© 2026 LPK Saindo. All Rights Reserved. Japanese Corporate Minimalist Architecture.</p>
+      <p>© {new Date().getFullYear()} {settings.site_name || 'LPK Saindo'}. All Rights Reserved. Japanese Corporate Minimalist Architecture.</p>
       <div class="flex items-center gap-6">
-        <a href="/admin/login" class="hover:text-gray-300 transition-colors">Portal Admin</a>
+        <a href="/admin/dashboard" class="hover:text-gray-300 transition-colors">Portal Admin</a>
         <a href="#" class="hover:text-gray-300 transition-colors">Kebijakan Privasi</a>
         <a href="#" class="hover:text-gray-300 transition-colors">Syarat & Ketentuan</a>
       </div>

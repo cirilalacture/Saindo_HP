@@ -1,0 +1,433 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { getAllSettings, updateManySettings } from '../../../db/queries/settings';
+
+const db = Astro.locals.runtime?.env?.DB;
+
+let noticeMessage = '';
+let errorMessage = '';
+
+if (Astro.request.method === 'POST' && db) {
+  try {
+    const formData = await Astro.request.formData();
+    const settingsToUpdate: Record<string, string> = {};
+
+    const keys = [
+      'site_name',
+      'tagline_id',
+      'tagline_ja',
+      'so_license_number',
+      'vin_number',
+      'whatsapp_number',
+      'phone_number',
+      'contact_email',
+      'working_hours_id',
+      'working_hours_ja',
+      'address_id',
+      'address_ja',
+      'maps_embed_url',
+      'instagram_url',
+      'tiktok_url',
+      'youtube_url',
+      'facebook_url',
+      'default_meta_title_id',
+      'default_meta_description_id',
+      'default_meta_title_ja',
+      'default_meta_description_ja',
+    ];
+
+    for (const key of keys) {
+      const val = formData.get(key)?.toString().trim();
+      if (val !== undefined) {
+        settingsToUpdate[key] = val;
+      }
+    }
+
+    await updateManySettings(db, settingsToUpdate);
+    noticeMessage = 'Pengaturan situs dan informasi lembaga berhasil disimpan ke database.';
+  } catch (err: any) {
+    console.error('Failed to update settings:', err);
+    errorMessage = err.message || 'Terjadi kesalahan sistem saat menyimpan pengaturan.';
+  }
+}
+
+let settings: Record<string, string> = {};
+if (db) {
+  try {
+    settings = await getAllSettings(db);
+  } catch (err) {
+    console.error('Failed to fetch settings from D1:', err);
+  }
+}
+---
+
+<AdminLayout title="Pengaturan Situs" activeNav="settings">
+  <div class="space-y-8 max-w-4xl">
+    
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-brand-border">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-2 text-xs font-heading font-bold text-brand-vermilion uppercase tracking-widest">
+          <span>PENGATURAN GLOBAL</span>
+          <span class="text-brand-stone">/</span>
+          <span class="font-japanese text-brand-stone font-normal">システム設定</span>
+        </div>
+        <h1 class="text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+          Pengaturan Situs & Kontak Lembaga
+        </h1>
+        <p class="text-xs text-brand-slate font-body">
+          Perbarui nomor WhatsApp, email, izin legalitas SO, alamat, dan SEO global secara langsung tanpa edit kode.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs font-heading text-brand-stone">
+        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+        <span>Tersimpan di Cloudflare D1</span>
+      </div>
+    </div>
+
+    <!-- Alert Notifications -->
+    {noticeMessage && (
+      <div class="p-4 rounded-md bg-green-50 border border-green-200 text-green-800 text-xs font-heading font-medium flex items-center justify-between">
+        <span>{noticeMessage}</span>
+      </div>
+    )}
+
+    {errorMessage && (
+      <div class="p-4 rounded-md bg-red-50 border border-red-200 text-red-700 text-xs font-heading font-medium flex items-center gap-2">
+        <svg class="w-4 h-4 shrink-0 text-brand-vermilion" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{errorMessage}</span>
+      </div>
+    )}
+
+    <!-- Form Box -->
+    <form method="POST" class="space-y-8">
+      
+      <!-- 1. Identitas & Legalitas -->
+      <div class="p-6 sm:p-7 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+        <div class="flex items-center gap-2 pb-3 border-b border-brand-border">
+          <span class="w-2.5 h-2.5 rounded-full bg-brand-vermilion"></span>
+          <h2 class="text-sm font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+            1. Identitas & Legalitas Lembaga
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="space-y-1">
+            <label for="site_name" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Nama Resmi Lembaga
+            </label>
+            <input
+              id="site_name"
+              name="site_name"
+              type="text"
+              value={settings.site_name || 'LPK Saindo'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-sans bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="so_license_number" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              No. Izin Resmi Sending Organization (SO)
+            </label>
+            <input
+              id="so_license_number"
+              name="so_license_number"
+              type="text"
+              placeholder="KEMNAKER RI No. 2/XXX/HK.01/2022"
+              value={settings.so_license_number || 'KEMNAKER RI No. 2/XXX/HK.01/2022'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="vin_number" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Nomor Registrasi VIN Lembaga
+            </label>
+            <input
+              id="vin_number"
+              name="vin_number"
+              type="text"
+              placeholder="2209320401"
+              value={settings.vin_number || '2209320401'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="tagline_id" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Slogan Lembaga (ID)
+            </label>
+            <input
+              id="tagline_id"
+              name="tagline_id"
+              type="text"
+              value={settings.tagline_id || 'Masa Depanmu Dimulai dari Sini. Melangkah Bersama Saindo Menuju Jepang.'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-sans bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="md:col-span-2 space-y-1">
+            <label for="tagline_ja" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Slogan Lembaga (JA)
+            </label>
+            <input
+              id="tagline_ja"
+              name="tagline_ja"
+              type="text"
+              value={settings.tagline_ja || 'あなたの未来はここから始まる。Saindoと共に日本へ。'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-ja bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Kontak Resmi & Jam Operasional -->
+      <div class="p-6 sm:p-7 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+        <div class="flex items-center gap-2 pb-3 border-b border-brand-border">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+          <h2 class="text-sm font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+            2. Kontak Resmi & Jam Operasional
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="space-y-1">
+            <label for="whatsapp_number" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Nomor WhatsApp Konsultasi (Format Internasional: 628...)
+            </label>
+            <input
+              id="whatsapp_number"
+              name="whatsapp_number"
+              type="text"
+              placeholder="628123456789"
+              value={settings.whatsapp_number || '628123456789'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="contact_email" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Alamat Email Resmi
+            </label>
+            <input
+              id="contact_email"
+              name="contact_email"
+              type="email"
+              value={settings.contact_email || 'info@lpksaindo.com'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="phone_number" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Telepon Kantor
+            </label>
+            <input
+              id="phone_number"
+              name="phone_number"
+              type="text"
+              placeholder="+62 21 8765 4321"
+              value={settings.phone_number || '+62 21 8765 4321'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="working_hours_id" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Jam Kerja (ID)
+            </label>
+            <input
+              id="working_hours_id"
+              name="working_hours_id"
+              type="text"
+              value={settings.working_hours_id || 'Senin – Jumat: 08:00 – 17:00 WIB, Sabtu: 08:00 – 13:00 WIB'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-sans bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="md:col-span-2 space-y-1">
+            <label for="working_hours_ja" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Jam Kerja (JA)
+            </label>
+            <input
+              id="working_hours_ja"
+              name="working_hours_ja"
+              type="text"
+              value={settings.working_hours_ja || '月曜日〜金曜日: 08:00〜17:00 (WIB)'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-ja bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Alamat Kampus & Peta -->
+      <div class="p-6 sm:p-7 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+        <div class="flex items-center gap-2 pb-3 border-b border-brand-border">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+          <h2 class="text-sm font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+            3. Alamat Kampus & Lokasi
+          </h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="space-y-1">
+            <label for="address_id" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Alamat Lengkap Kantor & Kampus Pelatihan (ID)
+            </label>
+            <textarea
+              id="address_id"
+              name="address_id"
+              rows="2"
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-sans bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion leading-relaxed"
+            >{settings.address_id || 'Jl. Pendidikan Kejuruan No. 88, Jawa Barat, Indonesia'}</textarea>
+          </div>
+
+          <div class="space-y-1">
+            <label for="address_ja" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Alamat Bahasa Jepang (JA)
+            </label>
+            <textarea
+              id="address_ja"
+              name="address_ja"
+              rows="2"
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-ja bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion leading-relaxed"
+            >{settings.address_ja || 'インドネシア西ジャワ州 職業訓練教育通り88号'}</textarea>
+          </div>
+
+          <div class="space-y-1">
+            <label for="maps_embed_url" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              URL Embed Google Maps (iframe src)
+            </label>
+            <input
+              id="maps_embed_url"
+              name="maps_embed_url"
+              type="url"
+              placeholder="https://www.google.com/maps/embed?..."
+              value={settings.maps_embed_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126930.28!2d106.8!3d-6.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMDAuMCJTIDEwNsKwNDgnMDAuMCJF!5e0!3m2!1sid!2sid!4v1'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Media Sosial -->
+      <div class="p-6 sm:p-7 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+        <div class="flex items-center gap-2 pb-3 border-b border-brand-border">
+          <span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span>
+          <h2 class="text-sm font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+            4. Tautan Media Sosial Resmi
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="space-y-1">
+            <label for="instagram_url" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Instagram URL
+            </label>
+            <input
+              id="instagram_url"
+              name="instagram_url"
+              type="url"
+              value={settings.instagram_url || 'https://instagram.com/lpksaindo'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="tiktok_url" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              TikTok URL
+            </label>
+            <input
+              id="tiktok_url"
+              name="tiktok_url"
+              type="url"
+              value={settings.tiktok_url || 'https://tiktok.com/@lpksaindo'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="youtube_url" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              YouTube URL
+            </label>
+            <input
+              id="youtube_url"
+              name="youtube_url"
+              type="url"
+              value={settings.youtube_url || 'https://youtube.com/@lpksaindo'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="facebook_url" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Facebook URL
+            </label>
+            <input
+              id="facebook_url"
+              name="facebook_url"
+              type="url"
+              value={settings.facebook_url || 'https://facebook.com/lpksaindo'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Default SEO Metadata -->
+      <div class="p-6 sm:p-7 rounded-xl bg-white border border-brand-border shadow-sm space-y-6">
+        <div class="flex items-center gap-2 pb-3 border-b border-brand-border">
+          <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+          <h2 class="text-sm font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+            5. Default SEO Metadata
+          </h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="space-y-1">
+            <label for="default_meta_title_id" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Default Meta Title (ID)
+            </label>
+            <input
+              id="default_meta_title_id"
+              name="default_meta_title_id"
+              type="text"
+              value={settings.default_meta_title_id || 'LPK Saindo — Lembaga Pelatihan Kerja Resmi ke Jepang'}
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-sans bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="default_meta_description_id" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Default Meta Description (ID)
+            </label>
+            <textarea
+              id="default_meta_description_id"
+              name="default_meta_description_id"
+              rows="2"
+              class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-sans bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion leading-relaxed"
+            >{settings.default_meta_description_id || 'Lembaga Pelatihan Kerja Resmi ke Jepang berizin SO & Kemnaker RI. Program Kursus Bahasa Jepang Intensif N5–N3, Tokutei Ginou SSW, dan Pemagangan Industri.'}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex items-center justify-end gap-4 pt-4">
+        <button
+          type="submit"
+          class="py-3 px-8 rounded bg-brand-charcoal hover:bg-brand-vermilion text-white font-heading font-bold text-xs tracking-wider transition-colors shadow-sm flex items-center gap-2"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span>Simpan Seluruh Pengaturan</span>
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</AdminLayout>

@@ -201,17 +201,18 @@ flowchart TD
 
 ---
 
-### Phase 7: Website Configuration & SEO Settings (P2)
+### Phase 7: Website Configuration & SEO Settings (P2) — ✅ COMPLETED
 **Tujuan:** Konfigurasi identitas lembaga dan kontak tanpa edit kode sumber.
 
-- [ ] **7.1 Settings Dashboard (`/admin/settings`):**
-  - Form pengubahan nomor WhatsApp, email kontak, alamat, tautan media sosial.
-  - Konfigurasi default fallback meta title dan description.
-- [ ] **7.2 Penyimpanan Key-Value di D1 (`settings` table):**
-  - Helper query berkinerja tinggi untuk memuat setting ke halaman publik saat SSR.
-- [ ] **7.3 SEO & Structured Data:**
-  - Dynamic `sitemap.xml` dan `robots.txt` endpoints.
-  - JSON-LD structured data untuk profil lembaga pendidikan (*EducationalOrganization*).
+- [x] **7.1 Settings Dashboard (`/admin/settings`):**
+  - Form pengubahan nomor WhatsApp, email kontak, nomor telepon kantor, izin resmi SO, nomor VIN, jam kerja (ID & JA), alamat fisik (ID & JA), Google Maps embed URL, tautan media sosial (Instagram, TikTok, YouTube, Facebook), dan konfigurasi default fallback meta title & description.
+- [x] **7.2 Penyimpanan Key-Value di D1 (`settings` table):**
+  - Helper query berkinerja tinggi `getAllSettings(db)`, `getSetting(db, key)`, `setSetting(...)`, dan `updateManySettings(...)` di `src/db/queries/settings.ts`.
+  - Astro Action `updateSettings` di `src/actions/settings.ts`.
+- [x] **7.3 Sinkronisasi Dinamis ke Komponen Publik & SEO:**
+  - `Footer.astro`, `contact.astro`, dan `ja/contact.astro` membaca kontak dan alamat langsung dari D1 (dengan fallback nilai default).
+  - Dynamic `sitemap.xml` endpoint (`src/pages/sitemap.xml.ts`) yang otomatis menggabungkan seluruh rute statis, artikel blog terbit, dan album galeri dari D1.
+  - `public/robots.txt` standar dengan proteksi halaman `/admin`.
 
 ---
 
