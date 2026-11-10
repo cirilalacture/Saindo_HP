@@ -1,6 +1,6 @@
 # Implementation Plan — LPK Saindo Website 2.0
 
-**Target Stack:** Astro 5.x (Fullstack SSR) + React (Interactive Islands) + Tailwind CSS + Cloudflare Workers Adapter + Cloudflare D1 + Drizzle ORM + ImgBB API  
+**Target Stack:** Astro 5.18.2 (Fullstack SSR) + React (Interactive Islands) + Tailwind CSS + Cloudflare Workers Adapter (`@astrojs/cloudflare@12.6.13`) + Cloudflare D1 + Drizzle ORM  
 **Estimated Iterations:** 8 Phased Milestones  
 **Design Reference:** Japanese Corporate Minimalist (Generated & Validated via Stitch MCP: Project `5513990903207659469`)  
 
