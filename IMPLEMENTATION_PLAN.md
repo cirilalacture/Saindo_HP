@@ -49,24 +49,31 @@ flowchart TD
 
 ## Phase Breakdown & Detailed Work Packages
 
-### Phase 1: Foundation & Project Setup (P0)
+### Phase 1: Foundation & Project Setup (P0) — ✅ COMPLETED
 **Tujuan:** Membangun fondasi proyek Astro fullstack dengan runtime Cloudflare Workers dan database lokal D1.
 
-- [ ] **1.1 Inisialisasi Proyek Astro:**
+- [x] **1.1 Inisialisasi Proyek Astro:**
   - Setup Astro 5 dengan TypeScript (`strict: true`), Tailwind CSS, dan React integration (`@astrojs/react`).
   - Pasang `@astrojs/cloudflare` adapter dengan mode `server` (SSR).
   - Konfigurasi `astro.config.mjs` untuk output Cloudflare Workers.
-- [ ] **1.2 Konfigurasi Cloudflare & Wrangler:**
+- [x] **1.2 Konfigurasi Cloudflare & Wrangler:**
   - Setup berkas `wrangler.jsonc` dengan binding D1 Database `lpksaindo_db` (local & production database IDs).
-  - Setup Worker secrets template untuk `SESSION_SECRET` dan `IMGBB_API_KEY`.
-- [ ] **1.3 Konfigurasi Drizzle ORM & Migrasi:**
+  - Setup Worker secrets template untuk `SESSION_SECRET` dan `IMGBB_API_KEY` di `.env.example`.
+- [x] **1.3 Konfigurasi Drizzle ORM & Migrasi:**
   - Setup `drizzle-orm` dan `drizzle-kit`.
   - Buat `drizzle.config.ts` yang mengarah ke migration folder `migrations/`.
   - Definisikan initial schema di `src/db/schema.ts`.
-  - Eksekusi migrasi lokal via `wrangler d1 migrations apply lpksaindo_db --local`.
-- [ ] **1.4 Skrip Otomasi & Environment:**
+  - Eksekusi migrasi lokal via `wrangler d1 migrations apply lpksaindo_db --local` (24 commands berhasil dieksekusi).
+- [x] **1.4 Skrip Otomasi & Environment:**
   - Buat skrip inisialisasi Super Admin: `scripts/create-admin.mjs`.
+  - Eksekusi pembuatan Super Admin pertama (`admin@lpksaindo.com`) di D1 lokal.
   - Definisikan types di `src/env.d.ts` untuk Cloudflare runtime binding (`DB: D1Database`, `SESSION_SECRET`, dll).
+  - Setup git repository dan initial commit pada branch `main`.
+- [x] **1.5 Runtime Database Client & Verification:**
+  - Setup helper Drizzle client di `src/db/client.ts`.
+  - Setup queries di `src/db/queries/settings.ts` dan seed settings awal.
+  - Setup health check action di `src/actions/index.ts`.
+  - Verifikasi build `npm run build` berhasil dengan 0 errors, 0 warnings.
 
 **Deliverables:**
 - Proyek berjalan di localhost via `npm run dev`.
