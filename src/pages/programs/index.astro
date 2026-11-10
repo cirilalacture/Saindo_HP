@@ -1,0 +1,139 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Container from '../../components/ui/Container.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import { programsData } from '../../data/programs';
+---
+
+<MainLayout
+  title="Program Pelatihan — LPK Saindo (Bahasa Jepang, SSW & Magang)"
+  description="Daftar program pelatihan LPK Saindo: Kursus Intensif Bahasa Jepang JLPT/JFT, Specified Skilled Worker (SSW Tokutei Ginou), dan Pemagangan Industri Resmi ke Jepang."
+  lang="id"
+>
+  <Navbar currentLang="id" />
+
+  <main>
+    <!-- Banner Header -->
+    <section class="py-16 md:py-24 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+            <span>KATALOG PROGRAM</span>
+            <span class="text-brand-stone">/</span>
+            <span class="font-japanese text-brand-stone">研修プログラム一覧</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+            Pilih Program Pelatihan Berstandar Industri Jepang.
+          </h1>
+          <p class="text-lg text-brand-slate font-body leading-relaxed">
+            Kurikulum kami disesuaikan dengan syarat sertifikasi resmi pemerintah Jepang dan kebutuhan nyata perusahaan mitra. Seluruh program dilengkapi bimbingan asrama penuh dan pendampingan hingga keberangkatan.
+          </p>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Program Cards Detailed List -->
+    <section class="py-20 md:py-28 bg-white border-b border-brand-border">
+      <Container>
+        <div class="space-y-12">
+          {programsData.map((item, index) => (
+            <div class="card-shoji rounded-lg overflow-hidden border border-brand-border p-8 sm:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+              
+              <!-- Left Column: Media / Hero image -->
+              <div class="w-full lg:w-5/12 aspect-[4/3] rounded bg-brand-sand overflow-hidden relative shrink-0">
+                <img
+                  src={item.heroImage}
+                  alt={item.title}
+                  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
+                <div class="absolute top-4 left-4">
+                  <Badge variant={item.badge as any}>{item.badgeLabel}</Badge>
+                </div>
+              </div>
+
+              <!-- Right Column: Details & Specs -->
+              <div class="w-full lg:w-7/12 space-y-5">
+                <div class="space-y-2">
+                  <span class="text-xs font-heading font-semibold text-brand-vermilion uppercase tracking-wider">
+                    {item.tagline}
+                  </span>
+                  <h2 class="text-2xl sm:text-3xl font-heading font-bold text-brand-charcoal leading-snug">
+                    <a href={`/programs/${item.slug}`} class="hover:text-brand-vermilion transition-colors">
+                      {item.title}
+                    </a>
+                  </h2>
+                  <p class="text-sm sm:text-base font-body text-brand-slate leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+
+                <!-- Specs Grid -->
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-brand-border/60 text-xs font-heading">
+                  <div>
+                    <span class="text-brand-stone font-medium">Estimasi Durasi:</span>
+                    <p class="text-brand-charcoal font-bold mt-0.5">{item.duration}</p>
+                  </div>
+                  <div>
+                    <span class="text-brand-stone font-medium">Target Kelulusan:</span>
+                    <p class="text-brand-charcoal font-bold mt-0.5">{item.target}</p>
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="pt-4 flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="md" href={`/programs/${item.slug}`}>
+                    Lihat Silabus & Persyaratan Lengkap
+                    <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    href={`https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20tertarik%20dengan%20program%20${encodeURIComponent(item.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Konsultasi Program Ini
+                  </Button>
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+
+    <!-- Consultation CTA -->
+    <section class="py-16 bg-brand-porcelain border-b border-brand-border">
+      <Container>
+        <div class="text-center max-w-2xl mx-auto space-y-4">
+          <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-brand-charcoal">
+            Bingung Memilih Jalur Program yang Sesuai?
+          </h2>
+          <p class="text-sm sm:text-base text-brand-slate font-body leading-relaxed">
+            Konselor kami siap membantu menganalisis latar belakang pendidikan, minat kerja, dan target waktu Anda untuk merekomendasikan program paling ideal.
+          </p>
+          <div class="pt-2">
+            <Button
+              variant="primary"
+              size="lg"
+              href="https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20butuh%20rekomendasi%20pemilihan%20program%20ke%20Jepang"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Hubungi Konselor Sekarang
+            </Button>
+          </div>
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="id" />
+</MainLayout>

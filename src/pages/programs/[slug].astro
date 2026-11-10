@@ -1,0 +1,204 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Container from '../../components/ui/Container.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import { programsData } from '../../data/programs';
+
+const { slug } = Astro.params;
+const program = programsData.find((p) => p.slug === slug);
+
+if (!program) {
+  return Astro.redirect('/programs');
+}
+---
+
+<MainLayout
+  title={`${program.title} — LPK Saindo`}
+  description={program.description}
+  lang="id"
+>
+  <Navbar currentLang="id" />
+
+  <main>
+    <!-- Header Banner -->
+    <section class="py-16 md:py-20 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-4xl space-y-5">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs font-heading font-medium text-brand-stone">
+            <a href="/" class="hover:text-brand-charcoal transition-colors">Beranda</a>
+            <span>/</span>
+            <a href="/programs" class="hover:text-brand-charcoal transition-colors">Program</a>
+            <span>/</span>
+            <span class="text-brand-charcoal font-semibold">{program.badgeLabel}</span>
+          </nav>
+
+          <div class="space-y-3">
+            <Badge variant={program.badge as any}>{program.badgeLabel}</Badge>
+            <h1 class="text-3xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+              {program.title}
+            </h1>
+            <p class="text-lg text-brand-slate font-body max-w-2xl leading-relaxed">
+              {program.tagline}
+            </p>
+          </div>
+
+          <!-- Quick Specs Bar -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-brand-border/80 text-xs font-heading">
+            <div>
+              <span class="text-brand-stone font-medium">Estimasi Waktu:</span>
+              <p class="text-brand-charcoal font-bold text-sm mt-0.5">{program.duration}</p>
+            </div>
+            <div>
+              <span class="text-brand-stone font-medium">Target Sertifikasi:</span>
+              <p class="text-brand-charcoal font-bold text-sm mt-0.5">{program.target}</p>
+            </div>
+            <div>
+              <span class="text-brand-stone font-medium">Jadwal Kelas:</span>
+              <p class="text-brand-charcoal font-bold text-sm mt-0.5">{program.schedule}</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Main Content Grid -->
+    <section class="py-16 md:py-24 bg-white border-b border-brand-border">
+      <Container>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          <!-- Left Column: Syllabus & Requirements -->
+          <div class="lg:col-span-8 space-y-12">
+            
+            <!-- Overview -->
+            <div class="space-y-4">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                Deskripsi Program
+              </h2>
+              <p class="text-base font-body text-brand-slate leading-relaxed">
+                {program.description}
+              </p>
+            </div>
+
+            <!-- Syllabus Modules -->
+            <div class="space-y-6">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                Silabus & Kurikulum Pelatihan
+              </h2>
+              <div class="space-y-6">
+                {program.syllabus.map((syl, idx) => (
+                  <div class="p-6 rounded border border-brand-border bg-brand-porcelain space-y-3">
+                    <div class="flex items-center gap-3">
+                      <span class="w-7 h-7 rounded bg-brand-sand text-brand-vermilion flex items-center justify-center font-heading font-extrabold text-xs shrink-0">
+                        0{idx + 1}
+                      </span>
+                      <h3 class="font-heading font-bold text-base sm:text-lg text-brand-charcoal">
+                        {syl.title}
+                      </h3>
+                    </div>
+                    <ul class="space-y-2 pl-10 text-sm font-body text-brand-slate list-disc">
+                      {syl.items.map((sub) => (
+                        <li>{sub}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="space-y-4">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                Persyaratan Calon Peserta
+              </h2>
+              <div class="p-6 rounded border border-brand-border bg-white space-y-3">
+                <ul class="space-y-2.5 text-sm sm:text-base font-body text-brand-slate">
+                  {program.requirements.map((req) => (
+                    <li class="flex items-start gap-3">
+                      <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>{req}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <!-- Benefits -->
+            <div class="space-y-4">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                Fasilitas & Keuntungan yang Didapat
+              </h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {program.benefits.map((ben) => (
+                  <div class="p-4 rounded border border-brand-border bg-brand-sand/40 flex items-start gap-3">
+                    <span class="w-2 h-2 rounded-full bg-brand-vermilion shrink-0 mt-2"></span>
+                    <span class="text-sm font-body text-brand-charcoal">{ben}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Sticky Consultation Box -->
+          <div class="lg:col-span-4 sticky top-28 space-y-6">
+            <div class="p-6 sm:p-7 rounded-lg border border-brand-border bg-white shadow-sm space-y-5">
+              <div class="aspect-[16/9] rounded overflow-hidden bg-brand-sand">
+                <img
+                  src={program.heroImage}
+                  alt={program.title}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <span class="text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">Pendaftaran Aktif</span>
+                <h3 class="text-xl font-heading font-bold text-brand-charcoal">
+                  Mulai Langkah Menuju Jepang Hari Ini
+                </h3>
+                <p class="text-xs text-brand-slate font-body leading-relaxed">
+                  Konsultasikan jadwal seleksi terdekat dan tes minat bakat langsung bersama tim konselor LPK Saindo.
+                </p>
+              </div>
+
+              <div class="space-y-3 pt-2">
+                <Button
+                  variant="primary"
+                  size="md"
+                  href={`https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20mendaftar%20program%20${encodeURIComponent(program.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full"
+                >
+                  Daftar via WhatsApp
+                </Button>
+                <Button
+                  variant="outline"
+                  size="md"
+                  href="/contact"
+                  class="w-full"
+                >
+                  Tanya Informasi Lengkap
+                </Button>
+              </div>
+
+              <div class="pt-4 border-t border-brand-border text-center">
+                <p class="text-[11px] text-brand-stone font-heading">
+                  Hotline Pendaftaran: +62 812-3456-7890
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="id" />
+</MainLayout>

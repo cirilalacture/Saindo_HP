@@ -122,24 +122,24 @@ flowchart TD
 
 ---
 
-### Phase 3: Public Modular Pages & Bilingual Routing (P1)
+### Phase 3: Public Modular Pages & Bilingual Routing (P1) — ✅ COMPLETED
 **Tujuan:** Membangun seluruh halaman sekunder publik dan mengaktifkan routing bilingual Indonesia & Jepang.
 
-- [ ] **3.1 Halaman Tentang Kami (`/about` & `/ja/about`):**
+- [x] **3.1 Halaman Tentang Kami (`/about` & `/ja/about`):**
   - Visi, misi, sejarah, profil pimpinan & sensei, galeri fasilitas sarana prasarana.
-- [ ] **3.2 Halaman Program Pelatihan (`/programs` & `/programs/[slug]`):**
+- [x] **3.2 Halaman Program Pelatihan (`/programs` & `/programs/[slug]`):**
   - Detail kurikulum Bahasa Jepang N5–N3, Tokutei Ginou SSW, pembekalan budaya.
-- [ ] **3.3 Halaman Galeri Dokumentasi (`/gallery` & `/gallery/[slug]`):**
+- [x] **3.3 Halaman Galeri Dokumentasi (`/gallery` & `/gallery/[slug]`):**
   - Daftar album kegiatan + detail album dengan interaksi lightbox foto (`React` island).
-- [ ] **3.4 Halaman Blog / Berita (`/blog` & `/blog/[slug]`):**
+- [x] **3.4 Halaman Blog / Berita (`/blog` & `/blog/[slug]`):**
   - Listing artikel dengan pagination dan filter kategori.
   - Detail artikel lengkap dengan TipTap JSON renderer, breadcrumbs, dan waktu baca.
-- [ ] **3.5 Halaman Kontak (`/contact` & `/ja/contact`):**
+- [x] **3.5 Halaman Kontak (`/contact` & `/ja/contact`):**
   - Alamat operasional, peta interaktif, formulir kontak cepat & WhatsApp gateway.
-- [ ] **3.6 Infrastruktur i18n (`src/i18n/`):**
-  - Kamus terjemahan antarmuka `id.json` dan `ja.json`.
-  - Helper fungsi `useTranslations(lang)`.
-  - Fallback aman jika konten dinamis Jepang belum diterjemahkan.
+- [x] **3.6 Infrastruktur i18n & Dynamic Data:**
+  - Seed fake data untuk development di lokal D1 (`scripts/seed.sql` & `scripts/seed-data.mjs`).
+  - D1 Query helpers (`src/db/queries/posts.ts` dan `src/db/queries/gallery.ts`).
+  - Fallback bilingual aman dan kartu pratinjau yang konsisten.
 
 ---
 

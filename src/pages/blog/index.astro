@@ -1,0 +1,183 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Container from '../../components/ui/Container.astro';
+import { getPublishedPosts, getAllCategories, type PostListItem } from '../../db/queries/posts';
+
+let posts: PostListItem[] = [];
+let categories: any[] = [];
+const db = Astro.locals.runtime?.env?.DB;
+
+if (db) {
+  try {
+    posts = await getPublishedPosts(db, 20, 0);
+    categories = await getAllCategories(db);
+  } catch (err) {
+    console.error('Failed to fetch posts from D1:', err);
+  }
+}
+
+const featuredPost = posts[0] || null;
+const regularPosts = posts.slice(1);
+---
+
+<MainLayout
+  title="Warta & Informasi — LPK Saindo (Berita, Tips Bahasa & Info Kerja Jepang)"
+  description="Kumpulan artikel berita resmi, panduan lulus ujian JLPT/JFT-Basic, informasi lowongan Tokutei Ginou, dan tips budaya kerja di Jepang."
+  lang="id"
+>
+  <Navbar currentLang="id" />
+
+  <main>
+    <!-- Banner Header -->
+    <section class="py-16 md:py-24 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+            <span>WARTA & PANDUAN</span>
+            <span class="text-brand-stone">/</span>
+            <span class="font-japanese text-brand-stone">最新情報・ブログ</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+            Wawasan & Kabar Terkini Menuju Karier di Jepang.
+          </h1>
+          <p class="text-lg text-brand-slate font-body leading-relaxed">
+            Dapatkan panduan belajar bahasa Jepang praktis, tips menaklukkan wawancara kerja, dan informasi lowongan kerja resmi dari konselor LPK Saindo.
+          </p>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Categories Filter Pills -->
+    {categories.length > 0 && (
+      <section class="py-5 bg-white border-b border-brand-border">
+        <Container>
+          <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none text-xs font-heading">
+            <span class="text-brand-stone uppercase font-bold shrink-0">Kategori:</span>
+            <a
+              href="/blog"
+              class="px-3.5 py-1.5 rounded-full bg-brand-charcoal text-white shrink-0 font-semibold shadow-sm"
+            >
+              Semua Artikel
+            </a>
+            {categories.map((cat) => (
+              <a
+                href={`/blog?category=${cat.slug}`}
+                class="px-3.5 py-1.5 rounded-full bg-brand-sand text-brand-charcoal hover:bg-brand-border shrink-0 transition-colors border border-brand-border"
+              >
+                {cat.nameId}
+              </a>
+            ))}
+          </div>
+        </Container>
+      </section>
+    )}
+
+    <!-- Posts Section -->
+    <section class="py-16 md:py-24 bg-white border-b border-brand-border">
+      <Container>
+        {featuredPost && (
+          <div class="mb-16">
+            <a
+              href={`/blog/${featuredPost.slug}`}
+              class="card-shoji rounded-lg overflow-hidden border border-brand-border p-6 sm:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center group bg-brand-porcelain"
+            >
+              <div class="w-full lg:w-6/12 aspect-[16/10] rounded bg-brand-sand overflow-hidden relative">
+                <img
+                  src={featuredPost.coverUrl || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80'}
+                  alt={featuredPost.titleId}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
+                />
+              </div>
+
+              <div class="w-full lg:w-6/12 space-y-4">
+                <div class="flex items-center gap-3 text-xs text-brand-stone font-heading">
+                  {featuredPost.categoryNameId && (
+                    <span class="text-brand-vermilion font-bold uppercase tracking-wider">
+                      {featuredPost.categoryNameId}
+                    </span>
+                  )}
+                  <span>•</span>
+                  <span>{featuredPost.publishedAt ? new Date(featuredPost.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Baru'}</span>
+                </div>
+
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-brand-charcoal leading-tight group-hover:text-brand-vermilion transition-colors">
+                  {featuredPost.titleId}
+                </h2>
+
+                <p class="text-sm sm:text-base font-body text-brand-slate leading-relaxed">
+                  {featuredPost.excerptId}
+                </p>
+
+                <div class="pt-2 text-xs font-heading font-bold text-brand-charcoal group-hover:text-brand-vermilion inline-flex items-center">
+                  Baca Artikel Lengkap <span class="ml-1.5">→</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        )}
+
+        <!-- Grid of other posts -->
+        {regularPosts.length > 0 ? (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {regularPosts.map((post) => (
+              <article class="card-shoji rounded-lg overflow-hidden flex flex-col justify-between group bg-white border border-brand-border">
+                <div>
+                  <div class="aspect-[16/9] bg-brand-sand overflow-hidden relative">
+                    <img
+                      src={post.coverUrl || 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80'}
+                      alt={post.titleId}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <div class="p-6 sm:p-7 space-y-3">
+                    <div class="flex items-center gap-3 text-xs text-brand-stone font-heading">
+                      {post.categoryNameId && (
+                        <span class="text-brand-vermilion font-bold uppercase tracking-wider">
+                          {post.categoryNameId}
+                        </span>
+                      )}
+                      <span>•</span>
+                      <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}</span>
+                    </div>
+
+                    <h3 class="font-heading font-bold text-lg text-brand-charcoal leading-snug group-hover:text-brand-vermilion transition-colors">
+                      <a href={`/blog/${post.slug}`}>
+                        {post.titleId}
+                      </a>
+                    </h3>
+
+                    <p class="text-xs sm:text-sm font-body text-brand-slate line-clamp-2 leading-relaxed">
+                      {post.excerptId}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="px-6 sm:px-7 pb-6 pt-2">
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="text-xs font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion inline-flex items-center group-hover:translate-x-0.5 transition-transform"
+                  >
+                    Baca Selengkapnya <span class="ml-1">→</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          !featuredPost && (
+            <div class="text-center py-20 bg-brand-porcelain rounded border border-brand-border">
+              <p class="text-base text-brand-slate font-heading">Belum ada artikel berita yang dipublikasikan.</p>
+            </div>
+          )
+        )}
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="id" />
+</MainLayout>

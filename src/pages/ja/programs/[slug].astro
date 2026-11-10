@@ -1,0 +1,178 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Navbar from '../../../components/layout/Navbar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import Container from '../../../components/ui/Container.astro';
+import Badge from '../../../components/ui/Badge.astro';
+import Button from '../../../components/ui/Button.astro';
+import { programsData } from '../../../data/programs';
+
+const { slug } = Astro.params;
+const program = programsData.find((p) => p.slug === slug);
+
+if (!program) {
+  return Astro.redirect('/ja/programs');
+}
+---
+
+<MainLayout
+  title={`${program.titleJa} — LPK Saindo`}
+  description={program.descriptionJa}
+  lang="ja"
+>
+  <Navbar currentLang="ja" />
+
+  <main class="font-ja">
+    <!-- Header Banner -->
+    <section class="py-16 md:py-20 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-4xl space-y-5">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs font-heading font-medium text-brand-stone">
+            <a href="/ja" class="hover:text-brand-charcoal transition-colors">ホーム</a>
+            <span>/</span>
+            <a href="/ja/programs" class="hover:text-brand-charcoal transition-colors">研修プログラム</a>
+            <span>/</span>
+            <span class="text-brand-charcoal font-semibold">{program.badgeLabelJa}</span>
+          </nav>
+
+          <div class="space-y-3">
+            <Badge variant={program.badge as any}>{program.badgeLabelJa}</Badge>
+            <h1 class="text-3xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+              {program.titleJa}
+            </h1>
+            <p class="text-lg text-brand-slate font-body max-w-2xl leading-relaxed">
+              {program.taglineJa}
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-brand-border/80 text-xs font-heading">
+            <div>
+              <span class="text-brand-stone font-medium">標準研修期間:</span>
+              <p class="text-brand-charcoal font-bold text-sm mt-0.5">{program.durationJa}</p>
+            </div>
+            <div>
+              <span class="text-brand-stone font-medium">到達目標:</span>
+              <p class="text-brand-charcoal font-bold text-sm mt-0.5">{program.targetJa}</p>
+            </div>
+            <div>
+              <span class="text-brand-stone font-medium">講習時間帯:</span>
+              <p class="text-brand-charcoal font-bold text-sm mt-0.5">{program.scheduleJa}</p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Main Content Grid -->
+    <section class="py-16 md:py-24 bg-white border-b border-brand-border">
+      <Container>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          <div class="lg:col-span-8 space-y-12">
+            
+            <div class="space-y-4">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                プログラム概要
+              </h2>
+              <p class="text-base font-body text-brand-slate leading-relaxed">
+                {program.descriptionJa}
+              </p>
+            </div>
+
+            <div class="space-y-6">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                教育カリキュラム・講習内容
+              </h2>
+              <div class="space-y-6">
+                {program.syllabus.map((syl, idx) => (
+                  <div class="p-6 rounded border border-brand-border bg-brand-porcelain space-y-3">
+                    <div class="flex items-center gap-3">
+                      <span class="w-7 h-7 rounded bg-brand-sand text-brand-vermilion flex items-center justify-center font-heading font-extrabold text-xs shrink-0">
+                        0{idx + 1}
+                      </span>
+                      <h3 class="font-heading font-bold text-base sm:text-lg text-brand-charcoal">
+                        {syl.titleJa}
+                      </h3>
+                    </div>
+                    <ul class="space-y-2 pl-10 text-sm font-body text-brand-slate list-disc">
+                      {syl.itemsJa.map((sub) => (
+                        <li>{sub}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+                候補者の選抜基準・受講資格
+              </h2>
+              <div class="p-6 rounded border border-brand-border bg-white space-y-3">
+                <ul class="space-y-2.5 text-sm sm:text-base font-body text-brand-slate">
+                  {program.requirementsJa.map((req) => (
+                    <li class="flex items-start gap-3">
+                      <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>{req}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sticky Sidebar -->
+          <div class="lg:col-span-4 sticky top-28 space-y-6">
+            <div class="p-6 sm:p-7 rounded-lg border border-brand-border bg-white shadow-sm space-y-5">
+              <div class="aspect-[16/9] rounded overflow-hidden bg-brand-sand">
+                <img
+                  src={program.heroImage}
+                  alt={program.titleJa}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <span class="text-xs font-heading font-bold uppercase tracking-wider text-brand-stone">受入相談窓口</span>
+                <h3 class="text-xl font-heading font-bold text-brand-charcoal">
+                  貴社求人に合わせた選考・面接日程
+                </h3>
+                <p class="text-xs text-brand-slate font-body leading-relaxed">
+                  現地での対面面接またはオンライン面談の調整を迅速に行います。お気軽にご相談ください。
+                </p>
+              </div>
+
+              <div class="space-y-3 pt-2">
+                <Button
+                  variant="primary"
+                  size="md"
+                  href={`https://wa.me/628123456789?text=LPK%20Saindo%E6%A7%98%E3%80%81${encodeURIComponent(program.titleJa)}%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%8F%E9%80%A3%E7%B5%A1%E3%81%84%E3%81%9F%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full"
+                >
+                  WhatsAppで直接相談する
+                </Button>
+                <Button
+                  variant="outline"
+                  size="md"
+                  href="/ja/contact"
+                  class="w-full"
+                >
+                  お問い合わせフォームへ
+                </Button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="ja" />
+</MainLayout>

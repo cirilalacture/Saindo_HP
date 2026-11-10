@@ -1,0 +1,110 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Navbar from '../../../components/layout/Navbar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import Container from '../../../components/ui/Container.astro';
+import Badge from '../../../components/ui/Badge.astro';
+import Button from '../../../components/ui/Button.astro';
+import { programsData } from '../../../data/programs';
+---
+
+<MainLayout
+  title="研修プログラム一覧 — LPK Saindo (特定技能・技能実習・日本語教育)"
+  description="LPK Saindoが提供する受入機関・企業様向け研修プログラム一覧。特定技能1号育成、技能実習生事前講習、JLPT・JFT集中対策。"
+  lang="ja"
+>
+  <Navbar currentLang="ja" />
+
+  <main class="font-ja">
+    <!-- Banner Header -->
+    <section class="py-16 md:py-24 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+            <span>PROGRAMS</span>
+            <span class="text-brand-stone">/</span>
+            <span class="font-japanese text-brand-stone">研修プログラム一覧</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+            日本の産業界が求める実践的カリキュラム。
+          </h1>
+          <p class="text-lg text-brand-slate font-body leading-relaxed">
+            全寮制の生活指導、日本人専任講師による会話訓練、安全衛生（KYT・5S）の実践を通じて、日本企業で即戦力として活躍できる人材を育成しています。
+          </p>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Program Cards -->
+    <section class="py-20 md:py-28 bg-white border-b border-brand-border">
+      <Container>
+        <div class="space-y-12">
+          {programsData.map((item, index) => (
+            <div class="card-shoji rounded-lg overflow-hidden border border-brand-border p-8 sm:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+              
+              <div class="w-full lg:w-5/12 aspect-[4/3] rounded bg-brand-sand overflow-hidden relative shrink-0">
+                <img
+                  src={item.heroImage}
+                  alt={item.titleJa}
+                  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
+                <div class="absolute top-4 left-4">
+                  <Badge variant={item.badge as any}>{item.badgeLabelJa}</Badge>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-7/12 space-y-5">
+                <div class="space-y-2">
+                  <span class="text-xs font-heading font-semibold text-brand-vermilion uppercase tracking-wider">
+                    {item.taglineJa}
+                  </span>
+                  <h2 class="text-2xl sm:text-3xl font-heading font-bold text-brand-charcoal leading-snug">
+                    <a href={`/ja/programs/${item.slug}`} class="hover:text-brand-vermilion transition-colors">
+                      {item.titleJa}
+                    </a>
+                  </h2>
+                  <p class="text-sm sm:text-base font-body text-brand-slate leading-relaxed">
+                    {item.descriptionJa}
+                  </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-brand-border/60 text-xs font-heading">
+                  <div>
+                    <span class="text-brand-stone font-medium">標準講習期間:</span>
+                    <p class="text-brand-charcoal font-bold mt-0.5">{item.durationJa}</p>
+                  </div>
+                  <div>
+                    <span class="text-brand-stone font-medium">到達目標:</span>
+                    <p class="text-brand-charcoal font-bold mt-0.5">{item.targetJa}</p>
+                  </div>
+                </div>
+
+                <div class="pt-4 flex flex-wrap items-center gap-4">
+                  <Button variant="primary" size="md" href={`/ja/programs/${item.slug}`}>
+                    カリキュラム詳細を見る
+                    <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    href={`https://wa.me/628123456789?text=LPK%20Saindo%E6%A7%98%E3%80%81${encodeURIComponent(item.titleJa)}%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%8F%E9%80%A3%E7%B5%A1%E3%81%84%E3%81%9F%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    このプログラムについて相談する
+                  </Button>
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="ja" />
+</MainLayout>

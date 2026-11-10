@@ -1,0 +1,97 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Navbar from '../../../components/layout/Navbar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import Container from '../../../components/ui/Container.astro';
+import Button from '../../../components/ui/Button.astro';
+import Lightbox from '../../../components/gallery/Lightbox';
+import { getAlbumBySlug } from '../../../db/queries/gallery';
+
+const { slug } = Astro.params;
+const db = Astro.locals.runtime?.env?.DB;
+
+let albumData: any = null;
+
+if (db && slug) {
+  try {
+    albumData = await getAlbumBySlug(db, slug);
+  } catch (err) {
+    console.error('Failed to query album from D1:', err);
+  }
+}
+
+if (!albumData) {
+  return Astro.redirect('/ja/gallery');
+}
+
+const { album, items } = albumData;
+const title = album.titleJa || album.titleId;
+const description = album.descriptionJa || album.descriptionId;
+---
+
+<MainLayout
+  title={`${title} — 活動ギャラリー LPK Saindo`}
+  description={description || title}
+  lang="ja"
+>
+  <Navbar currentLang="ja" />
+
+  <main class="font-ja">
+    <!-- Header Banner -->
+    <section class="py-16 md:py-20 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-4xl space-y-4">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs font-heading font-medium text-brand-stone">
+            <a href="/ja" class="hover:text-brand-charcoal transition-colors">ホーム</a>
+            <span>/</span>
+            <a href="/ja/gallery" class="hover:text-brand-charcoal transition-colors">活動ギャラリー</a>
+            <span>/</span>
+            <span class="text-brand-charcoal font-semibold truncate">{title}</span>
+          </nav>
+
+          <div class="space-y-2">
+            {album.eventDate && (
+              <span class="text-xs font-heading font-semibold text-brand-vermilion uppercase tracking-wider">
+                実施日：{album.eventDate}
+              </span>
+            )}
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+              {title}
+            </h1>
+            {description && (
+              <p class="text-base sm:text-lg text-brand-slate font-body leading-relaxed pt-1">
+                {description}
+              </p>
+            )}
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Photo Lightbox Section -->
+    <section class="py-16 md:py-24 bg-white border-b border-brand-border">
+      <Container>
+        {items && items.length > 0 ? (
+          <Lightbox
+            client:load
+            photos={items}
+            currentLang="ja"
+          />
+        ) : (
+          <div class="text-center py-16 bg-brand-porcelain rounded border border-brand-border">
+            <p class="text-sm text-brand-slate font-heading">このアルバムにはまだ写真が登録されていません。</p>
+          </div>
+        )}
+
+        <div class="pt-12 text-center">
+          <Button variant="outline" size="md" href="/ja/gallery">
+            ← ギャラリー一覧へ戻る
+          </Button>
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="ja" />
+</MainLayout>

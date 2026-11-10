@@ -1,0 +1,172 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Navbar from '../../../components/layout/Navbar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import Container from '../../../components/ui/Container.astro';
+import { getPublishedPosts, getAllCategories, type PostListItem } from '../../../db/queries/posts';
+
+let posts: PostListItem[] = [];
+let categories: any[] = [];
+const db = Astro.locals.runtime?.env?.DB;
+
+if (db) {
+  try {
+    posts = await getPublishedPosts(db, 20, 0);
+    categories = await getAllCategories(db);
+  } catch (err) {
+    console.error('Failed to fetch posts from D1:', err);
+  }
+}
+
+const featuredPost = posts[0] || null;
+const regularPosts = posts.slice(1);
+---
+
+<MainLayout
+  title="お知らせ・ブログ — LPK Saindo (最新ニュース・活動報告・採用情報)"
+  description="LPK Saindoの公式お知らせ・教育活動ブログ。日本企業様向けの受入れ情報、特定技能・技能実習生に関する最新レギュレーション、現地講習風景。"
+  lang="ja"
+>
+  <Navbar currentLang="ja" />
+
+  <main class="font-ja">
+    <!-- Banner Header -->
+    <section class="py-16 md:py-24 bg-[#FAFAF8] border-b border-brand-border">
+      <Container>
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+            <span>NEWS & INSIGHTS</span>
+            <span class="text-brand-stone">/</span>
+            <span class="font-japanese text-brand-stone">お知らせ・ブログ</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+            受入情報・現地教育レポート。
+          </h1>
+          <p class="text-lg text-brand-slate font-body leading-relaxed">
+            インドネシアにおける最新の日本語教育カリキュラム、特定技能制度の動向、そして日本企業様へ派遣される実習生たちの成長記録をお届けします。
+          </p>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Categories Filter -->
+    {categories.length > 0 && (
+      <section class="py-5 bg-white border-b border-brand-border">
+        <Container>
+          <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none text-xs font-heading">
+            <span class="text-brand-stone uppercase font-bold shrink-0">カテゴリー：</span>
+            <a
+              href="/ja/blog"
+              class="px-3.5 py-1.5 rounded-full bg-brand-charcoal text-white shrink-0 font-semibold shadow-sm"
+            >
+              すべての記事
+            </a>
+            {categories.map((cat) => (
+              <a
+                href={`/ja/blog?category=${cat.slug}`}
+                class="px-3.5 py-1.5 rounded-full bg-brand-sand text-brand-charcoal hover:bg-brand-border shrink-0 transition-colors border border-brand-border"
+              >
+                {cat.nameJa || cat.nameId}
+              </a>
+            ))}
+          </div>
+        </Container>
+      </section>
+    )}
+
+    <!-- Posts Grid -->
+    <section class="py-16 md:py-24 bg-white border-b border-brand-border">
+      <Container>
+        {featuredPost && (
+          <div class="mb-16">
+            <a
+              href={`/ja/blog/${featuredPost.slug}`}
+              class="card-shoji rounded-lg overflow-hidden border border-brand-border p-6 sm:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center group bg-brand-porcelain"
+            >
+              <div class="w-full lg:w-6/12 aspect-[16/10] rounded bg-brand-sand overflow-hidden relative">
+                <img
+                  src={featuredPost.coverUrl || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80'}
+                  alt={featuredPost.titleJa || featuredPost.titleId}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
+                />
+              </div>
+
+              <div class="w-full lg:w-6/12 space-y-4">
+                <div class="flex items-center gap-3 text-xs text-brand-stone font-heading">
+                  <span class="text-brand-vermilion font-bold uppercase tracking-wider">
+                    {featuredPost.categoryNameJa || featuredPost.categoryNameId}
+                  </span>
+                  <span>•</span>
+                  <span>{featuredPost.publishedAt ? new Date(featuredPost.publishedAt).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' }) : ''}</span>
+                </div>
+
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-brand-charcoal leading-tight group-hover:text-brand-vermilion transition-colors">
+                  {featuredPost.titleJa || featuredPost.titleId}
+                </h2>
+
+                <p class="text-sm sm:text-base font-body text-brand-slate leading-relaxed">
+                  {featuredPost.excerptJa || featuredPost.excerptId}
+                </p>
+
+                <div class="pt-2 text-xs font-heading font-bold text-brand-charcoal group-hover:text-brand-vermilion inline-flex items-center">
+                  記事を読む <span class="ml-1.5">→</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        )}
+
+        {regularPosts.length > 0 && (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {regularPosts.map((post) => (
+              <article class="card-shoji rounded-lg overflow-hidden flex flex-col justify-between group bg-white border border-brand-border">
+                <div>
+                  <div class="aspect-[16/9] bg-brand-sand overflow-hidden relative">
+                    <img
+                      src={post.coverUrl || 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80'}
+                      alt={post.titleJa || post.titleId}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <div class="p-6 sm:p-7 space-y-3">
+                    <div class="flex items-center gap-3 text-xs text-brand-stone font-heading">
+                      <span class="text-brand-vermilion font-bold uppercase tracking-wider">
+                        {post.categoryNameJa || post.categoryNameId}
+                      </span>
+                      <span>•</span>
+                      <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' }) : ''}</span>
+                    </div>
+
+                    <h3 class="font-heading font-bold text-lg text-brand-charcoal leading-snug group-hover:text-brand-vermilion transition-colors">
+                      <a href={`/ja/blog/${post.slug}`}>
+                        {post.titleJa || post.titleId}
+                      </a>
+                    </h3>
+
+                    <p class="text-xs sm:text-sm font-body text-brand-slate line-clamp-2 leading-relaxed">
+                      {post.excerptJa || post.excerptId}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="px-6 sm:px-7 pb-6 pt-2">
+                  <a
+                    href={`/ja/blog/${post.slug}`}
+                    class="text-xs font-heading font-semibold text-brand-charcoal hover:text-brand-vermilion inline-flex items-center group-hover:translate-x-0.5 transition-transform"
+                  >
+                    続きを読む <span class="ml-1">→</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="ja" />
+</MainLayout>

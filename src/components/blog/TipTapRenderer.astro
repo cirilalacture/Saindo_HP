@@ -1,0 +1,79 @@
+---
+interface Props {
+  contentJson: string | object | null;
+}
+
+const { contentJson } = Astro.props;
+
+let doc: any = null;
+try {
+  if (typeof contentJson === 'string') {
+    doc = JSON.parse(contentJson);
+  } else if (typeof contentJson === 'object') {
+    doc = contentJson;
+  }
+} catch (e) {
+  doc = null;
+}
+
+function renderNode(node: any): string {
+  if (!node) return '';
+
+  if (node.type === 'text') {
+    let text = node.text || '';
+    if (node.marks) {
+      for (const mark of node.marks) {
+        if (mark.type === 'bold') text = `<strong>${text}</strong>`;
+        if (mark.type === 'italic') text = `<em>${text}</em>`;
+        if (mark.type === 'code') text = `<code class="bg-brand-sand px-1.5 py-0.5 rounded text-xs text-brand-charcoal">${text}</code>`;
+        if (mark.type === 'link') {
+          const href = mark.attrs?.href || '#';
+          text = `<a href="${href}" class="text-brand-vermilion underline underline-offset-4 hover:text-brand-crimson">${text}</a>`;
+        }
+      }
+    }
+    return text;
+  }
+
+  const innerHtml = node.content ? node.content.map(renderNode).join('') : '';
+
+  switch (node.type) {
+    case 'heading': {
+      const level = node.attrs?.level || 2;
+      if (level === 1) return `<h1 class="text-3xl font-heading font-extrabold text-brand-charcoal mt-10 mb-4 tracking-tight">${innerHtml}</h1>`;
+      if (level === 2) return `<h2 class="text-2xl font-heading font-bold text-brand-charcoal mt-8 mb-4 tracking-tight">${innerHtml}</h2>`;
+      if (level === 3) return `<h3 class="text-xl font-heading font-bold text-brand-charcoal mt-6 mb-3 tracking-tight">${innerHtml}</h3>`;
+      return `<h4 class="text-lg font-heading font-semibold text-brand-charcoal mt-4 mb-2">${innerHtml}</h4>`;
+    }
+    case 'paragraph': {
+      if (!innerHtml.trim()) return '';
+      return `<p class="text-base text-brand-slate font-body leading-relaxed mb-5">${innerHtml}</p>`;
+    }
+    case 'blockquote': {
+      return `<blockquote class="pl-5 border-l-2 border-brand-vermilion my-6 text-brand-charcoal italic bg-brand-sand/30 py-3 pr-4 rounded-r font-body text-base leading-relaxed">${innerHtml}</blockquote>`;
+    }
+    case 'bulletList': {
+      return `<ul class="list-disc pl-6 space-y-2 mb-6 text-brand-slate font-body text-base leading-relaxed">${innerHtml}</ul>`;
+    }
+    case 'orderedList': {
+      return `<ol class="list-decimal pl-6 space-y-2 mb-6 text-brand-slate font-body text-base leading-relaxed">${innerHtml}</ol>`;
+    }
+    case 'listItem': {
+      return `<li>${innerHtml}</li>`;
+    }
+    case 'image': {
+      const src = node.attrs?.src || '';
+      const alt = node.attrs?.alt || '';
+      return `<figure class="my-8 rounded overflow-hidden border border-brand-border"><img src="${src}" alt="${alt}" class="w-full h-auto object-cover" /><figcaption class="p-3 text-xs text-brand-stone text-center font-heading">${alt}</figcaption></figure>`;
+    }
+    default:
+      return innerHtml;
+  }
+}
+
+const renderedHtml = doc?.content ? doc.content.map(renderNode).join('') : '';
+---
+
+<div class="prose max-w-none text-brand-charcoal">
+  {renderedHtml ? <Fragment set:html={renderedHtml} /> : <slot />}
+</div>
