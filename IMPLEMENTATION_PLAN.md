@@ -183,21 +183,21 @@ flowchart TD
 
 ---
 
-### Phase 6: Gallery CMS & ImgBB Media Bridge (P1)
-**Tujuan:** Memfasilitasi pengelolaan dokumentasi visual berkapasitas besar menggunakan Cloudflare D1 + ImgBB API.
+### Phase 6: Gallery CMS & External Link Media Bridge (P1) — ✅ COMPLETED
+**Tujuan:** Memfasilitasi pengelolaan dokumentasi visual dan katalog media berbasis tautan gambar internet (ImgBB direct link, Unsplash, CDN pihak ketiga) yang tercatat di Cloudflare D1 tanpa perlu integrasi API upload biner.
 
-- [ ] **6.1 Integrasi ImgBB API Server-Side:**
-  - Astro Action menerima file stream `multipart/form-data`.
-  - Validasi server-side: format file (JPEG, PNG, WebP), ukuran maksimal (8MB).
-  - Forward binary stream ke ImgBB Upload API menggunakan `IMGBB_API_KEY`.
-  - Ambil direct URL, thumbnail URL, dan delete hash.
-- [ ] **6.2 Media Library (`/admin/media`):**
-  - Tampilan grid semua gambar yang pernah diunggah.
-  - Pencarian berdasarkan nama berkas dan alt text.
-  - Mekanisme proteksi hapus (cek referensi berkas di tabel `posts` dan `gallery_items`).
-- [ ] **6.3 Album & Gallery Item Manager:**
-  - Buat album baru, atur urutan (*drag and drop* atau numeric index).
-  - Tambahkan banyak foto sekaligus ke album, lengkapi caption dan alt text.
+- [x] **6.1 Media Library berbasis Link Internet (`/admin/media`):**
+  - Form pendaftaran media baru via URL internet (Input Image URL, Label/Filename, Alt-Text, Provider).
+  - Tampilan grid responsif seluruh koleksi gambar dengan live thumbnail preview.
+  - Fitur salin URL langsung ke clipboard untuk digunakan di blog atau website.
+  - Mekanisme proteksi hapus (pengecekan referensi apakah berkas sedang digunakan sebagai sampul artikel atau foto album galeri).
+- [x] **6.2 Album Galeri Manager (`/admin/gallery`):**
+  - Daftar album galeri lengkap dengan jumlah item foto, tanggal kegiatan, status publikasi (`is_published`), dan aksi cepat.
+  - Form pembuatan album baru (`/admin/gallery/new`) dan form edit album (`/admin/gallery/[id]/edit`).
+- [x] **6.3 Manajemen Foto Album Galeri (`/admin/gallery/[id]/items`):**
+  - Tampilan daftar foto dalam album.
+  - Form penambahan foto ke album (pilih dari Media Library atau input link baru), lengkapi caption ID & JA, alt text, dan urutan (*sort_order*).
+  - Fitur hapus foto dari album tanpa menghapus record media utama.
 
 ---
 

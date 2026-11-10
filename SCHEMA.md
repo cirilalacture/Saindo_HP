@@ -219,22 +219,22 @@ Tag kata kunci blog dan relasi many-to-many.
 | `post_tags.tag_id` | TEXT | NO | FK -> `tags(id)` ON DELETE CASCADE |
 
 ### 2.6 Table: `media`
-Metadata berkas visual yang diunggah ke penyedia gambar (ImgBB).
+Metadata berkas visual yang ditautkan melalui link internet eksternal (ImgBB direct link, Unsplash, CDN).
 | Kolom | Tipe | Nullable | Keterangan |
 |---|---|---|---|
 | `id` | TEXT | NO | Primary Key (UUID v4) |
-| `provider` | TEXT | NO | Penyedia storage: `'imgbb'` atau `'local'` |
-| `provider_image_id`| TEXT | YES | ID gambar dari ImgBB API |
-| `original_url` | TEXT | NO | URL gambar resolusi asli |
+| `provider` | TEXT | NO | Penyedia gambar: `'external_link'`, `'imgbb'`, atau `'unsplash'` |
+| `provider_image_id`| TEXT | YES | ID gambar eksternal opsional |
+| `original_url` | TEXT | NO | URL gambar resolusi asli dari internet |
 | `display_url` | TEXT | NO | URL optimal untuk rendering tampilan |
 | `thumbnail_url` | TEXT | YES | URL thumbnail ringkas |
-| `filename` | TEXT | NO | Nama berkas asli |
+| `filename` | TEXT | NO | Nama berkas / label deskriptif |
 | `mime_type` | TEXT | NO | e.g. `image/jpeg`, `image/webp` |
-| `file_size` | INTEGER| NO | Ukuran berkas dalam bytes |
-| `width` | INTEGER| YES | Lebar piksel gambar |
-| `height` | INTEGER| YES | Tinggi piksel gambar |
+| `file_size` | INTEGER| NO | Ukuran berkas dalam bytes (default 0 jika via URL) |
+| `width` | INTEGER| YES | Lebar piksel gambar opsional |
+| `height` | INTEGER| YES | Tinggi piksel gambar opsional |
 | `alt_text` | TEXT | YES | Alt-text aksesibilitas & SEO |
-| `created_at` | TEXT | NO | Timestamp pengunggahan |
+| `created_at` | TEXT | NO | Timestamp pencatatan tautan |
 
 ### 2.7 Table: `gallery_albums` & `gallery_items`
 Dokumentasi album foto dan foto per kegiatan.

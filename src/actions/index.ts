@@ -2,6 +2,8 @@ import { defineAction } from 'astro:actions';
 import { z } from 'zod';
 import { getAllSettings } from '../db/queries/settings';
 import { postsActions } from './posts';
+import { mediaActions } from './media';
+import { galleryActions } from './gallery';
 
 export const server = {
   healthCheck: defineAction({
@@ -34,4 +36,6 @@ export const server = {
     },
   }),
   ...postsActions,
+  ...mediaActions,
+  ...galleryActions,
 };

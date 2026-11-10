@@ -148,11 +148,11 @@ Homepage tersusun dari 12 section terstruktur:
 - Pemilihan foto cover album.
 - Pengaturan caption ID/JA dan alt text untuk aksesibilitas.
 
-#### FR-ADM-05: Media Library & ImgBB Bridge (`/admin/media`)
-- Pusat pengelolaan berkas gambar dinamis.
-- Integrasi API ImgBB (upload gambar dari browser diarahkan ke backend Astro Action untuk melindungi API Key).
-- Penyimpanan metadata berkas di Cloudflare D1 (URL asli, thumbnail, dimensi, mime-type, ukuran, alt text).
-- Proteksi penghapusan: gambar yang masih ditautkan ke artikel blog atau cover album tidak dapat dihapus secara sepihak.
+#### FR-ADM-05: Media Library & External Link Bridge (`/admin/media`)
+- Pusat pengelolaan dan katalog tautan berkas gambar visual eksternal (seperti direct link ImgBB, Unsplash, atau CDN pihak ketiga).
+- Admin mendaftarkan gambar menggunakan URL internet langsung dengan label nama berkas dan teks deskripsi aksesibilitas (*alt text*).
+- Penyimpanan metadata berkas di Cloudflare D1 (URL langsung/display URL, nama label berkas, provider, alt text).
+- Proteksi penghapusan: gambar yang masih ditautkan ke artikel blog atau foto album galeri dilindungi dari penghapusan sepihak.
 
 #### FR-ADM-06: Website Configuration (`/admin/settings`)
 - Form pengaturan dinamis yang tersimpan di tabel `settings`:

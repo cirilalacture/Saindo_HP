@@ -1,0 +1,286 @@
+---
+import { desc, eq, count } from 'drizzle-orm';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { getDb, schema } from '../../../db/client';
+
+const db = Astro.locals.runtime?.env?.DB;
+let albumsList: Array<{
+  id: string;
+  titleId: string;
+  titleJa: string | null;
+  slug: string;
+  eventDate: string | null;
+  isPublished: number;
+  createdAt: string;
+  coverUrl: string | null;
+  itemCount: number;
+}> = [];
+
+let noticeMessage = '';
+let errorMessage = '';
+
+if (Astro.request.method === 'POST' && db) {
+  const formData = await Astro.request.formData();
+  const actionType = formData.get('_action')?.toString();
+  const albumId = formData.get('albumId')?.toString();
+  const d1 = getDb(db);
+
+  if (albumId && actionType === 'delete') {
+    try {
+      await d1.delete(schema.galleryItems).where(eq(schema.galleryItems.albumId, albumId));
+      await d1.delete(schema.galleryAlbums).where(eq(schema.galleryAlbums.id, albumId));
+      noticeMessage = 'Album galeri dan seluruh foto di dalamnya berhasil dihapus.';
+    } catch (err: any) {
+      console.error('Failed to delete album:', err);
+      errorMessage = 'Terjadi kesalahan sistem saat menghapus album.';
+    }
+  } else if (albumId && actionType === 'toggle') {
+    try {
+      const cur = await d1.select().from(schema.galleryAlbums).where(eq(schema.galleryAlbums.id, albumId)).limit(1);
+      if (cur.length > 0) {
+        const newStatus = cur[0].isPublished === 1 ? 0 : 1;
+        await d1
+          .update(schema.galleryAlbums)
+          .set({ isPublished: newStatus, updatedAt: new Date().toISOString() })
+          .where(eq(schema.galleryAlbums.id, albumId));
+        noticeMessage = `Status album berhasil diubah menjadi ${newStatus === 1 ? 'Dipublikasikan' : 'Draf'}.`;
+      }
+    } catch (err: any) {
+      console.error('Failed to toggle album:', err);
+    }
+  }
+}
+
+if (db) {
+  const d1 = getDb(db);
+  try {
+    const rawAlbums = await d1
+      .select({
+        id: schema.galleryAlbums.id,
+        titleId: schema.galleryAlbums.titleId,
+        titleJa: schema.galleryAlbums.titleJa,
+        slug: schema.galleryAlbums.slug,
+        eventDate: schema.galleryAlbums.eventDate,
+        isPublished: schema.galleryAlbums.isPublished,
+        createdAt: schema.galleryAlbums.createdAt,
+        coverUrl: schema.media.displayUrl,
+      })
+      .from(schema.galleryAlbums)
+      .leftJoin(schema.media, eq(schema.galleryAlbums.coverMediaId, schema.media.id))
+      .orderBy(desc(schema.galleryAlbums.createdAt));
+
+    const itemCounts = await d1
+      .select({
+        albumId: schema.galleryItems.albumId,
+        val: count(schema.galleryItems.id),
+      })
+      .from(schema.galleryItems)
+      .groupBy(schema.galleryItems.albumId);
+
+    const countMap = new Map(itemCounts.map((r) => [r.albumId, r.val]));
+
+    albumsList = rawAlbums.map((alb) => ({
+      ...alb,
+      itemCount: countMap.get(alb.id) || 0,
+    }));
+  } catch (err) {
+    console.error('Failed to query albums:', err);
+  }
+}
+---
+
+<AdminLayout title="Manajemen Galeri Dokumentasi" activeNav="gallery">
+  <div class="space-y-6">
+    
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-brand-border">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-2 text-xs font-heading font-bold text-brand-vermilion uppercase tracking-widest">
+          <span>ALBUM DOKUMENTASI</span>
+          <span class="text-brand-stone">/</span>
+          <span class="font-japanese text-brand-stone font-normal">活動アルバム一覧</span>
+        </div>
+        <h1 class="text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+          Album Foto Kegiatan & Pelepasan
+        </h1>
+        <p class="text-xs text-brand-slate font-body">
+          Kelola album kegiatan pelatihan, ujian sertifikasi, dan pelepasan siswa ke Jepang.
+        </p>
+      </div>
+
+      <a
+        href="/admin/gallery/new"
+        class="px-4 py-2.5 rounded bg-brand-charcoal hover:bg-brand-vermilion text-white text-xs font-heading font-bold tracking-wide transition-colors inline-flex items-center gap-2 shadow-sm shrink-0"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>Buat Album Baru</span>
+      </a>
+    </div>
+
+    <!-- Alert Notifications -->
+    {noticeMessage && (
+      <div class="p-4 rounded-md bg-green-50 border border-green-200 text-green-800 text-xs font-heading font-medium flex items-center justify-between">
+        <span>{noticeMessage}</span>
+      </div>
+    )}
+
+    {errorMessage && (
+      <div class="p-4 rounded-md bg-red-50 border border-red-200 text-red-700 text-xs font-heading font-medium flex items-center gap-2">
+        <svg class="w-4 h-4 shrink-0 text-brand-vermilion" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{errorMessage}</span>
+      </div>
+    )}
+
+    <!-- Table Container -->
+    <div class="rounded-xl bg-white border border-brand-border shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-brand-border bg-brand-sand/40 text-[11px] font-heading font-bold uppercase tracking-wider text-brand-stone">
+              <th class="py-3 px-6">Sampul & Judul Album</th>
+              <th class="py-3 px-4">Tanggal Kegiatan</th>
+              <th class="py-3 px-4">Jumlah Foto</th>
+              <th class="py-3 px-4">Status</th>
+              <th class="py-3 px-6 text-right">Tindakan</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-brand-border/60 text-xs font-heading">
+            {albumsList.length > 0 ? (
+              albumsList.map((album) => (
+                <tr class="hover:bg-brand-porcelain/60 transition-colors group">
+                  <td class="py-4 px-6 max-w-md">
+                    <div class="flex items-center gap-4">
+                      <div class="w-14 h-11 rounded bg-brand-sand overflow-hidden shrink-0 border border-brand-border">
+                        <img
+                          src={album.coverUrl || 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=300&q=80'}
+                          alt={album.titleId}
+                          class="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div class="space-y-0.5 min-w-0">
+                        <a
+                          href={`/admin/gallery/${album.id}/items`}
+                          class="font-bold text-brand-charcoal group-hover:text-brand-vermilion transition-colors block text-sm leading-snug truncate"
+                        >
+                          {album.titleId}
+                        </a>
+                        {album.titleJa && (
+                          <p class="text-[11px] font-japanese text-brand-stone truncate">
+                            {album.titleJa}
+                          </p>
+                        )}
+                        <p class="text-[10px] text-brand-stone font-mono">
+                          slug: /{album.slug}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td class="py-4 px-4 whitespace-nowrap text-brand-slate">
+                    {album.eventDate || '—'}
+                  </td>
+
+                  <td class="py-4 px-4 whitespace-nowrap text-brand-charcoal font-bold">
+                    <a
+                      href={`/admin/gallery/${album.id}/items`}
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-brand-sand hover:bg-brand-border transition-colors text-brand-charcoal"
+                    >
+                      <span>{album.itemCount} Foto</span>
+                      <span class="text-brand-vermilion">→</span>
+                    </a>
+                  </td>
+
+                  <td class="py-4 px-4 whitespace-nowrap">
+                    <span
+                      class={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                        album.isPublished === 1
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {album.isPublished === 1 ? 'Terbit' : 'Draf'}
+                    </span>
+                  </td>
+
+                  <td class="py-4 px-6 whitespace-nowrap text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <!-- Live Preview -->
+                      <a
+                        href={`/gallery/${album.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Pratinjau Publik"
+                        class="p-1.5 rounded text-brand-stone hover:text-brand-charcoal hover:bg-brand-sand transition-colors"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                      </a>
+
+                      <!-- Manage Photos button -->
+                      <a
+                        href={`/admin/gallery/${album.id}/items`}
+                        class="px-2.5 py-1.5 rounded bg-brand-charcoal text-white hover:bg-brand-vermilion font-semibold transition-colors"
+                      >
+                        Kelola Foto
+                      </a>
+
+                      <!-- Edit Info Button -->
+                      <a
+                        href={`/admin/gallery/${album.id}/edit`}
+                        class="px-2.5 py-1.5 rounded bg-brand-sand hover:bg-brand-border text-brand-charcoal font-semibold transition-colors"
+                      >
+                        Edit
+                      </a>
+
+                      <!-- Toggle Status Form -->
+                      <form method="POST" class="inline">
+                        <input type="hidden" name="_action" value="toggle" />
+                        <input type="hidden" name="albumId" value={album.id} />
+                        <button
+                          type="submit"
+                          class="px-2.5 py-1.5 rounded border border-brand-border hover:bg-brand-sand text-brand-slate transition-colors"
+                          title="Ubah Status Draf/Terbit"
+                        >
+                          {album.isPublished === 1 ? 'Tarik Draf' : 'Terbitkan'}
+                        </button>
+                      </form>
+
+                      <!-- Delete Form -->
+                      <form method="POST" onsubmit="return confirm('Hapus album ini beserta seluruh foto di dalamnya?');" class="inline">
+                        <input type="hidden" name="_action" value="delete" />
+                        <input type="hidden" name="albumId" value={album.id} />
+                        <button
+                          type="submit"
+                          class="p-1.5 rounded hover:bg-red-50 text-brand-stone hover:text-red-600 transition-colors"
+                          title="Hapus Album"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                          </svg>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colspan="5" class="py-12 text-center text-brand-stone">
+                  Belum ada album galeri yang dibuat. Klik tombol "Buat Album Baru" untuk menambahkan album dokumentasi.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</AdminLayout>
