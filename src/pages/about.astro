@@ -300,7 +300,11 @@ import { leadershipAndStaff, facilitiesData } from '../data/about';
                   <img
                     src={staff.image}
                     alt={staff.name}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    class={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${
+                      staff.image.includes('pimpinan.png')
+                        ? 'object-contain object-bottom pt-3 bg-gradient-to-b from-[#FAF8F5] to-[#EFECE4]'
+                        : 'object-cover'
+                    }`}
                     loading="lazy"
                   />
                   <div class="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded bg-black/75 text-[11px] font-heading font-semibold text-white">

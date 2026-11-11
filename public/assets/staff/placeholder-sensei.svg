@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" fill="none" class="w-full h-full">
+  <!-- Background Canvas -->
+  <rect width="400" height="500" fill="#F4F2EC"/>
+  
+  <!-- Subtle Japanese Geometric Grid -->
+  <defs>
+    <pattern id="tatami-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E5E1D8" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="500" fill="url(#tatami-grid)" opacity="0.6"/>
+
+  <!-- Ensō Circle / Zen Ring Accent -->
+  <circle cx="200" cy="205" r="105" stroke="#C41E3A" stroke-width="2.5" stroke-dasharray="16 6" opacity="0.35"/>
+  <circle cx="200" cy="205" r="95" fill="#E8E4DA" opacity="0.5"/>
+
+  <!-- Professional Portrait Silhouette -->
+  <!-- Head & Hair -->
+  <ellipse cx="200" cy="165" rx="42" ry="48" fill="#4A5568"/>
+  <circle cx="200" cy="160" r="38" fill="#2D3748"/>
+  <!-- Neck -->
+  <rect x="187" y="202" width="26" height="30" fill="#4A5568"/>
+  <!-- Shoulders / Torso with Japanese Kimono / Suit Collar -->
+  <path d="M125 310 C125 240, 160 225, 200 225 C240 225, 275 240, 275 310 Z" fill="#2D3748"/>
+  <!-- Collar V-Shape Accent -->
+  <path d="M185 226 L200 262 L215 226 Z" fill="#F4F2EC"/>
+  <path d="M192 238 L200 256 L208 238 Z" fill="#C41E3A"/>
+
+  <!-- Red Hanko Seal Stamp (講師 - Sensei / Instructor) -->
+  <g transform="translate(180, 335)">
+    <rect width="40" height="40" rx="6" fill="#C41E3A" opacity="0.9"/>
+    <rect x="2" y="2" width="36" height="36" rx="4" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.8"/>
+    <text x="20" y="26" font-family="'Hiragino Sans', 'Noto Serif JP', 'Yu Mincho', serif" font-size="18" font-weight="900" fill="#FFFFFF" text-anchor="middle">師</text>
+  </g>
+
+  <!-- Sensei Label -->
+  <text x="200" y="410" font-family="'Inter', 'Helvetica Neue', sans-serif" font-size="12" font-weight="800" letter-spacing="3" fill="#1B2A4A" text-anchor="middle">SAINDO INSTRUCTOR</text>
+  <text x="200" y="432" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" fill="#718096" text-anchor="middle">写真準備中 / Foto Profil Menyusul</text>
+</svg>
