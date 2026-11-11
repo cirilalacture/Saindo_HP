@@ -68,21 +68,97 @@ const advantages = isJa ? [
   <Container>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
       
-      <!-- Left Visual Card -->
+      <!-- Left Visual Card: Facility Photo Mosaic (4 Photos: Fasilitas 1, 2, 3 & Buku) -->
       <div class="lg:col-span-6 relative">
-        <div class="rounded-lg overflow-hidden border border-brand-border bg-white p-3 shadow-sm">
-          <div class="rounded aspect-[4/3] bg-brand-sand overflow-hidden relative group">
-            <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
-              alt="Fasilitas ruang kelas dan asrama LPK Saindo modern dan tertata rapi"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              loading="lazy"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
-              <span class="text-xs font-heading font-medium text-white tracking-wide">
-                Fasilitas Asrama & Ruang Pelatihan Berstandar Jepang
+        <div class="space-y-3 sm:space-y-4">
+          <!-- 2x2 Photo Mosaic Grid -->
+          <div class="grid grid-cols-2 gap-3 sm:gap-4">
+            
+            <!-- Photo 1: Fasilitas 1 (Ruang Kelas Utama) -->
+            <div class="group relative rounded-lg overflow-hidden border border-brand-border bg-white p-2 shadow-sm hover:shadow-md transition-shadow">
+              <div class="aspect-[4/3] rounded overflow-hidden bg-brand-sand relative">
+                <img
+                  src="/assets/facilities/fasilitas1.jpg"
+                  alt="Ruang kelas teori dan pelatihan bahasa Jepang LPK Saindo ber-AC dan nyaman"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex items-end p-2.5 sm:p-3">
+                  <span class="text-[11px] sm:text-xs font-heading font-semibold text-white tracking-wide leading-tight drop-shadow-sm">
+                    {isJa ? '座学・日本語講義室' : 'Ruang Kelas Teori Ber-AC'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 2: Buku / Modul (buku.jpg) -->
+            <div class="group relative rounded-lg overflow-hidden border border-brand-border bg-white p-2 shadow-sm hover:shadow-md transition-shadow">
+              <div class="aspect-[4/3] rounded overflow-hidden bg-brand-sand relative">
+                <img
+                  src="/assets/facilities/buku.jpg"
+                  alt="Koleksi buku panduan resmi Minna no Nihongo dan modul materi kurikulum LPK Saindo"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex items-end p-2.5 sm:p-3">
+                  <span class="text-[11px] sm:text-xs font-heading font-semibold text-white tracking-wide leading-tight drop-shadow-sm">
+                    {isJa ? '公式教材・文法テキスト' : 'Modul Kurikulum Resmi'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 3: Fasilitas 2 -->
+            <div class="group relative rounded-lg overflow-hidden border border-brand-border bg-white p-2 shadow-sm hover:shadow-md transition-shadow">
+              <div class="aspect-[4/3] rounded overflow-hidden bg-brand-sand relative">
+                <img
+                  src="/assets/facilities/fasilitas2.jpg"
+                  alt="Sarana pelatihan mandiri dan ruang bimbingan simulasi wawancara LPK Saindo"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex items-end p-2.5 sm:p-3">
+                  <span class="text-[11px] sm:text-xs font-heading font-semibold text-white tracking-wide leading-tight drop-shadow-sm">
+                    {isJa ? '自習・模擬面接スペース' : 'Sarana Belajar & Diskusi'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 4: Fasilitas 3 -->
+            <div class="group relative rounded-lg overflow-hidden border border-brand-border bg-white p-2 shadow-sm hover:shadow-md transition-shadow">
+              <div class="aspect-[4/3] rounded overflow-hidden bg-brand-sand relative">
+                <img
+                  src="/assets/facilities/fasilitas3.jpg"
+                  alt="Fasilitas kampus dan lingkungan belajar asrama LPK Saindo di Kedawung Sragen"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex items-end p-2.5 sm:p-3">
+                  <span class="text-[11px] sm:text-xs font-heading font-semibold text-white tracking-wide leading-tight drop-shadow-sm">
+                    {isJa ? '校舎・宿舎付帯施設' : 'Kampus & Asrama Sragen'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Summary Badge -->
+          <div class="p-3.5 sm:p-4 rounded-lg bg-white border border-brand-border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+              <span class="text-xs font-heading font-bold text-brand-charcoal">
+                {isJa ? '自社所有の教育施設・充実したオリジナル教材完備' : 'Fasilitas Kampus & Modul Resmi Berstandar Jepang di Sragen'}
               </span>
             </div>
+            <a
+              href={isJa ? '/ja/about#facilities' : '/about#facilities'}
+              class="text-xs font-heading font-semibold text-brand-vermilion hover:underline inline-flex items-center gap-1 shrink-0"
+            >
+              <span>{isJa ? '施設案内を見る' : 'Lihat Fasilitas Lengkap'}</span>
+              <span>↗</span>
+            </a>
           </div>
         </div>
       </div>
