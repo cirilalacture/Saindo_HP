@@ -141,6 +141,12 @@ if (!program) {
                 <h3 class="text-xl font-heading font-bold text-brand-charcoal">
                   貴社求人に合わせた選考・面接日程
                 </h3>
+                {program.pricingJa && (
+                  <div class="p-3 rounded bg-brand-sand border border-brand-border text-xs text-brand-charcoal font-heading">
+                    <span class="font-bold text-brand-vermilion block uppercase tracking-wider text-[11px] mb-0.5">費用体系：</span>
+                    <span>{program.pricingJa}</span>
+                  </div>
+                )}
                 <p class="text-xs text-brand-slate font-body leading-relaxed">
                   現地での対面面接またはオンライン面談の調整を迅速に行います。お気軽にご相談ください。
                 </p>
@@ -150,7 +156,7 @@ if (!program) {
                 <Button
                   variant="primary"
                   size="md"
-                  href={`https://wa.me/628123456789?text=LPK%20Saindo%E6%A7%98%E3%80%81${encodeURIComponent(program.titleJa)}%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%8F%E9%80%A3%E7%B5%A1%E3%81%84%E3%81%9F%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82`}
+                  href={`https://wa.me/6282221046007?text=LPK%20Saindo%E6%A7%98%E3%80%81${encodeURIComponent(program.titleJa)}%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%8F%E9%80%A3%E7%B5%A1%E3%81%84%E3%81%9F%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82`}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="w-full"
@@ -165,6 +171,12 @@ if (!program) {
                 >
                   お問い合わせフォームへ
                 </Button>
+              </div>
+
+              <div class="pt-4 border-t border-brand-border text-center">
+                <p class="text-[11px] text-brand-stone font-heading">
+                  ホットライン / WhatsApp: +62 822-2104-6007
+                </p>
               </div>
             </div>
           </div>

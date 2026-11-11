@@ -19,11 +19,12 @@ if (db) {
 
 const soLicense = settings.so_license_number || 'KEMNAKER RI No. 2/XXX/HK.01/2022';
 const vinNumber = settings.vin_number || '2209320401';
-const whatsapp = settings.whatsapp_number || '628123456789';
-const email = settings.contact_email || 'info@lpksaindo.com';
+const whatsapp = settings.whatsapp_number || '6282221046007';
+const email = settings.contact_email || 'saindopassionglobal@gmail.com';
+const emailAlt = 'saindo501@gmail.com';
 const address = currentLang === 'ja'
-  ? (settings.address_ja || settings.address_id || 'インドネシア西ジャワ州 職業訓練教育通り88号')
-  : (settings.address_id || 'Jl. Pendidikan Kejuruan No. 88, Jawa Barat, Indonesia');
+  ? (settings.address_ja || settings.address_id || 'Brambang RT 28, Wonokerso, Kedawung, Sragen, Jawa Tengah, Indonesia')
+  : (settings.address_id || 'Brambang RT 28, Wonokerso, Kedawung, Sragen, Jawa Tengah, Indonesia');
 const workingHours = currentLang === 'ja'
   ? (settings.working_hours_ja || '月曜日〜金曜日: 08:00〜17:00 (WIB)')
   : (settings.working_hours_id || 'Senin – Sabtu: 08:00 – 17:00 WIB');
@@ -84,9 +85,12 @@ const workingHours = currentLang === 'ja'
             <span class="text-brand-vermilion">WA:</span>
             <a href={`https://wa.me/${whatsapp}`} class="hover:text-white transition-colors">+{whatsapp}</a>
           </p>
-          <p class="flex items-center gap-2">
+          <p class="flex items-start gap-2">
             <span class="text-brand-vermilion">Email:</span>
-            <a href={`mailto:${email}`} class="hover:text-white transition-colors">{email}</a>
+            <span>
+              <a href={`mailto:${email}`} class="hover:text-white transition-colors block">{email}</a>
+              <a href={`mailto:${emailAlt}`} class="hover:text-white transition-colors block text-xs text-gray-400">{emailAlt}</a>
+            </span>
           </p>
           <p class="flex items-center gap-2">
             <span class="text-brand-vermilion">Jam:</span>

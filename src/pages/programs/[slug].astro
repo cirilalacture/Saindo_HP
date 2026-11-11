@@ -161,6 +161,12 @@ if (!program) {
                 <h3 class="text-xl font-heading font-bold text-brand-charcoal">
                   Mulai Langkah Menuju Jepang Hari Ini
                 </h3>
+                {program.pricing && (
+                  <div class="p-3 rounded bg-brand-sand border border-brand-border text-xs text-brand-charcoal font-heading">
+                    <span class="font-bold text-brand-vermilion block uppercase tracking-wider text-[11px] mb-0.5">Skema Pembiayaan:</span>
+                    <span>{program.pricing}</span>
+                  </div>
+                )}
                 <p class="text-xs text-brand-slate font-body leading-relaxed">
                   Konsultasikan jadwal seleksi terdekat dan tes minat bakat langsung bersama tim konselor LPK Saindo.
                 </p>
@@ -170,7 +176,7 @@ if (!program) {
                 <Button
                   variant="primary"
                   size="md"
-                  href={`https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20mendaftar%20program%20${encodeURIComponent(program.title)}`}
+                  href={`https://wa.me/6282221046007?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20mendaftar%20program%20${encodeURIComponent(program.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="w-full"
@@ -189,7 +195,7 @@ if (!program) {
 
               <div class="pt-4 border-t border-brand-border text-center">
                 <p class="text-[11px] text-brand-stone font-heading">
-                  Hotline Pendaftaran: +62 812-3456-7890
+                  Hotline & WhatsApp: +62 822-2104-6007
                 </p>
               </div>
             </div>

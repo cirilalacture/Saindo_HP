@@ -135,7 +135,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
           </div>
 
           <a
-            href="https://wa.me/628123456789?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20program%20pelatihan"
+            href="https://wa.me/6282221046007?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20program%20pelatihan"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center py-3.5 px-4 rounded bg-brand-vermilion text-white font-semibold text-sm tracking-wide shadow-sm hover:bg-brand-crimson transition-colors"

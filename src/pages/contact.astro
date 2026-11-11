@@ -16,16 +16,18 @@ if (db) {
   }
 }
 
-const address = settings.address_id || 'Jl. Pendidikan Kejuruan No. 88, Cibinong, Bogor, Jawa Barat 16911, Indonesia';
-const whatsapp = settings.whatsapp_number || '628123456789';
-const email = settings.contact_email || 'info@lpksaindo.com';
+const address = settings.address_id || 'Brambang RT 28, Wonokerso, Kedawung, Sragen, Jawa Tengah, Indonesia';
+const whatsapp = settings.whatsapp_number || '6282221046007';
+const email = settings.contact_email || 'saindopassionglobal@gmail.com';
+const emailAlt = 'saindo501@gmail.com';
 const workingHours = settings.working_hours_id || 'Senin — Sabtu: 08.00 – 17.00 WIB';
-const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126844.06348658826!2d106.77253455!3d-6.537234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5e31706b865%3A0x6b8769389e600570!2sBogor%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid';
+const mapsUrl = settings.maps_embed_url || 'https://maps.google.com/maps?q=Brambang+Wonokerso+Kedawung+Sragen&t=&z=15&ie=UTF8&iwloc=&output=embed';
+const mapsDirectLink = 'https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9';
 ---
 
 <MainLayout
-  title="Hubungi Kami & Lokasi — LPK Saindo"
-  description="Alamat kantor resmi dan pusat pelatihan LPK Saindo. Hubungi konselor kami melalui WhatsApp, email, atau kunjungi langsung kampus kami."
+  title="Hubungi Kami & Lokasi — LPK Saindo (Saindo Passion Global)"
+  description="Alamat resmi kampus LPK Saindo di Sragen, Jawa Tengah. Hubungi kami melalui WhatsApp +62 822 210 460 07 atau kunjungi langsung pusat pelatihan kami."
   lang="id"
 >
   <Navbar currentLang="id" />
@@ -44,7 +46,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
             Konsultasikan Impian Kariermu Bersama Tim LPK Saindo.
           </h1>
           <p class="text-lg text-brand-slate font-body leading-relaxed">
-            Kami siap melayani pertanyaan mengenai persyaratan pendaftaran, jadwal tes seleksi, rincian biaya transparan, serta kerja sama kelembagaan.
+            Kami siap melayani konsultasi pendaftaran 4 jenjang kelas, program Tokutei Ginou (SSW), Engineer / Gijinkoku, serta Matching Job mandiri dengan skema biaya transparan.
           </p>
         </div>
       </Container>
@@ -62,7 +64,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                 INFORMASI KANTOR PUSAT
               </span>
               <h2 class="text-2xl sm:text-3xl font-heading font-bold text-brand-charcoal">
-                Pusat Pelatihan & Asrama Saindo
+                Kampus LPK Saindo di Sragen
               </h2>
             </div>
 
@@ -75,9 +77,14 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                   </svg>
                 </div>
                 <div>
-                  <h3 class="font-heading font-bold text-base text-brand-charcoal">Alamat Kampus:</h3>
+                  <h3 class="font-heading font-bold text-base text-brand-charcoal">Alamat Lengkap:</h3>
                   <p class="mt-1 leading-relaxed">
                     {address}
+                  </p>
+                  <p class="mt-1">
+                    <a href={mapsDirectLink} target="_blank" rel="noopener noreferrer" class="text-xs font-heading font-semibold text-brand-vermilion hover:underline">
+                      Buka Google Maps →
+                    </a>
                   </p>
                 </div>
               </div>
@@ -89,11 +96,11 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                   </svg>
                 </div>
                 <div>
-                  <h3 class="font-heading font-bold text-base text-brand-charcoal">WhatsApp & Hotline:</h3>
+                  <h3 class="font-heading font-bold text-base text-brand-charcoal">WhatsApp & Telepon:</h3>
                   <p class="mt-1 leading-relaxed">
                     <a href={`https://wa.me/${whatsapp}`} class="text-brand-charcoal font-semibold hover:text-brand-vermilion">
                       +{whatsapp}
-                    </a> (Fast Response)
+                    </a> (Hotline Resmi)
                   </p>
                 </div>
               </div>
@@ -111,6 +118,11 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                       {email}
                     </a>
                   </p>
+                  <p class="mt-0.5 leading-relaxed">
+                    <a href={`mailto:${emailAlt}`} class="text-brand-charcoal font-semibold hover:text-brand-vermilion">
+                      {emailAlt}
+                    </a>
+                  </p>
                 </div>
               </div>
 
@@ -121,7 +133,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                   </svg>
                 </div>
                 <div>
-                  <h3 class="font-heading font-bold text-base text-brand-charcoal">Jam Operasional:</h3>
+                  <h3 class="font-heading font-bold text-base text-brand-charcoal">Jam Pelayanan:</h3>
                   <p class="mt-1 leading-relaxed">
                     {workingHours}
                   </p>
@@ -140,12 +152,12 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
               <Button
                 variant="primary"
                 size="md"
-                href={`https://wa.me/${whatsapp}?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20langsung`}
+                href={`https://wa.me/${whatsapp}?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20langsung%20program%20ke%20Jepang`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full"
               >
-                Chat WhatsApp Sekarang
+                Chat WhatsApp Sekarang (+{whatsapp})
               </Button>
             </div>
           </div>
@@ -157,12 +169,13 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                 Kirim Pesan atau Jadwalkan Kunjungan
               </h3>
               <p class="text-sm font-body text-brand-slate">
-                Silakan lengkapi formulir di bawah ini. Tim kami akan menghubungi Anda dalam waktu 1x24 jam kerja.
+                Silakan lengkapi formulir di bawah ini untuk terhubung langsung dengan tim pendaftaran LPK Saindo di WhatsApp.
               </p>
             </div>
 
             <form
-              action="https://wa.me/628123456789"
+              id="consultForm"
+              action={`https://wa.me/${whatsapp}`}
               method="GET"
               target="_blank"
               class="space-y-5"
@@ -191,7 +204,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                     id="phone"
                     name="phone"
                     required
-                    placeholder="08123456789"
+                    placeholder="Contoh: 082221046007"
                     class="w-full px-4 py-3 rounded border border-brand-border bg-brand-porcelain text-sm font-body text-brand-charcoal focus:bg-white focus:outline-none focus:border-brand-charcoal transition-colors"
                   />
                 </div>
@@ -204,10 +217,12 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                     name="program"
                     class="w-full px-4 py-3 rounded border border-brand-border bg-brand-porcelain text-sm font-body text-brand-charcoal focus:bg-white focus:outline-none focus:border-brand-charcoal transition-colors"
                   >
-                    <option value="Bahasa Jepang Intensif (N5-N3)">Kursus Bahasa Jepang Intensif</option>
-                    <option value="Tokutei Ginou SSW">Specified Skilled Worker (SSW)</option>
-                    <option value="Pemagangan Industri (Ginou Jisshuusei)">Pemagangan Industri (Magang)</option>
-                    <option value="Belum Tahu / Konsultasi Minat">Belum Tahu (Butuh Konsultasi)</option>
+                    <option value="Tokutei Ginou (SSW)">Program Tokutei Ginou (SSW)</option>
+                    <option value="Engineer / Gijinkoku">Program Engineer / Gijinkoku (D3/S1)</option>
+                    <option value="Pendidikan 4 Kelas dari Nol (Rp 10 Jt)">Pendidikan dari Nol s/d Matching (Rp 10 Jt)</option>
+                    <option value="Masuk Kelas SSW / Matching - Punya JFT (Rp 5 Jt)">Masuk Kelas SSW/Matching (Sudah Ada JFT - Rp 5 Jt)</option>
+                    <option value="Matching Job Mandiri (Rp 28 Jt - Include Visa & Tiket)">Matching Job Siswa Mandiri (Rp 28 Jt)</option>
+                    <option value="Konsultasi Pemilihan Program">Belum Tahu (Butuh Konsultasi)</option>
                   </select>
                 </div>
               </div>
@@ -221,7 +236,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                   name="message"
                   rows="4"
                   required
-                  placeholder="Tuliskan pertanyaan Anda mengenai biaya, persyaratan, atau jadwal kelas..."
+                  placeholder="Tuliskan pertanyaan Anda mengenai jadwal kelas, persyaratan berkas, atau skema pembayaran..."
                   class="w-full px-4 py-3 rounded border border-brand-border bg-brand-porcelain text-sm font-body text-brand-charcoal focus:bg-white focus:outline-none focus:border-brand-charcoal transition-colors resize-none"
                 ></textarea>
               </div>
@@ -232,7 +247,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
                 size="lg"
                 class="w-full"
               >
-                Kirim Formulir Konsultasi
+                Kirim via WhatsApp (+{whatsapp})
               </Button>
             </form>
           </div>
@@ -244,18 +259,33 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
     <!-- Embedded Map Section -->
     <section class="py-16 bg-brand-porcelain border-b border-brand-border">
       <Container>
-        <div class="space-y-4 mb-6">
-          <span class="text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
-            LOKASI KAMPUS
-          </span>
-          <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
-            Petunjuk Arah Menuju Kampus LPK Saindo
-          </h2>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div class="space-y-1">
+            <span class="text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+              LOKASI KAMPUS
+            </span>
+            <h2 class="text-2xl font-heading font-bold text-brand-charcoal">
+              Petunjuk Arah Menuju Kampus LPK Saindo di Sragen
+            </h2>
+            <p class="text-xs text-brand-slate font-body">
+              {address}
+            </p>
+          </div>
+          <div>
+            <a
+              href={mapsDirectLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center px-4 py-2.5 rounded bg-brand-charcoal text-white text-xs font-heading font-semibold hover:bg-brand-vermilion transition-colors"
+            >
+              Buka di Google Maps App ↗
+            </a>
+          </div>
         </div>
 
         <div class="rounded-lg overflow-hidden border border-brand-border bg-brand-sand aspect-[21/9] min-h-[350px] shadow-sm relative">
           <iframe
-            title="Peta Lokasi Kampus LPK Saindo"
+            title="Peta Lokasi Kampus LPK Saindo Sragen"
             src={mapsUrl}
             width="100%"
             height="100%"
@@ -263,7 +293,7 @@ const mapsUrl = settings.maps_embed_url || 'https://www.google.com/maps/embed?pb
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            class="w-full h-full grayscale-[25%] contrast-[1.05]"
+            class="w-full h-full grayscale-[15%] contrast-[1.05]"
           ></iframe>
         </div>
       </Container>

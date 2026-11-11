@@ -12,48 +12,60 @@ const isJa = currentLang === 'ja';
 
 const programs = [
   {
-    badge: 'n4',
-    badgeText: isJa ? '日本語教育' : 'Bahasa Jepang',
-    title: isJa ? 'JLPT・JFT-Basic 集中講座' : 'Kursus Intensif JLPT & JFT-Basic',
-    titleJa: '日本語集中研修',
-    description: isJa
-      ? 'ひらがな・カタカナの基礎から、JLPT N4/N3およびJFT-Basic A2の合格を最短で目指す集中カリキュラム。'
-      : 'Pembelajaran akselerasi dari dasar hingga target JLPT N4/N3 dan JFT-Basic A2 dengan simulasi ujian teratur dan latihan kaiwa harian.',
-    specs: isJa ? ['期間：3〜4ヶ月', '対象：JLPT N4 / N3', '模擬試験毎週実施'] : ['Durasi: 3–4 Bulan', 'Target: N4 / N3 / JFT A2', 'Simulasi Ujian Mingguan'],
-    slug: '/programs/bahasa-jepang',
-  },
-  {
     badge: 'ssw',
     badgeText: isJa ? '特定技能' : 'Tokutei Ginou',
-    title: isJa ? '特定技能（SSW）専門訓練' : 'Specified Skilled Worker (SSW)',
+    title: isJa ? '特定技能（SSW）就労プログラム' : 'Program Tokutei Ginou (SSW)',
     titleJa: '特定技能1号',
     description: isJa
-      ? '外食業・飲食料品製造・農業・介護など、人手不足分野の即戦力として必要な専門知識と実技を習得。'
-      : 'Pelatihan keahlian kerja spesifik: Pengolahan Makanan, Pertanian, Perhotelan, dan Kaigo (Perawat Lansia) dengan kontrak kerja resmi.',
-    specs: isJa ? ['対象分野：食品・介護・農業', '給与：日本企業規定', '最長5年就業'] : ['Bidang: Makanan, Kaigo, Tani', 'Gaji Standar UMR Jepang', 'Kontrak Kerja Resmi'],
-    slug: '/programs/tokutei-ginou',
-  },
-  {
-    badge: 'magang',
-    badgeText: isJa ? '技能実習' : 'Ginou Jisshuusei',
-    title: isJa ? '技能実習生プログラム' : 'Program Pemagangan Industri',
-    titleJa: '外国人技能実習制度',
-    description: isJa
-      ? '日本の製造業・建設・機械加工現場での3〜5年間の実習を通じて、高度な日本の産業技術を習得。'
-      : 'Program magang kerja 3–5 tahun di perusahaan manufaktur, konstruksi, dan otomotif terkemuka di berbagai prefektur Jepang.',
-    specs: isJa ? ['実習期間：3〜5年間', '全国優良企業へ配属', '帰国後キャリア支援'] : ['Durasi: 3–5 Tahun', 'Penempatan Seluruh Jepang', 'Sertifikat JITCO/OTIT'],
-    slug: '/programs/magang-jepang',
+      ? '飲食料品製造・介護・農業など人手不足分野の即戦力として、4段階の集中対策を経て日本全国の企業へ就職。'
+      : 'Program kerja berketerampilan khusus ke Jepang berpenghasilan standar UMR dengan 4 jenjang kelas terarah dan matching kerja.',
+    pricingBadge: isJa ? 'マッチング 3,100万ルピア (航空券込)' : 'Matching Rp 31 Jt (Inc. Visa & Tiket)',
+    specs: isJa
+      ? ['4段階クラス完全対応', '給与：日本企業規定 (18〜24万円)', '査証・航空券手配込み']
+      : ['Tersedia 4 Kelas Terpadu', 'Gaji Standar UMR Jepang', 'Include Visa & Tiket Pesawat'],
+    slug: isJa ? '/ja/programs/tokutei-ginou' : '/programs/tokutei-ginou',
   },
   {
     badge: 'neutral',
-    badgeText: isJa ? '面接・マナー' : 'Simulasi Seleksi',
-    title: isJa ? '採用面接指導・ビジネスマナー' : 'Bimbingan Wawancara & Etika Kerja',
-    titleJa: '面接対策・報連相',
+    badgeText: isJa ? '技人国ビザ' : 'Engineer / Gijinkoku',
+    title: isJa ? 'エンジニア・総合職プログラム' : 'Program Engineer / Gijinkoku',
+    titleJa: '技術・人文知識・国際業務',
     description: isJa
-      ? '日本企業の採用担当者とのオンライン・対面面接対策、履歴書（Rirekisho）添削、および報連相の実践指導。'
-      : 'Mentoring langsung menghadapi pewawancara native Jepang (Menseki), penulisan berkas riwayat hidup (Rirekisho), dan etika kerja 5S.',
-    specs: isJa ? ['模擬面接実施', '履歴書作成添削', '現場マナー徹底'] : ['Simulasi Wawancara Native', 'Pembuatan Rirekisho', 'Etika 5S & Horenso'],
-    slug: '/programs/simulasi-wawancara',
+      ? 'インドネシアのD3/S1大学卒業生を対象に、正社員エンジニア・総合職としての就職とビジネス日本語を全面支援。'
+      : 'Jalur karier profesional berstatus visa Gijinkoku untuk lulusan D3 / S1 dengan gaji kompetitif dan peluang karier tanpa batas.',
+    pricingBadge: isJa ? '大卒・高専卒向け特化' : 'Khusus Lulusan D3 / S1',
+    specs: isJa
+      ? ['対象：理工系・文系大卒', '高給与水準 (20〜35万円〜)', '家族帯同ビザ申請可能']
+      : ['Pendidikan D3 / S1', 'Gaji Profesional Industri', 'Bisa Membawa Keluarga'],
+    slug: isJa ? '/ja/programs/engineer-gijinkoku' : '/programs/engineer-gijinkoku',
+  },
+  {
+    badge: 'neutral',
+    badgeText: isJa ? '就労マッチング' : 'Matching Job',
+    title: isJa ? 'マッチングジョブ（外部有資格者歓迎）' : 'Program Matching Job (Siswa Mandiri & Saindo)',
+    titleJa: '面接・求人紹介',
+    description: isJa
+      ? 'JFTおよび特定技能試験合格者を対象に、優良受入企業との面接を直結手配。ビザと航空券込みの明朗会計。'
+      : 'Wawancara langsung dengan user perusahaan Jepang bagi siswa Saindo maupun siswa luar/mandiri yang sudah memiliki JFT & SSW.',
+    pricingBadge: isJa ? '外部 2,800万 / 在校生 3,100万' : 'Luar Rp 28 Jt / Saindo Rp 31 Jt',
+    specs: isJa
+      ? ['条件：JFT & 特定技能合格', '外部有資格者: 2,800万ルピア', '査証・渡航航空券込み']
+      : ['Syarat: Lulus JFT & SSW', 'Siswa Luar: Rp 28 Juta', 'Include Visa & Tiket Pesawat'],
+    slug: isJa ? '/ja/programs/matching-job' : '/programs/matching-job',
+  },
+  {
+    badge: 'n4',
+    badgeText: isJa ? '4段階研修' : '4 Kelas Pelatihan',
+    title: isJa ? '4段階日本語・特定技能養成コース' : '4 Jenjang Kelas Pelatihan & Ujian',
+    titleJa: '基礎〜面接特訓',
+    description: isJa
+      ? 'ゼロからの初心者クラス、JFT対策、特定技能試験対策、面接直前カイワまで、実力に合わせてステップ受講可能。'
+      : 'Kelas Pemula (dari 0), Kelas JFT, Kelas SSW, dan Kelas Persiapan Matching / Kaiwa. Fleksibel dari nol atau kelas lanjutan.',
+    pricingBadge: isJa ? 'ゼロから 1,000万 / 途中 500万' : 'Dari 0: Rp 10 Jt / SSW: Rp 5 Jt',
+    specs: isJa
+      ? ['日本人ネイティブ講師指導', 'ゼロから受講: 1,000万ルピア', 'JFT保持者受講: 500万ルピア']
+      : ['Native Speaker Asli Jepang', 'Dari 0 s/d Matching: Rp 10 Jt', 'Masuk Kelas SSW/Kaiwa: Rp 5 Jt'],
+    slug: isJa ? '/ja/programs/bahasa-jepang' : '/programs/bahasa-jepang',
   },
 ];
 ---
@@ -63,10 +75,10 @@ const programs = [
     
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
       <SectionHeader
-        tagline={isJa ? '研修プログラム' : 'PROGRAM PELATIHAN'}
+        tagline={isJa ? '研修・就労プログラム' : 'PROGRAM KEAHLIAN & KELAS'}
         taglineJa={isJa ? 'PROGRAMS' : '研修プログラム'}
-        title={isJa ? '目的に合わせた最適な就労・研修ルート。' : 'Pilih Jalur Keberangkatan Sesuai Minat & Kariermu.'}
-        description={isJa ? '日本の受入基準と公式資格試験に完全準拠した実践的なカリキュラムを提供しています。' : 'Kurikulum terstruktur yang disesuaikan langsung dengan syarat kelulusan sertifikasi resmi dan standar industri di Jepang.'}
+        title={isJa ? '目的に合わせた最適な就労・研修ルート。' : 'Pilih Jalur Keberangkatan Sesuai Target & Jenjang Pendidikan.'}
+        description={isJa ? 'LPK Saindoは特定技能（SSW）と技人国（エンジニア）に特化し、透明な費用体系と手厚いサポートを提供しています。' : 'LPK Saindo berfokus pada program Tokutei Ginou (SSW) dan Engineer / Gijinkoku dengan skema pembiayaan transparan tanpa biaya tersembunyi.'}
       />
       <div>
         <a
@@ -91,6 +103,11 @@ const programs = [
             <h3 class="text-xl font-heading font-bold text-brand-charcoal leading-snug group-hover:text-brand-vermilion transition-colors">
               {item.title}
             </h3>
+
+            <!-- Transparent Price Pill -->
+            <div class="inline-block px-2.5 py-1 rounded bg-brand-sand border border-brand-border text-[11px] font-heading font-bold text-brand-vermilion">
+              {item.pricingBadge}
+            </div>
 
             <p class="text-sm font-body text-brand-slate leading-relaxed">
               {item.description}
@@ -117,6 +134,33 @@ const programs = [
           </div>
         </div>
       ))}
+    </div>
+
+    <!-- Transparent Pricing Overview Banner -->
+    <div class="mt-14 p-6 sm:p-8 rounded-xl bg-brand-porcelain border border-brand-border">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div class="space-y-2 max-w-2xl">
+          <span class="text-xs font-heading font-bold uppercase tracking-wider text-brand-vermilion">
+            {isJa ? '透明性の高い費用体系' : 'Rincian Biaya Transparan Tanpa Potongan Tersembunyi'}
+          </span>
+          <h4 class="text-xl sm:text-2xl font-heading font-bold text-brand-charcoal">
+            {isJa ? 'ビザ申請・日本行き航空券込みの明確な料金設定' : 'Komitmen Kejujuran Pembiayaan LPK Saindo'}
+          </h4>
+          <p class="text-xs sm:text-sm text-brand-slate font-body leading-relaxed">
+            {isJa
+              ? 'ゼロからの教育費用は1,000万ルピア（途中参加は500万ルピア）。マッチング費用はビザ申請費用および日本行き航空券を含み、Saindo修了生3,100万ルピア、外部有資格者2,800万ルピアです。'
+              : 'Pendidikan dari 0 hingga persiapan matching: Rp 10 Juta (atau Rp 5 Juta jika masuk dari kelas SSW/sudah ada JFT). Matching Job bagi siswa Saindo: Rp 31 Juta, dan siswa mandiri/luar: Rp 28 Juta. Seluruh paket Matching Job SUDAH INCLUDE Visa & Tiket Pesawat ke Jepang.'}
+          </p>
+        </div>
+        <div class="shrink-0">
+          <a
+            href={isJa ? '/ja/contact' : '/contact'}
+            class="inline-flex items-center px-5 py-3 rounded bg-brand-charcoal text-white font-heading font-semibold text-xs tracking-wider uppercase hover:bg-brand-vermilion transition-colors shadow-sm"
+          >
+            {isJa ? '費用と手続きについて相談する' : 'Konsultasi Rincian Biaya'} →
+          </a>
+        </div>
+      </div>
     </div>
 
   </Container>
