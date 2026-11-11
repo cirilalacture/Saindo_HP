@@ -27,15 +27,6 @@ export const leadershipAndStaff: StaffProfile[] = [
     experience: 'Founder & Pimpinan',
   },
   {
-    name: 'Jodi sensei',
-    role: 'Penanggung Jawab Pendidikan & Staf IT',
-    roleJa: '教務統括責任者・IT担当専任教員',
-    bio: 'Penanggung jawab kurikulum dan sistem IT pendidikan di LPK Saindo. Berbekal pengalaman 7 tahun menempuh pendidikan di Nihongo Gakko serta bekerja secara profesional di Jepang.',
-    bioJa: '日本国内での日本語学校修学および7年間の実務経験を活かし、LPK Saindoの教育カリキュラム統括とデジタルICT学習環境の構築を担当。',
-    image: '/assets/staff/placeholder-sensei.svg',
-    experience: '7 Thn di Jepang (Gakko & Kerja)',
-  },
-  {
     name: 'Tomita sensei (富田先生)',
     role: 'Staf Native & Instruktur Kelas Matching Job',
     roleJa: '日本人ネイティブ講師・マッチング対策主任',
@@ -88,6 +79,15 @@ export const leadershipAndStaff: StaffProfile[] = [
     bioJa: '入学願書の受付、査証・在留資格申請書類の点検管理、外部受入企業・広報窓口業務を正確かつ迅速に対応。',
     image: '/assets/staff/placeholder-sensei.svg',
     experience: 'Tim Manajemen & Admisi',
+  },
+  {
+    name: 'Jodi sensei',
+    role: 'Penanggung Jawab Pendidikan & Staf IT',
+    roleJa: '教務統括責任者・IT担当専任教員',
+    bio: 'Penanggung jawab kurikulum dan sistem IT pendidikan di LPK Saindo. Berbekal pengalaman 7 tahun menempuh pendidikan di Nihongo Gakko serta bekerja secara profesional di Jepang.',
+    bioJa: '日本国内での日本語学校修学および7年間の実務経験を活かし、LPK Saindoの教育カリキュラム統括とデジタルICT学習環境の構築を担当。',
+    image: '/assets/staff/placeholder-sensei.svg',
+    experience: '7 Thn di Jepang (Gakko & Kerja)',
   },
 ];
 
