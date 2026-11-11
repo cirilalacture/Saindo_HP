@@ -21,7 +21,10 @@ const whatsapp = settings.whatsapp_number || '6282221046007';
 const email = settings.contact_email || 'saindopassionglobal@gmail.com';
 const emailAlt = 'saindo501@gmail.com';
 const workingHours = settings.working_hours_id || 'Senin — Sabtu: 08.00 – 17.00 WIB';
-const mapsUrl = settings.maps_embed_url || 'https://maps.google.com/maps?q=Brambang+Wonokerso+Kedawung+Sragen&t=&z=15&ie=UTF8&iwloc=&output=embed';
+const defaultEmbedUrl = 'https://maps.google.com/maps?q=LPK+SAINDO,+Wonokerso,+Kedawung,+Sragen&hl=id&z=16&output=embed';
+const mapsUrl = (settings.maps_embed_url && !settings.maps_embed_url.includes('maps.app.goo.gl') && !settings.maps_embed_url.includes('goo.gl'))
+  ? settings.maps_embed_url
+  : defaultEmbedUrl;
 const mapsDirectLink = 'https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9';
 ---
 
@@ -293,7 +296,7 @@ const mapsDirectLink = 'https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9';
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            class="w-full h-full grayscale-[15%] contrast-[1.05]"
+            class="w-full h-full"
           ></iframe>
         </div>
       </Container>

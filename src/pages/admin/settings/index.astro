@@ -306,10 +306,13 @@ if (db) {
               id="maps_embed_url"
               name="maps_embed_url"
               type="url"
-              placeholder="https://maps.google.com/maps?q=..."
-              value={settings.maps_embed_url || 'https://maps.google.com/maps?q=Brambang+Wonokerso+Kedawung+Sragen&t=&z=15&ie=UTF8&iwloc=&output=embed'}
+              placeholder="https://maps.google.com/maps?q=...&output=embed"
+              value={settings.maps_embed_url || 'https://maps.google.com/maps?q=LPK+SAINDO,+Wonokerso,+Kedawung,+Sragen&hl=id&z=16&output=embed'}
               class="w-full px-3.5 py-2 rounded border border-brand-border text-xs text-brand-charcoal font-mono bg-white focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
             />
+            <p class="text-[11px] text-brand-stone font-body">
+              Gunakan URL embed Google Maps resmi (berisi <code class="text-brand-charcoal">output=embed</code>). Jangan gunakan tautan pendek <code class="text-brand-charcoal">maps.app.goo.gl</code> karena diblokir oleh sistem keamanan Google di dalam iframe.
+            </p>
           </div>
         </div>
       </div>

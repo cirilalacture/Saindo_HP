@@ -91,7 +91,7 @@ INSERT OR REPLACE INTO settings (key, value, updated_at) VALUES
 ('working_hours_ja', '月曜日〜金曜日: 08:00〜17:00 (WIB) / 日本時間 10:00〜19:00', datetime('now')),
 ('address_id', 'Brambang RT 28, Wonokerso, Kedawung, Sragen, Jawa Tengah, Indonesia', datetime('now')),
 ('address_ja', 'インドネシア 中部ジャワ州 スラゲン県 ケダウン ウォノケルソ ブランバン RT 28', datetime('now')),
-('maps_embed_url', 'https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9', datetime('now')),
+('maps_embed_url', 'https://maps.google.com/maps?q=LPK+SAINDO,+Wonokerso,+Kedawung,+Sragen&hl=id&z=16&output=embed', datetime('now')),
 ('established_year', '2024', datetime('now')),
 ('vision_id', 'Menjadikan LPK Sukses Abadi Indonesia lembaga pendidikan dan pelatihan kerja yang berkualitas, bertanggung jawab dan terpercaya', datetime('now')),
 ('vision_ja', 'LPKスクセス・アバディ・インドネシアを、高品質で責任感があり、信頼される教育・職業訓練機関とすること', datetime('now')),
