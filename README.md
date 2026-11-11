@@ -8,7 +8,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Status](https://img.shields.io/badge/Deployment-Live-success.svg)](https://saindohp.cirilalacture.workers.dev)
 
-Website resmi berstandar korporat Jepang untuk **LPK Saindo** (Lembaga Pelatihan Kerja Resmi ke Jepang berizin SO & Kemnaker RI). Dibangun dengan arsitektur fullstack **Astro 5 SSR** di atas jaringan edge global **Cloudflare Workers** dan database serverless **Cloudflare D1**.
+Website resmi berstandar korporat Jepang untuk **LPK Sukses Abadi Indonesia (Saindo Passion Global)** yang berlokasi di Sragen, Jawa Tengah (berdiri sejak tahun 2024). Spesialis program **Tokutei Ginou (SSW)** dan **Engineer / Gijinkoku** dengan 4 jenjang kelas terstruktur serta program Matching Job transparan (include visa & tiket pesawat). Dibangun dengan arsitektur fullstack **Astro 5 SSR** di atas jaringan edge global **Cloudflare Workers** dan database serverless **Cloudflare D1**.
 
 ---
 
