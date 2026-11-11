@@ -10,27 +10,173 @@ import { leadershipAndStaff, facilitiesData } from '../data/about';
 
 <MainLayout
   title="Tentang Kami — LPK Sukses Abadi Indonesia (Saindo Passion Global)"
-  description="Profil resmi LPK Saindo di Sragen: berdiri sejak tahun 2024, spesialis program Tokutei Ginou (SSW) dan Engineer/Gijinkoku dengan 5 keunggulan lembaga dan instruktur native speaker."
+  description="Profil resmi LPK Saindo di Sragen: berdiri sejak tahun 2024, sambutan pemilik LPK Fatmanita Rochmadani, spesialis program Tokutei Ginou (SSW) dan Engineer/Gijinkoku dengan 5 keunggulan lembaga."
   lang="id"
 >
   <Navbar currentLang="id" />
 
   <main>
-    <!-- Header Banner -->
+    <!-- Header Banner with Proper Hero Photo -->
     <section class="py-16 md:py-24 bg-[#FAFAF8] border-b border-brand-border">
       <Container>
-        <div class="max-w-3xl space-y-4">
-          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
-            <span>PROFIL RESMI</span>
-            <span class="text-brand-stone">/</span>
-            <span class="font-japanese text-brand-stone">私たちについて</span>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          <!-- Left Column: Header Description -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+              <span>PROFIL RESMI LEMBAGA</span>
+              <span class="text-brand-stone">/</span>
+              <span class="font-japanese text-brand-stone">私たちについて</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-[1.15]">
+              Membangun Jembatan Menuju Standar Unggul Karier di Jepang.
+            </h1>
+
+            <p class="text-base sm:text-lg text-brand-slate font-body leading-relaxed">
+              <strong>LPK Sukses Abadi Indonesia (Saindo Passion Global)</strong> didirikan pada tahun 2024 di Sragen, Jawa Tengah. Kami mendedikasikan diri menyelenggarakan pelatihan kerja dan bimbingan bahasa Jepang intensif berstandar tinggi demi mengantarkan generasi muda menggapai kemandirian masa depan.
+            </p>
+
+            <div class="pt-2 flex flex-wrap items-center gap-3 text-xs font-heading text-brand-slate">
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-brand-sand border border-brand-border">
+                <span class="w-2 h-2 rounded-full bg-brand-vermilion"></span>
+                <span class="font-bold text-brand-charcoal">Sragen, Jawa Tengah</span>
+              </div>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-brand-sand border border-brand-border">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span class="font-bold text-brand-charcoal">Berdiri Sejak 2024</span>
+              </div>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-brand-sand border border-brand-border">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span class="font-bold text-brand-charcoal">Tokutei Ginou & Gijinkoku</span>
+              </div>
+            </div>
           </div>
-          <h1 class="text-4xl sm:text-5xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
-            LPK Sukses Abadi Indonesia (Saindo Passion Global).
-          </h1>
-          <p class="text-lg text-brand-slate font-body leading-relaxed">
-            Berdiri sejak tahun 2024 di Sragen, Jawa Tengah, LPK Saindo berdedikasi menyelenggarakan pendidikan dan pelatihan kerja berkualitas tinggi untuk menyiapkan generasi muda Indonesia yang berkarakter, beretika mulia, dan siap bersaing di pasar kerja Jepang.
-          </p>
+
+          <!-- Right Column: Proper Framed Hero Photo -->
+          <div class="lg:col-span-6">
+            <div class="relative rounded-xl overflow-hidden border border-brand-border bg-white p-3.5 shadow-md">
+              <div class="aspect-[16/11] rounded-lg overflow-hidden bg-brand-sand relative group">
+                <img
+                  src="/assets/hero/hero.jpg"
+                  alt="Keluarga Besar Siswa dan Instruktur LPK Saindo di Sragen"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="eager"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent flex items-end p-6">
+                  <div class="text-white space-y-1">
+                    <span class="inline-block text-[11px] font-heading font-semibold uppercase tracking-wider text-brand-sand bg-black/40 px-2.5 py-0.5 rounded border border-white/10">
+                      Kampus LPK Saindo
+                    </span>
+                    <p class="text-sm font-heading font-bold text-white">
+                      Keluarga Besar Siswa & Tenaga Pendidik LPK Saindo Sragen
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="px-2 pt-3 pb-1 flex items-center justify-between text-[11px] text-brand-stone font-heading">
+                <span>📍 Brambang RT 28, Kedawung, Sragen</span>
+                <span>Angkatan 2024–2026</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </Container>
+    </section>
+
+    <!-- Section Sambutan Pemilik LPK (Fatmanita Rochmadani) -->
+    <section class="py-20 md:py-28 bg-brand-porcelain border-b border-brand-border overflow-hidden">
+      <Container>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          <!-- Left Column: Owner Photo Card -->
+          <div class="lg:col-span-5 relative">
+            <div class="relative rounded-2xl bg-gradient-to-b from-brand-sand/80 to-brand-sand/30 border border-brand-border p-6 sm:p-8 pt-10 shadow-sm flex flex-col items-center text-center overflow-hidden">
+              
+              <!-- Traditional Seal Accent (Hanko mark) -->
+              <div class="absolute top-4 right-4 w-10 h-10 rounded-full border-2 border-brand-vermilion/40 text-brand-vermilion flex items-center justify-center font-japanese font-bold text-xs select-none">
+                志誠
+              </div>
+
+              <!-- Owner Cutout Photo -->
+              <div class="relative w-full max-w-[320px] aspect-[3/4] flex items-end justify-center mb-4">
+                <!-- Soft Glow behind subject -->
+                <div class="absolute inset-x-8 bottom-0 top-12 bg-white/60 rounded-full blur-2xl -z-0"></div>
+                <img
+                  src="/assets/leadership/pimpinan.png"
+                  alt="Fatmanita Rochmadani — Pemilik LPK Sukses Abadi Indonesia"
+                  class="w-full h-full object-contain object-bottom drop-shadow-xl relative z-10 transition-transform duration-500 hover:scale-[1.02]"
+                  loading="eager"
+                />
+              </div>
+
+              <!-- Name & Title Plate -->
+              <div class="space-y-1 relative z-10 w-full pt-4 border-t border-brand-border/70">
+                <span class="inline-block px-2.5 py-0.5 rounded bg-brand-vermilion/10 text-brand-vermilion text-[10px] font-heading font-bold uppercase tracking-wider">
+                  Pemilik & Pimpinan Lembaga
+                </span>
+                <h3 class="text-xl sm:text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+                  Fatmanita Rochmadani
+                </h3>
+                <p class="text-xs text-brand-slate font-body">
+                  LPK Sukses Abadi Indonesia (Saindo Passion Global)
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Kata Sambutan Content -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+                <span>KATA SAMBUTAN PIMPINAN</span>
+                <span class="text-brand-stone">/</span>
+                <span class="font-japanese text-brand-stone">代表挨拶</span>
+              </div>
+              <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-brand-charcoal tracking-tight leading-tight">
+                Membuka Jalan Kejujuran Menuju Masa Depan Bermartabat di Jepang.
+              </h2>
+            </div>
+
+            <div class="space-y-4 text-sm sm:text-base font-body text-brand-slate leading-relaxed">
+              <p class="font-medium text-brand-charcoal italic">
+                “Assalamu’alaikum Warahmatullahi Wabarakatuh dan salam hangat untuk kita semua.”
+              </p>
+
+              <p>
+                Selamat datang di <strong>LPK Sukses Abadi Indonesia (Saindo Passion Global)</strong>. Ketika kami mendirikan lembaga ini pada tahun 2024 di Sragen, Jawa Tengah, niat dan tekad kami hanya satu: ingin memberikan jalan yang nyata, jujur, dan bermartabat bagi putra-putri bangsa untuk meraih kehidupan dan karier yang jauh lebih baik di Jepang.
+              </p>
+
+              <p>
+                Kami sangat memahami bahwa melangkah ke Jepang bukan sekadar mencari nafkah, melainkan ikhtiar besar demi mengangkat derajat keluarga dan membangun kemandirian masa depan. Oleh karena itu, sejak awal LPK Saindo memegang teguh komitmen transparansi mutlak: <strong>tanpa calo, tanpa biaya siluman</strong>, serta skema pembiayaan yang jelas di mana paket matching job sudah mencakup pengurusan visa hingga tiket penerbangan.
+              </p>
+
+              <!-- Highlight Quote Card -->
+              <div class="p-5 sm:p-6 rounded-lg bg-white border-l-4 border-brand-vermilion border border-brand-border shadow-sm space-y-2">
+                <p class="text-sm font-heading font-semibold text-brand-charcoal leading-relaxed">
+                  “Investasi pendidikan terbaik berakar pada kejujuran, pembinaan karakter disiplin, dan pendampingan yang tak pernah putus sejak awal belajar hingga anak-anak kami sukses di Jepang.”
+                </p>
+                <span class="text-xs font-heading font-bold text-brand-vermilion">
+                  — Fatmanita Rochmadani
+                </span>
+              </div>
+
+              <p>
+                Fokus utama kami pada program <strong>Tokutei Ginou (SSW)</strong> dan <strong>Engineer / Gijinkoku</strong> kami wujudkan lewat 4 tahapan kelas yang terarah bersama pengajar profesional dan Native Speaker asli Jepang. Kami berjanji menjaga amanah ini dengan penuh tanggung jawab demi kesuksesan seluruh siswa serta kepercayaan para mitra perusahaan di Jepang.
+              </p>
+
+              <p class="font-medium text-brand-charcoal pt-1">
+                Mari melangkah bersama Saindo. Bersama-sama, kita buktikan bahwa mimpi besar dapat terwujud dengan kesungguhan dan bimbingan yang tepat.
+              </p>
+            </div>
+
+            <div class="pt-2 border-t border-brand-border/60 flex items-center justify-between text-xs font-heading text-brand-stone">
+              <span>Sragen, Jawa Tengah</span>
+              <span class="font-semibold text-brand-charcoal">LPK Sukses Abadi Indonesia</span>
+            </div>
+          </div>
+
         </div>
       </Container>
     </section>
@@ -135,55 +281,20 @@ import { leadershipAndStaff, facilitiesData } from '../data/about';
       </Container>
     </section>
 
-    <!-- Location & Campus Card -->
-    <section class="py-16 bg-white border-b border-brand-border">
-      <Container>
-        <div class="p-8 sm:p-10 rounded-lg bg-brand-sand/50 border border-brand-border flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-heading font-semibold uppercase tracking-wider">
-              Lokasi & Legalitas Resmi
-            </div>
-            <h3 class="text-2xl font-heading font-bold text-brand-charcoal">
-              Kampus & Kantor Pusat di Sragen, Jawa Tengah
-            </h3>
-            <p class="text-sm font-body text-brand-slate leading-relaxed">
-              Brambang RT 28, Wonokerso, Kedawung, Sragen, Jawa Tengah, Indonesia.<br />
-              Berdiri sejak tahun 2024 dan siap mengantarkan generasi muda menggapai impian kerja di Jepang.
-            </p>
-          </div>
-          <div class="space-y-2 shrink-0 text-sm font-heading text-brand-charcoal">
-            <p><span class="text-brand-stone font-medium">WhatsApp / Telp:</span> <a href="https://wa.me/6282221046007" class="font-bold text-brand-charcoal hover:text-brand-vermilion">+62 822 210 460 07</a></p>
-            <p><span class="text-brand-stone font-medium">Email Resmi:</span> <span class="font-bold text-brand-charcoal">saindopassionglobal@gmail.com</span></p>
-            <p><span class="text-brand-stone font-medium">Email Alternatif:</span> <span class="font-bold text-brand-charcoal">saindo501@gmail.com</span></p>
-            <div class="pt-2">
-              <a
-                href="https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center text-xs font-heading font-semibold text-brand-vermilion hover:underline"
-              >
-                Buka Peta Google Maps →
-              </a>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-
     <!-- Leadership & Instructors -->
     <section class="py-20 md:py-28 bg-white border-b border-brand-border">
       <Container>
         <SectionHeader
-          tagline="TIM PENGAJAR"
+          tagline="TIM PENGAJAR & PIMPINAN"
           taglineJa="講師陣・指導者"
-          title="Dipandu oleh Praktisi & Instruktur Native Speaker Berpengalaman."
-          description="Kombinasi instruktur native asal Jepang dan tenaga pengajar lokal bersertifikat JLPT N1/N2 yang berdedikasi membimbing perkembangan setiap siswa."
+          title="Dipandu oleh Pimpinan Berdedikasi & Instruktur Native Speaker."
+          description="Kombinasi kepemimpinan berintegritas, instruktur native asal Jepang, dan tenaga pengajar lokal bersertifikat yang siap membimbing siswa hingga berangkat."
           class="mb-16"
         />
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {leadershipAndStaff.map((staff) => (
-            <div class="card-shoji rounded overflow-hidden flex flex-col justify-between group">
+            <div class="card-shoji rounded overflow-hidden flex flex-col justify-between group bg-white border border-brand-border">
               <div>
                 <div class="aspect-[4/5] bg-brand-sand overflow-hidden relative">
                   <img
@@ -227,7 +338,7 @@ import { leadershipAndStaff, facilitiesData } from '../data/about';
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {facilitiesData.map((fac) => (
-            <div class="card-shoji rounded overflow-hidden group bg-white">
+            <div class="card-shoji rounded overflow-hidden group bg-white border border-brand-border">
               <div class="aspect-[16/9] bg-brand-sand overflow-hidden relative">
                 <img
                   src={fac.image}
@@ -250,15 +361,50 @@ import { leadershipAndStaff, facilitiesData } from '../data/about';
       </Container>
     </section>
 
-    <!-- Consultation CTA -->
+    <!-- Location & Campus Card -->
     <section class="py-16 bg-white border-b border-brand-border">
+      <Container>
+        <div class="p-8 sm:p-10 rounded-lg bg-brand-sand/50 border border-brand-border flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div class="space-y-2 max-w-xl">
+            <div class="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-heading font-semibold uppercase tracking-wider">
+              Lokasi & Legalitas Resmi
+            </div>
+            <h3 class="text-2xl font-heading font-bold text-brand-charcoal">
+              Kampus & Kantor Pusat di Sragen, Jawa Tengah
+            </h3>
+            <p class="text-sm font-body text-brand-slate leading-relaxed">
+              Brambang RT 28, Wonokerso, Kedawung, Sragen, Jawa Tengah, Indonesia.<br />
+              Berdiri sejak tahun 2024 dan siap mengantarkan generasi muda menggapai impian kerja di Jepang.
+            </p>
+          </div>
+          <div class="space-y-2 shrink-0 text-sm font-heading text-brand-charcoal">
+            <p><span class="text-brand-stone font-medium">WhatsApp / Telp:</span> <a href="https://wa.me/6282221046007" class="font-bold text-brand-charcoal hover:text-brand-vermilion">+62 822 210 460 07</a></p>
+            <p><span class="text-brand-stone font-medium">Email Resmi:</span> <span class="font-bold text-brand-charcoal">saindopassionglobal@gmail.com</span></p>
+            <p><span class="text-brand-stone font-medium">Email Alternatif:</span> <span class="font-bold text-brand-charcoal">saindo501@gmail.com</span></p>
+            <div class="pt-2">
+              <a
+                href="https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center text-xs font-heading font-semibold text-brand-vermilion hover:underline"
+              >
+                Buka Peta Google Maps →
+              </a>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Consultation CTA -->
+    <section class="py-16 bg-[#FAFAF8] border-b border-brand-border">
       <Container>
         <div class="text-center max-w-2xl mx-auto space-y-6">
           <h2 class="text-3xl font-heading font-extrabold text-brand-charcoal">
             Ingin Mengunjungi Pusat Pelatihan Kami?
           </h2>
           <p class="text-base text-brand-slate font-body">
-            Kami menyambut baik calon peserta pelatihan dan orang tua yang ingin meninjau langsung ruang kelas, asrama, dan berdiskusi dengan instruktur kami.
+            Kami menyambut baik calon peserta pelatihan dan orang tua yang ingin meninjau langsung ruang kelas, asrama, dan berdiskusi dengan instruktur kami di Sragen.
           </p>
           <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button

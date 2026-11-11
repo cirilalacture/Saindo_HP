@@ -1,6 +1,7 @@
 ---
 import Button from '../ui/Button.astro';
 import Container from '../ui/Container.astro';
+import HeroCarousel from './HeroCarousel';
 
 interface Props {
   currentLang?: 'id' | 'ja';
@@ -93,37 +94,9 @@ const isJa = currentLang === 'ja';
 
       </div>
 
-      <!-- Right Visual Card -->
+      <!-- Right Visual Card with Auto-sliding Carousel (5 seconds) -->
       <div class="lg:col-span-5 relative">
-        <div class="relative rounded-lg overflow-hidden border border-brand-border bg-white p-3.5 shadow-sm">
-          <div class="aspect-[4/3] rounded bg-brand-sand overflow-hidden relative group">
-            <img
-              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80"
-              alt="Siswa LPK Saindo sedang mengikuti pelatihan bahasa Jepang intensif di kelas"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              loading="eager"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent flex items-end p-6">
-              <div class="text-white">
-                <span class="text-xs font-heading font-semibold uppercase tracking-widest text-brand-sand">
-                  {isJa ? '研修現場風景' : 'Dokumentasi Pelatihan'}
-                </span>
-                <p class="text-sm font-heading font-medium mt-1">
-                  {isJa ? '日本語集中教育および日本企業ビジネスマナー研修' : 'Kelas Intensif Bahasa & Kedisiplinan Kerja Jepang'}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Floating Stat Badge -->
-          <div class="absolute -bottom-4 -left-4 bg-brand-charcoal text-white px-5 py-3.5 rounded border border-white/15 shadow-xl hidden sm:flex items-center gap-3.5">
-            <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-            <div>
-              <div class="text-[11px] font-heading font-medium text-gray-300">Pendaftaran Angkatan 2026</div>
-              <div class="text-sm font-heading font-bold text-white">Gelombang Baru Dibuka — Kuota Terbatas</div>
-            </div>
-          </div>
-        </div>
+        <HeroCarousel client:load currentLang={currentLang} />
       </div>
 
     </div>
