@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import FloatingWhatsApp from '../components/ui/FloatingWhatsApp.astro';
 
 interface Props {
   title?: string;
@@ -63,8 +64,21 @@ const {
         'https://facebook.com/lpksaindo',
       ],
     })} />
+    <!-- Font Size Controller Script (Zero FOUC) -->
+    <script is:inline>
+      (function() {
+        try {
+          var saved = localStorage.getItem('saindo_font_size');
+          var scaleMap = { sm: '90%', base: '100%', lg: '115%' };
+          if (saved && scaleMap[saved]) {
+            document.documentElement.style.fontSize = scaleMap[saved];
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="bg-brand-porcelain text-brand-charcoal antialiased selection:bg-brand-vermilion selection:text-white">
     <slot />
+    <FloatingWhatsApp lang={lang} />
   </body>
 </html>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+type FontSize = 'sm' | 'base' | 'lg';
+
 interface NavLink {
   href: string;
   label: string;
@@ -13,6 +15,37 @@ interface MobileMenuProps {
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, ctaText }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [fontSize, setFontSize] = useState<FontSize>('base');
+
+  // Sync font size from localStorage and global events
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('saindo_font_size') as FontSize;
+      if (saved && ['sm', 'base', 'lg'].includes(saved)) {
+        setFontSize(saved);
+      }
+    } catch (e) {}
+
+    const handleSync = (e: Event) => {
+      const customEvent = e as CustomEvent<{ size: FontSize }>;
+      if (customEvent.detail?.size) {
+        setFontSize(customEvent.detail.size);
+      }
+    };
+
+    window.addEventListener('saindo_font_size_change', handleSync);
+    return () => window.removeEventListener('saindo_font_size_change', handleSync);
+  }, []);
+
+  const applyFontSize = (size: FontSize) => {
+    setFontSize(size);
+    const scaleMap: Record<FontSize, string> = { sm: '90%', base: '100%', lg: '115%' };
+    document.documentElement.style.fontSize = scaleMap[size];
+    try {
+      localStorage.setItem('saindo_font_size', size);
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent('saindo_font_size_change', { detail: { size } }));
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -35,8 +68,55 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
   }, []);
 
   return (
-    <div className="md:hidden">
-      {/* Trigger Button */}
+    <div className="flex items-center gap-2 md:hidden">
+      {/* Mobile Header Quick Font Resizer Pill */}
+      <div
+        className="flex items-center p-0.5 rounded-full bg-brand-sand border border-brand-border text-[11px] font-heading font-bold"
+        role="group"
+        aria-label={currentLang === 'ja' ? '文字サイズ変更' : 'Ukuran Huruf'}
+      >
+        <button
+          type="button"
+          onClick={() => applyFontSize('sm')}
+          className={`px-2 py-0.5 rounded-full transition-all text-[11px] ${
+            fontSize === 'sm'
+              ? 'bg-white text-brand-charcoal shadow-sm font-extrabold'
+              : 'text-brand-stone hover:text-brand-charcoal'
+          }`}
+          title={currentLang === 'ja' ? '文字サイズ（小）' : 'Ukuran Kecil'}
+          aria-label="Font kecil"
+        >
+          A-
+        </button>
+        <button
+          type="button"
+          onClick={() => applyFontSize('base')}
+          className={`px-2 py-0.5 rounded-full transition-all text-[11px] ${
+            fontSize === 'base'
+              ? 'bg-white text-brand-charcoal shadow-sm font-extrabold'
+              : 'text-brand-stone hover:text-brand-charcoal'
+          }`}
+          title={currentLang === 'ja' ? '文字サイズ（標準）' : 'Ukuran Normal'}
+          aria-label="Font normal"
+        >
+          A
+        </button>
+        <button
+          type="button"
+          onClick={() => applyFontSize('lg')}
+          className={`px-2 py-0.5 rounded-full transition-all text-[11px] ${
+            fontSize === 'lg'
+              ? 'bg-white text-brand-charcoal shadow-sm font-extrabold'
+              : 'text-brand-stone hover:text-brand-charcoal'
+          }`}
+          title={currentLang === 'ja' ? '文字サイズ（大）' : 'Ukuran Besar'}
+          aria-label="Font besar"
+        >
+          A+
+        </button>
+      </div>
+
+      {/* Hamburger Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -64,11 +144,12 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
         />
       )}
 
-      {/* Slide-out Drawer */}
+      {/* Slide-out Drawer with overflow-y-auto */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-[85%] max-w-sm bg-brand-porcelain border-l border-brand-border p-6 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col justify-between ${
+        className={`fixed top-0 right-0 z-50 h-[100dvh] max-h-screen w-[85%] max-w-sm bg-brand-porcelain border-l border-brand-border p-6 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        aria-hidden={!isOpen}
       >
         <div className="space-y-6">
           {/* Header */}
@@ -86,7 +167,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="p-1.5 rounded-full hover:bg-brand-sand text-brand-stone transition-colors"
+              className="p-2 rounded-full hover:bg-brand-sand text-brand-stone hover:text-brand-charcoal transition-colors"
               aria-label="Tutup Menu"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +177,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
           </div>
 
           {/* Nav Links */}
-          <nav className="space-y-2">
+          <nav className="space-y-1.5">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -110,15 +191,59 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
           </nav>
         </div>
 
-        {/* Bottom Language & WhatsApp CTA */}
-        <div className="space-y-4 pt-6 border-t border-brand-border">
+        {/* Bottom Accessibility, Language & WhatsApp CTA */}
+        <div className="space-y-4 pt-6 border-t border-brand-border mt-6">
+          {/* Font Size Adjuster in Drawer */}
           <div className="flex items-center justify-between text-xs font-semibold text-brand-slate">
-            <span>Pilih Bahasa / 言語:</span>
+            <span>{currentLang === 'ja' ? '文字サイズ:' : 'Ukuran Huruf:'}</span>
+            <div className="flex items-center p-0.5 rounded-full bg-brand-sand border border-brand-border text-[11px] font-heading font-bold">
+              <button
+                type="button"
+                onClick={() => applyFontSize('sm')}
+                className={`px-3 py-1 rounded-full transition-all ${
+                  fontSize === 'sm'
+                    ? 'bg-white text-brand-charcoal shadow-sm font-extrabold'
+                    : 'text-brand-stone hover:text-brand-charcoal'
+                }`}
+                title={currentLang === 'ja' ? '文字サイズ（小）' : 'Ukuran Kecil'}
+              >
+                A-
+              </button>
+              <button
+                type="button"
+                onClick={() => applyFontSize('base')}
+                className={`px-3 py-1 rounded-full transition-all ${
+                  fontSize === 'base'
+                    ? 'bg-white text-brand-charcoal shadow-sm font-extrabold'
+                    : 'text-brand-stone hover:text-brand-charcoal'
+                }`}
+                title={currentLang === 'ja' ? '文字サイズ（標準）' : 'Ukuran Normal'}
+              >
+                A
+              </button>
+              <button
+                type="button"
+                onClick={() => applyFontSize('lg')}
+                className={`px-3 py-1 rounded-full transition-all ${
+                  fontSize === 'lg'
+                    ? 'bg-white text-brand-charcoal shadow-sm font-extrabold'
+                    : 'text-brand-stone hover:text-brand-charcoal'
+                }`}
+                title={currentLang === 'ja' ? '文字サイズ（大）' : 'Ukuran Besar'}
+              >
+                A+
+              </button>
+            </div>
+          </div>
+
+          {/* Language Switcher */}
+          <div className="flex items-center justify-between text-xs font-semibold text-brand-slate">
+            <span>{currentLang === 'ja' ? '言語選択:' : 'Pilih Bahasa:'}</span>
             <div className="flex items-center p-0.5 rounded-full bg-brand-sand border border-brand-border">
               <a
                 href="/"
                 className={`px-3 py-1 rounded-full transition-all ${
-                  currentLang === 'id' ? 'bg-white text-brand-charcoal shadow-sm' : 'text-brand-stone'
+                  currentLang === 'id' ? 'bg-white text-brand-charcoal shadow-sm font-bold' : 'text-brand-stone hover:text-brand-charcoal'
                 }`}
               >
                 ID
@@ -126,7 +251,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
               <a
                 href="/ja"
                 className={`px-3 py-1 rounded-full transition-all ${
-                  currentLang === 'ja' ? 'bg-white text-brand-charcoal shadow-sm' : 'text-brand-stone'
+                  currentLang === 'ja' ? 'bg-white text-brand-charcoal shadow-sm font-bold' : 'text-brand-stone hover:text-brand-charcoal'
                 }`}
               >
                 日本語
@@ -134,6 +259,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
             </div>
           </div>
 
+          {/* CTA */}
           <a
             href="https://wa.me/6282221046007?text=Halo%20LPK%20Saindo%2C%20saya%20ingin%20konsultasi%20program%20pelatihan"
             target="_blank"

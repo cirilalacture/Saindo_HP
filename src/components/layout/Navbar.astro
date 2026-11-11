@@ -60,8 +60,43 @@ const ctaText = currentLang === 'ja' ? 'お問い合わせ' : 'Daftar Sekarang';
         ))}
       </nav>
 
-      <!-- Right Controls: Language Switcher & Primary CTA -->
-      <div class="hidden md:flex items-center gap-5">
+      <!-- Right Controls: Font Size Resizer, Language Switcher & Primary CTA -->
+      <div class="hidden md:flex items-center gap-4">
+        <!-- Font Size Resizer Pill (A- / A / A+) -->
+        <div
+          class="flex items-center p-0.5 rounded-full bg-brand-sand border border-brand-border text-[11px] font-heading font-bold"
+          role="group"
+          aria-label={currentLang === 'ja' ? '文字サイズ変更' : 'Ubah Ukuran Huruf'}
+        >
+          <button
+            type="button"
+            data-font-btn="sm"
+            class="px-2.5 py-1 rounded-full text-brand-stone hover:text-brand-charcoal transition-all text-xs"
+            title={currentLang === 'ja' ? '文字サイズ（小）' : 'Ukuran Huruf Kecil'}
+            aria-label="Font kecil"
+          >
+            A-
+          </button>
+          <button
+            type="button"
+            data-font-btn="base"
+            class="px-2.5 py-1 rounded-full bg-brand-white text-brand-charcoal shadow-sm transition-all text-xs font-extrabold"
+            title={currentLang === 'ja' ? '文字サイズ（標準）' : 'Ukuran Huruf Normal'}
+            aria-label="Font normal"
+          >
+            A
+          </button>
+          <button
+            type="button"
+            data-font-btn="lg"
+            class="px-2.5 py-1 rounded-full text-brand-stone hover:text-brand-charcoal transition-all text-xs"
+            title={currentLang === 'ja' ? '文字サイズ（大）' : 'Ukuran Huruf Besar'}
+            aria-label="Font besar"
+          >
+            A+
+          </button>
+        </div>
+
         <!-- Language Switcher Pill -->
         <div class="flex items-center p-0.5 rounded-full bg-brand-sand border border-brand-border text-[12px] font-heading font-semibold">
           <a
@@ -100,7 +135,7 @@ const ctaText = currentLang === 'ja' ? 'お問い合わせ' : 'Daftar Sekarang';
 
       <!-- Mobile Menu Component (React Island) -->
       <MobileMenu
-        client:media="(max-width: 768px)"
+        client:load
         navLinks={navLinks}
         currentLang={currentLang}
         ctaText={ctaText}
@@ -109,3 +144,60 @@ const ctaText = currentLang === 'ja' ? 'お問い合わせ' : 'Daftar Sekarang';
     </div>
   </div>
 </header>
+
+<script is:inline>
+  (function() {
+    const scaleMap = { sm: '90%', base: '100%', lg: '115%' };
+
+    function updateButtons(size) {
+      document.querySelectorAll('[data-font-btn]').forEach(function(btn) {
+        const btnSize = btn.getAttribute('data-font-btn');
+        const isActive = btnSize === size;
+        btn.classList.toggle('bg-brand-white', isActive);
+        btn.classList.toggle('text-brand-charcoal', isActive);
+        btn.classList.toggle('shadow-sm', isActive);
+        btn.classList.toggle('font-extrabold', isActive);
+        btn.classList.toggle('text-brand-stone', !isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
+    function setFontSize(size) {
+      if (!scaleMap[size]) return;
+      document.documentElement.style.fontSize = scaleMap[size];
+      try {
+        localStorage.setItem('saindo_font_size', size);
+      } catch (e) {}
+      updateButtons(size);
+      window.dispatchEvent(new CustomEvent('saindo_font_size_change', { detail: { size: size } }));
+    }
+
+    function init() {
+      let current = 'base';
+      try {
+        const saved = localStorage.getItem('saindo_font_size');
+        if (saved && scaleMap[saved]) current = saved;
+      } catch (e) {}
+      updateButtons(current);
+
+      document.querySelectorAll('[data-font-btn]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const size = btn.getAttribute('data-font-btn');
+          if (size) setFontSize(size);
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    window.addEventListener('saindo_font_size_change', function(e) {
+      if (e.detail && e.detail.size) {
+        updateButtons(e.detail.size);
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,37 @@
+---
+interface Props {
+  lang?: 'id' | 'ja';
+  phone?: string;
+}
+
+const { lang = 'id', phone = '6282221046007' } = Astro.props;
+const isJa = lang === 'ja';
+const message = isJa
+  ? 'LPK Saindo様、研修プログラムや日本就労について相談したく連絡いたしました。'
+  : 'Halo LPK Saindo, saya ingin konsultasi pendaftaran dan program kerja ke Jepang.';
+const label = isJa ? '相談 (WA)' : 'Konsultasi';
+const ariaLabel = isJa ? 'WhatsAppでお問い合わせ' : 'Konsultasi langsung via WhatsApp';
+---
+
+<a
+  href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 px-3.5 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 group focus-visible:outline-2 focus-visible:outline-emerald-500 focus-visible:outline-offset-2"
+  aria-label={ariaLabel}
+  title={ariaLabel}
+>
+  <span class="relative flex h-3 w-3">
+    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+  </span>
+
+  <!-- WhatsApp Icon SVG -->
+  <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.802-.416-1.428-.597-2.348-2.05-2.42-2.146-.071-.096-.582-.774-.582-1.476 0-.702.369-1.047.5-1.189.131-.143.286-.179.381-.179.096 0 .191.002.274.006.088.005.205-.033.32.245.12.286.408 1.001.444 1.073.036.072.06.155.012.25-.048.096-.072.155-.144.239-.071.083-.15.185-.214.249-.071.072-.146.15-.063.292.083.143.369.609.791.986.545.485 1.005.635 1.148.707.143.072.227.06.31-.036.084-.096.358-.417.454-.56.096-.143.191-.12.32-.072.131.048.835.393.978.465.143.072.239.108.274.167.036.06.036.345-.108.75zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.176L2 22l4.954-1.399C8.403 21.498 10.144 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.637 0-3.15-.494-4.42-1.344l-.317-.212-2.936.83.827-2.859-.23-.339C4.009 14.978 3.5 13.535 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/>
+  </svg>
+
+  <span class="text-xs font-heading font-bold tracking-wide hidden xs:inline sm:inline">
+    {label}
+  </span>
+</a>
