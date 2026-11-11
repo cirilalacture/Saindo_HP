@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 54" fill="none" class="w-full h-full">
+  <g transform="translate(6, 6)">
+    <!-- Hexagon Tech/Engineering Symbol -->
+    <polygon points="21,3 37,12 37,30 21,39 5,30 5,12" fill="#0E7490" fill-opacity="0.12" stroke="#0E7490" stroke-width="2.5"/>
+    <path d="M13 16 L29 16 L13 26 L29 26" stroke="#0E7490" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Wordmark -->
+    <text x="48" y="21" font-family="'Inter', 'Arial', sans-serif" font-size="14.5" font-weight="900" letter-spacing="1" fill="#0E7490">SANWA TECHNO</text>
+    <text x="49" y="34" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="8.5" font-weight="700" letter-spacing="1.2" fill="#666666">株式会社サンワテクノ</text>
+  </g>
+</svg>

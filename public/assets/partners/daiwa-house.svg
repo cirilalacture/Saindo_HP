@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 54" fill="none" class="w-full h-full">
+  <g transform="translate(6, 6)">
+    <!-- Daiwa House Red Ring Double Circle -->
+    <circle cx="21" cy="21" r="18" fill="#E50012"/>
+    <circle cx="21" cy="21" r="12" fill="#FFFFFF"/>
+    <circle cx="21" cy="21" r="7" fill="#E50012"/>
+    <!-- Wordmark -->
+    <text x="48" y="22" font-family="'Inter', 'Arial', sans-serif" font-size="16.5" font-weight="900" letter-spacing="0.5" fill="#1A1A1A">Daiwa<tspan fill="#E50012">House</tspan></text>
+    <text x="49" y="35" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="8.5" font-weight="700" letter-spacing="1.5" fill="#666666">大和ハウスグループ</text>
+  </g>
+</svg>

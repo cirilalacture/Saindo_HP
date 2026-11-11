@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 54" fill="none" class="w-full h-full">
+  <!-- Ginza Cozy Corner Emblem & Wordmark -->
+  <g transform="translate(4, 5)">
+    <!-- Elegant Ribbon/Bow Monogram -->
+    <path d="M14 6 C8 2, 2 8, 8 16 C12 21, 20 22, 22 22 C22 22, 20 12, 14 6 Z" fill="#BA1C2B"/>
+    <path d="M30 6 C36 2, 42 8, 36 16 C32 21, 24 22, 22 22 C22 22, 24 12, 30 6 Z" fill="#BA1C2B"/>
+    <circle cx="22" cy="22" r="4.5" fill="#8C101D"/>
+    <path d="M19 25 C16 33, 10 38, 8 40" stroke="#BA1C2B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M25 25 C28 33, 34 38, 36 40" stroke="#BA1C2B" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- GINZA -->
+    <text x="52" y="14" font-family="'Cinzel', 'Times New Roman', 'Georgia', serif" font-size="9" font-weight="700" letter-spacing="4" fill="#6A101A">GINZA</text>
+    <!-- Cozy Corner -->
+    <text x="51" y="32" font-family="'Playfair Display', 'Baskerville', 'Georgia', serif" font-size="18.5" font-weight="700" letter-spacing="0.5" fill="#BA1C2B">Cozy Corner</text>
+    <text x="52" y="42" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="7.5" font-weight="500" letter-spacing="1.5" fill="#888888">銀座コージーコーナー</text>
+  </g>
+</svg>

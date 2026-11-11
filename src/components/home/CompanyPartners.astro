@@ -1,7 +1,5 @@
 ---
 import Container from '../ui/Container.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
-import Button from '../ui/Button.astro';
 import { partnerCompanies } from '../../data/partners';
 
 interface Props {
@@ -12,151 +10,37 @@ const { currentLang = 'id' } = Astro.props;
 const isJa = currentLang === 'ja';
 ---
 
-<section id="partners" class="py-20 md:py-28 bg-[#FCFCFA] border-b border-brand-border relative overflow-hidden">
-  <!-- Subtle Background Pattern -->
-  <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#1B2A4A_1px,transparent_1px)] [background-size:24px_24px]"></div>
-
+<section id="partners" class="py-12 md:py-16 bg-[#FAF8F5] border-b border-brand-border">
   <Container>
-    <!-- Section Header -->
-    <div class="max-w-3xl mb-14 md:mb-16">
-      <SectionHeader
-        tagline={isJa ? '提携企業・受入機関' : 'MITRA INDUSTRI JEPANG'}
-        taglineJa={isJa ? 'PARTNER COMPANIES' : '企業連携実績'}
-        title={isJa ? '日本全国の有力企業・受入機関との強固な信頼連携' : 'Dipercaya Oleh Berbagai Perusahaan & Grup Industri Terkemuka di Jepang'}
-      />
-      <p class="mt-4 text-sm sm:text-base text-brand-slate font-body leading-relaxed">
+    <!-- Minimal Header -->
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+      <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion mb-1.5">
+        <span>{isJa ? '提携受入企業' : 'MITRA PERUSAHAAN JEPANG'}</span>
+        <span class="text-brand-stone">/</span>
+        <span class="font-japanese text-brand-stone">{isJa ? 'PARTNERS' : '提携先実績'}</span>
+      </div>
+      <h2 class="text-lg sm:text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
         {isJa
-          ? 'LPK Saindoは、飲食料品製造（洋菓子・製パン）、介護、ホテル・宿泊、建設、エンジニア（技人国）など、多岐にわたる分野の優良日本企業と強固なパートナーシップを結んでいます。実務直結の日本語力と規律ある就労意欲を兼ね備えた修了生を定期的に派遣しています。'
-          : 'LPK Saindo secara konsisten menjalin kerja sama penyaluran tenaga kerja dengan berbagai korporasi ternama di Jepang. Mulai dari industri pengolahan makanan & pastry, perawat lansia (Kaigo), perhotelan, manufaktur, hingga rekayasa teknik (Engineer Gijinkoku) dengan skema rekrutmen resmi dan transparan.'}
-      </p>
+          ? '日本全国の有力企業・受入機関との連携実績'
+          : 'Dipercaya Oleh Berbagai Perusahaan Terkemuka di Jepang'}
+      </h2>
     </div>
 
-    <!-- Partner Grid (7 Companies) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch">
-      {partnerCompanies.map((partner) => {
-        const isFeatured = partner.isFeatured;
-        return (
-          <div
-            class={`card-shoji rounded-xl border bg-white p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-md hover:border-brand-vermilion/40 flex flex-col justify-between relative group ${
-              isFeatured
-                ? 'md:col-span-2 lg:col-span-3 border-brand-vermilion/30 bg-gradient-to-br from-white via-white to-brand-sand/30'
-                : 'border-brand-border'
-            }`}
-          >
-            {/* Featured Accent Strip */}
-            {isFeatured && (
-              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-vermilion via-rose-500 to-amber-500 rounded-t-xl"></div>
-            )}
-
-            <div>
-              {/* Header: Logo Icon & Badges */}
-              <div class="flex items-start justify-between gap-4 mb-4">
-                <div class="flex items-center gap-3.5">
-                  {/* Japanese Kanji Seal Stamp Logo */}
-                  <div
-                    class={`w-12 h-12 rounded-lg flex items-center justify-center font-heading font-extrabold text-xl shrink-0 border transition-transform duration-300 group-hover:scale-105 ${
-                      isFeatured
-                        ? 'bg-rose-50 border-rose-200 text-brand-vermilion shadow-sm'
-                        : 'bg-brand-sand border-brand-border text-brand-charcoal'
-                    }`}
-                  >
-                    <span class="font-japanese">{partner.logoIcon}</span>
-                  </div>
-
-                  <div>
-                    <h3 class="font-heading font-bold text-base sm:text-lg text-brand-charcoal group-hover:text-brand-vermilion transition-colors leading-snug">
-                      {isJa ? partner.nameJa : partner.shortName}
-                    </h3>
-                    <p class="text-xs font-mono text-brand-stone">
-                      {isJa ? partner.name : partner.nameJa}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Status Dot */}
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-heading font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  {isJa ? '受入提携' : 'Mitra Aktif'}
-                </span>
-              </div>
-
-              {/* Tags: Sector & Program */}
-              <div class="flex flex-wrap items-center gap-2 mb-4">
-                <span class="inline-flex items-center text-[11px] font-heading font-medium px-2.5 py-1 rounded bg-brand-sand/80 text-brand-charcoal border border-brand-border">
-                  {isJa ? partner.sectorJa : partner.sector}
-                </span>
-                <span class="inline-flex items-center text-[11px] font-heading font-semibold px-2.5 py-1 rounded bg-brand-charcoal text-white">
-                  {isJa ? partner.programTagJa : partner.programTag}
-                </span>
-              </div>
-
-              {/* Description */}
-              <p class="text-xs sm:text-sm text-brand-slate font-body leading-relaxed mb-4">
-                {isJa ? partner.descriptionJa : partner.description}
-              </p>
-            </div>
-
-            {/* Footer Meta: Location & Program Link */}
-            <div class="pt-4 border-t border-brand-border/70 flex items-center justify-between text-xs text-brand-stone font-body">
-              <div class="flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-brand-vermilion shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                <span>{isJa ? partner.locationJa : partner.location}</span>
-              </div>
-
-              <span class="text-[11px] font-heading font-semibold text-brand-charcoal group-hover:text-brand-vermilion transition-colors">
-                {isJa ? '採用実績あり →' : 'Terverifikasi →'}
-              </span>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-
-    <!-- Partnership Callout & CTA -->
-    <div class="mt-12 md:mt-16 p-8 sm:p-10 rounded-2xl bg-brand-charcoal text-white relative overflow-hidden border border-brand-charcoal shadow-lg">
-      <!-- Japanese Watermark Accent -->
-      <div class="absolute -right-6 -bottom-10 font-japanese text-[110px] font-black text-white/[0.04] select-none pointer-events-none">
-        共創信頼
-      </div>
-
-      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-        <div class="max-w-2xl space-y-3">
-          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
-            <span>{isJa ? '受入企業・監理団体の皆様へ' : 'INFORMASI PENYALURAN & MATCHING JOB'}</span>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-heading font-bold text-white tracking-tight leading-snug">
-            {isJa
-              ? '特定技能・エンジニアの受入れをご検討中の日本企業様へ'
-              : 'Ingin Mengikuti Seleksi Kerja Sama dengan Mitra Perusahaan di Jepang?'}
-          </h3>
-          <p class="text-xs sm:text-sm text-gray-300 font-body leading-relaxed">
-            {isJa
-              ? '求人票の受付、現地面接（対面・オンライン）、入国前教育カリキュラムのカスタマイズまで柔軟に対応いたします。現地視察・面接アテンドも随時承っております。'
-              : 'LPK Saindo membuka kesempatan Matching Job langsung dengan perusahaan user Jepang, baik bagi siswa reguler 4 jenjang kelas maupun siswa mandiri yang telah memiliki sertifikat JFT-Basic / JLPT N4 dan SSW.'}
-          </p>
+    <!-- Logos Strip (Pure Logos, Clean & Simple) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 items-center">
+      {partnerCompanies.map((partner) => (
+        <div
+          class="h-20 sm:h-22 px-3 py-2.5 rounded-lg border border-brand-border/70 bg-white shadow-sm flex items-center justify-center transition-all duration-300 hover:border-brand-vermilion/40 hover:shadow-md grayscale hover:grayscale-0 opacity-80 hover:opacity-100 group"
+          title={isJa ? partner.nameJa : partner.name}
+        >
+          <img
+            src={partner.logo}
+            alt={isJa ? partner.nameJa : partner.name}
+            class="max-h-12 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
         </div>
-
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 shrink-0">
-          <Button
-            variant="primary"
-            size="md"
-            href={isJa ? '/ja/contact' : '/contact'}
-          >
-            {isJa ? '求人・受入の相談窓口へ' : 'Konsultasi Matching Job'}
-          </Button>
-          <Button
-            variant="outline"
-            size="md"
-            href={isJa ? '/ja/programs' : '/programs'}
-            class="!text-white !border-white/30 hover:!border-white hover:!bg-white/10"
-          >
-            {isJa ? '教育プログラムを見る' : 'Pelajari 4 Program Kelas'}
-          </Button>
-        </div>
-      </div>
+      ))}
     </div>
   </Container>
 </section>

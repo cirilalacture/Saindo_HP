@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 54" fill="none" class="w-full h-full">
+  <g transform="translate(6, 6)">
+    <!-- Nichii Double Curve Heart/Leaf Symbol -->
+    <path d="M12 36 C4 30, 2 18, 10 10 C16 4, 24 6, 26 12 C28 6, 36 4, 42 10 C50 18, 48 30, 40 36 C34 42, 28 42, 26 42 C24 42, 18 42, 12 36 Z" fill="#008837" fill-opacity="0.12"/>
+    <path d="M16 28 C16 16, 26 10, 36 10 C30 18, 30 28, 20 34" stroke="#008837" stroke-width="4" stroke-linecap="round"/>
+    <path d="M26 10 C34 10, 40 18, 40 28 C32 30, 22 28, 16 20" stroke="#004A99" stroke-width="3" stroke-linecap="round"/>
+    <!-- Wordmark -->
+    <text x="56" y="22" font-family="'Inter', 'Helvetica Neue', 'Arial', sans-serif" font-size="16" font-weight="900" letter-spacing="1.5" fill="#004A99">NICHI<tspan fill="#008837">I</tspan></text>
+    <text x="56" y="36" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="9" font-weight="700" letter-spacing="2" fill="#555555">株式会社ニチイ学館</text>
+  </g>
+</svg>
