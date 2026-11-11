@@ -19,7 +19,9 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -28,6 +30,7 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://lpksaindo.com/assets/logo/logo.png" />
     <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'id_ID'} />
     <link rel="alternate" hreflang="id" href="https://lpksaindo.com/" />
     <link rel="alternate" hreflang="ja" href="https://lpksaindo.com/ja/" />
@@ -39,7 +42,7 @@ const {
       name: 'LPK Saindo',
       alternateName: '送り出し機関 LPK Saindo',
       url: 'https://lpksaindo.com',
-      logo: 'https://lpksaindo.com/favicon.svg',
+      logo: 'https://lpksaindo.com/assets/logo/logo.png',
       description: description,
       address: {
         '@type': 'PostalAddress',

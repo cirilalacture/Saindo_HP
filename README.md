@@ -88,13 +88,46 @@ npm run dev
 
 ---
 
-## 🌐 Panduan Deployment ke Cloudflare Workers
+## 🌐 Panduan Deployment Otomatis via GitHub Actions (CI/CD)
+
+Proyek ini telah dikonfigurasi dengan alur **Continuous Deployment (CI/CD)** otomatis di berkas [`.github/workflows/deploy.yml`](file:///home/sjodi442/Projects/Web/saindohp/.github/workflows/deploy.yml). Setiap kali Anda melakukan `git push` ke branch `main`, GitHub Actions akan secara otomatis:
+1. Menjalankan typecheck & build (`npm run build`).
+2. Menerapkan migrasi database D1 terbaru (`d1 migrations apply lpksaindo_db --remote`).
+3. Men-deploy aplikasi Worker terbaru ke Cloudflare.
+
+### 1. Persiapan Secrets di Repositori GitHub
+Masuk ke repositori GitHub Anda: **Settings** → **Secrets and variables** → **Actions** → **New repository secret**, tambahkan:
+
+| Secret Name | Deskripsi | Sumber Nilai |
+|---|---|---|
+| `CLOUDFLARE_API_TOKEN` | Token API Cloudflare dengan akses Workers & D1 | Buat di *Cloudflare Dashboard* → *My Profile* → *API Tokens* → *Create Token* (gunakan template *Edit Cloudflare Workers* + tambahkan izin *D1:Edit*) |
+| `CLOUDFLARE_ACCOUNT_ID` | Account ID Cloudflare Anda | Temukan di sidebar dashboard Cloudflare atau jalankan `npx wrangler whoami` |
+| `CLOUDFLARE_D1_DATABASE_ID` | *(Opsional)* UUID Database D1 Produksi | Dari hasil perintah `npx wrangler d1 create lpksaindo_db` (jika tidak ingin ditulis langsung di `wrangler.jsonc`) |
+
+### 2. Hubungkan Repositori Lokal & Push ke GitHub
+
+```bash
+# 1. Tambahkan remote GitHub Anda (ganti URL dengan repositori Anda)
+git remote add origin https://github.com/<username-anda>/<nama-repo>.git
+
+# 2. Pastikan branch bernama main
+git branch -M main
+
+# 3. Push ke GitHub (otomatis memicu deployment ke Cloudflare)
+git push -u origin main
+```
+
+---
+
+## 🌐 Panduan Deployment Manual (CLI)
+
+Jika ingin melakukan deployment langsung dari terminal komputer:
 
 ```bash
 # 1. Login ke akun Cloudflare
 npx wrangler login
 
-# 2. Buat database D1 production
+# 2. Buat database D1 production (bila belum ada)
 npx wrangler d1 create lpksaindo_db
 
 # 3. Masukkan database_id hasil pembuatan di atas ke file wrangler.jsonc
@@ -103,7 +136,8 @@ npx wrangler d1 create lpksaindo_db
 npm run db:migrate:remote
 
 # 5. Buat akun super admin pertama di database remote
-# (Jalankan skrip create-admin dan eksekusi SQL yang dihasilkan dengan flag --remote)
+node scripts/create-admin.mjs
+# (Salin perintah SQL INSERT yang dihasilkan dan jalankan dengan npx wrangler d1 execute lpksaindo_db --remote --command="...")
 
 # 6. Deploy ke Cloudflare Workers
 npx wrangler deploy

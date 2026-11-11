@@ -74,9 +74,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, currentLang, c
           {/* Header */}
           <div className="flex items-center justify-between pb-4 border-b border-brand-border">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded bg-brand-vermilion flex items-center justify-center text-white font-extrabold text-base">
-                S
-              </div>
+              <img
+                src="/assets/logo/logo.png"
+                alt="LPK Saindo"
+                className="w-8 h-8 object-contain"
+              />
               <span className="font-extrabold text-base tracking-tight text-brand-charcoal">
                 LPK SAINDO
               </span>
