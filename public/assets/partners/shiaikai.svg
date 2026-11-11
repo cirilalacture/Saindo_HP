@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none" class="w-full h-full">
+  <g transform="translate(6, 6)">
+    <!-- Shiaikai Four-leaf Care Clover & Hands Motif -->
+    <rect x="2" y="4" width="40" height="40" rx="10" fill="#6DA130" fill-opacity="0.12"/>
+    <path d="M22 10 C16 10, 12 15, 12 20 C12 26, 22 34, 22 34 C22 34, 32 26, 32 20 C32 15, 28 10, 22 10 Z" fill="#6DA130"/>
+    <circle cx="22" cy="19" r="4" fill="#CBCA05"/>
+    <path d="M14 26 C16 32, 22 38, 28 32" stroke="#6DA130" stroke-width="2" stroke-linecap="round"/>
+    <!-- Wordmark -->
+    <text x="50" y="20" font-family="'Inter', 'Helvetica Neue', 'Arial', sans-serif" font-size="13" font-weight="900" letter-spacing="1" fill="#2E5211">SHIAIKAI <tspan fill="#6DA130">HOKKAIDO</tspan></text>
+    <text x="50" y="34" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="8.5" font-weight="700" letter-spacing="1.2" fill="#555555">社会福祉法人 北海道仕愛会</text>
+    <text x="51" y="44" font-family="'Inter', 'Courier New', monospace" font-size="7" font-weight="600" letter-spacing="0.8" fill="#888888">shiaikai.jp</text>
+  </g>
+</svg>

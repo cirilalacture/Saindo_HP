@@ -3,6 +3,7 @@ export interface CompanyPartner {
   name: string;
   nameJa: string;
   shortName: string;
+  website: string;
   logo: string;
 }
 
@@ -12,48 +13,31 @@ export const partnerCompanies: CompanyPartner[] = [
     name: 'Ginza Cozy Corner Co., Ltd.',
     nameJa: '株式会社銀座コージーコーナー',
     shortName: 'Ginza Cozy Corner',
+    website: 'https://www.cozycorner.co.jp/',
     logo: '/assets/partners/cozy-corner.svg',
   },
   {
-    id: 'nichii-gakkan',
-    name: 'Nichii Gakkan Co., Ltd.',
-    nameJa: '株式会社ニチイ学館',
-    shortName: 'Nichii Gakkan Group',
-    logo: '/assets/partners/nichii-gakkan.svg',
+    id: 'foods-and-foods',
+    name: 'Foods and Foods Co., Ltd.',
+    nameJa: 'フーズ アンド フーズ 株式会社',
+    shortName: 'Foods and Foods (af-japan.jp)',
+    website: 'https://www.af-japan.jp/',
+    logo: '/assets/partners/foods-and-foods.svg',
   },
   {
-    id: 'yamazaki-baking',
-    name: 'Yamazaki Baking Co., Ltd.',
-    nameJa: '山崎製パン株式会社',
-    shortName: 'Yamazaki Baking',
-    logo: '/assets/partners/yamazaki-baking.svg',
+    id: 'tamago-and-farms',
+    name: 'Tamago & Company Inc. / Tamago and Farmers',
+    nameJa: 'たまご＆カンパニー株式会社 (T&C)',
+    shortName: 'Tamago and Farms (tandc.inc)',
+    website: 'https://www.tandc.inc/',
+    logo: '/assets/partners/tamago-and-company.svg',
   },
   {
-    id: 'tsukishima-foods',
-    name: 'Tsukishima Foods Industry Co., Ltd.',
-    nameJa: '月島食品工業株式会社',
-    shortName: 'Tsukishima Foods',
-    logo: '/assets/partners/tsukishima-foods.svg',
-  },
-  {
-    id: 'his-hotel-holdings',
-    name: 'H.I.S. Hotel Holdings Co., Ltd.',
-    nameJa: 'H.I.S.ホテルホールディングス',
-    shortName: 'H.I.S. Hotel Group',
-    logo: '/assets/partners/his-hotel.svg',
-  },
-  {
-    id: 'daiwa-house-group',
-    name: 'Daiwa House Industry Co., Ltd.',
-    nameJa: '大和ハウス工業グループ',
-    shortName: 'Daiwa House Group',
-    logo: '/assets/partners/daiwa-house.svg',
-  },
-  {
-    id: 'sanwa-techno',
-    name: 'Sanwa Techno Engineering Co., Ltd.',
-    nameJa: '株式会社サンワテクノ',
-    shortName: 'Sanwa Techno Engineering',
-    logo: '/assets/partners/sanwa-techno.svg',
+    id: 'shiaikai-hokkaido',
+    name: 'Social Welfare Corporation Hokkaido Shiaikai',
+    nameJa: '社会福祉法人 北海道仕愛会',
+    shortName: 'Shiaikai Hokkaido (shiaikai.jp)',
+    website: 'https://shiaikai.jp/',
+    logo: '/assets/partners/shiaikai.svg',
   },
 ];

@@ -15,31 +15,34 @@ const isJa = currentLang === 'ja';
     <!-- Minimal Header -->
     <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
       <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion mb-1.5">
-        <span>{isJa ? '提携受入企業' : 'MITRA PERUSAHAAN JEPANG'}</span>
+        <span>{isJa ? '提携受入企業・法人' : 'MITRA PERUSAHAAN JEPANG'}</span>
         <span class="text-brand-stone">/</span>
         <span class="font-japanese text-brand-stone">{isJa ? 'PARTNERS' : '提携先実績'}</span>
       </div>
       <h2 class="text-lg sm:text-2xl font-heading font-extrabold text-brand-charcoal tracking-tight">
         {isJa
           ? '日本全国の有力企業・受入機関との連携実績'
-          : 'Dipercaya Oleh Berbagai Perusahaan Terkemuka di Jepang'}
+          : 'Dipercaya Oleh Berbagai Perusahaan & Lembaga Terkemuka di Jepang'}
       </h2>
     </div>
 
-    <!-- Logos Strip (Pure Logos, Clean & Simple) -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 items-center">
+    <!-- Logos Strip (4 Partner Logos: Ginza Cozy Corner, Foods & Foods, Tamago & Farms, Shiaikai Hokkaido) -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 items-center max-w-5xl mx-auto">
       {partnerCompanies.map((partner) => (
-        <div
-          class="h-20 sm:h-22 px-3 py-2.5 rounded-lg border border-brand-border/70 bg-white shadow-sm flex items-center justify-center transition-all duration-300 hover:border-brand-vermilion/40 hover:shadow-md grayscale hover:grayscale-0 opacity-80 hover:opacity-100 group"
-          title={isJa ? partner.nameJa : partner.name}
+        <a
+          href={partner.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="h-22 sm:h-24 px-4 py-3 rounded-xl border border-brand-border/70 bg-white shadow-sm flex items-center justify-center transition-all duration-300 hover:border-brand-vermilion/50 hover:shadow-md grayscale hover:grayscale-0 opacity-85 hover:opacity-100 group"
+          title={`${isJa ? partner.nameJa : partner.name} (${partner.shortName})`}
         >
           <img
             src={partner.logo}
             alt={isJa ? partner.nameJa : partner.name}
-            class="max-h-12 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+            class="max-h-12 sm:max-h-13 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
-        </div>
+        </a>
       ))}
     </div>
   </Container>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none" class="w-full h-full">
+  <g transform="translate(6, 6)">
+    <!-- Food Bowl & Noodle Swirl Icon -->
+    <rect x="2" y="4" width="40" height="40" rx="10" fill="#F14337" fill-opacity="0.1"/>
+    <!-- Steaming noodle / double F motif -->
+    <path d="M12 28 C12 36, 32 36, 32 28 C32 26, 12 26, 12 28 Z" fill="#F14337"/>
+    <path d="M16 12 C18 18, 14 22, 16 26" stroke="#47704C" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M22 10 C24 16, 20 20, 22 26" stroke="#F14337" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M28 12 C30 18, 26 22, 28 26" stroke="#47704C" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="32" cy="12" r="3" fill="#F14337"/>
+    <!-- Wordmark: Foods and Foods -->
+    <text x="52" y="22" font-family="'Inter', 'Helvetica Neue', 'Arial Black', sans-serif" font-size="16" font-weight="900" letter-spacing="0.5" fill="#F14337">foods<tspan fill="#47704C">&amp;foods</tspan></text>
+    <text x="52" y="36" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#4E4A4D">フーズ アンド フーズ 株式会社</text>
+    <text x="53" y="45" font-family="'Inter', 'Courier New', monospace" font-size="7" font-weight="600" letter-spacing="0.8" fill="#888888">af-japan.jp</text>
+  </g>
+</svg>

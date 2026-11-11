@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none" class="w-full h-full">
+  <g transform="translate(6, 6)">
+    <!-- Golden Egg Emblem (ISE / T&C Integration) -->
+    <ellipse cx="22" cy="24" rx="16" ry="19" fill="#E60012" fill-opacity="0.12"/>
+    <ellipse cx="22" cy="25" rx="13" ry="16" fill="#E60012"/>
+    <!-- Sun yolk / inner egg glow -->
+    <ellipse cx="20" cy="22" rx="7.5" ry="9.5" fill="#FFA726"/>
+    <ellipse cx="18" cy="19" rx="2.5" ry="3.5" fill="#FFFFFF"/>
+    <!-- Wordmark -->
+    <text x="50" y="21" font-family="'Inter', 'Helvetica Neue', 'Arial Black', sans-serif" font-size="14" font-weight="900" letter-spacing="1" fill="#231815">TAMAGO <tspan fill="#E60012">&amp; CO.</tspan></text>
+    <text x="50" y="34" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif" font-size="8.5" font-weight="700" letter-spacing="1" fill="#555555">たまご＆カンパニー (T&amp;C Group)</text>
+    <text x="51" y="44" font-family="'Inter', 'Courier New', monospace" font-size="7" font-weight="600" letter-spacing="0.8" fill="#888888">tandc.inc</text>
+  </g>
+</svg>
