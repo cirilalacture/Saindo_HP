@@ -41,7 +41,7 @@ export const leadershipAndStaff: StaffProfile[] = [
     roleJa: '日本人ネイティブ講師・会話（Kaiwa）指導',
     bio: 'Pengajar penutur asli Jepang yang melatih pemahaman budaya kerja, etika komunikasi Horenso, serta kemampuan mendengar (Choukai) siswa sehari-hari.',
     bioJa: '日本人講師として、日常会話（Kaiwa）、聴解力向上、報連相（ホウレンソウ）をはじめとする日本特有のビジネスマナーを指導。',
-    image: '/assets/staff/placeholder-sensei.svg',
+    image: '/assets/staff/nara-sensei.png',
     experience: 'Pengajar Native Asli Jepang',
   },
   {
@@ -50,7 +50,7 @@ export const leadershipAndStaff: StaffProfile[] = [
     roleJa: '特定技能（SSW）専門クラス主任講師',
     bio: 'Instruktur spesialis kurikulum Tokutei Ginou berbekal pengalaman kerja langsung selama 5 tahun di Jepang. Mengawal penguasaan istilah teknis dan ujian keahlian industri.',
     bioJa: '日本での5年間の実務実績を誇る専任指導員。特定技能測定試験の専門用語解説から現場即応スキルの定着までを指導。',
-    image: '/assets/staff/placeholder-sensei.svg',
+    image: '/assets/staff/joko-sensei.jpg',
     experience: '5 Tahun Kerja di Jepang',
   },
   {
@@ -59,7 +59,7 @@ export const leadershipAndStaff: StaffProfile[] = [
     roleJa: '初級（入門）クラス専任講師',
     bio: 'Pengajar kelas dasar pemula (Shokyu) alumni program IM Japan selama 3 tahun. Berfokus pada penguasaan huruf Kana, Kanji dasar, dan pondasi tata bahasa Minna no Nihongo.',
     bioJa: 'IM Japanプログラム修了（日本での3年間の実務経験者）。平仮名・片仮名・基礎漢字の書き取りから丁寧な導入教育を担当。',
-    image: '/assets/staff/placeholder-sensei.svg',
+    image: '/assets/staff/yopi-sensei.jpg',
     experience: '3 Thn Program IM Japan',
   },
   {
@@ -68,7 +68,7 @@ export const leadershipAndStaff: StaffProfile[] = [
     roleJa: '体力練成・健康管理・生活指導担当',
     bio: 'Membina ketahanan fisik, postur, kebugaran jasmani, dan kedisiplinan harian asrama siswa berbekal pengalaman kerja di industri Jepang selama 3 tahun.',
     bioJa: '日本での3年間の就労経験に基づき、日本の現場で通用する強健な体力づくり、朝の点呼、寮生活の衛生・生活規律を指導。',
-    image: '/assets/staff/placeholder-sensei.svg',
+    image: '/assets/staff/aan-sensei.jpg',
     experience: '3 Tahun Kerja di Jepang',
   },
   {
@@ -77,7 +77,7 @@ export const leadershipAndStaff: StaffProfile[] = [
     roleJa: '事務管理・広報マーケティング担当',
     bio: 'Mengelola alur pendaftaran siswa, kelengkapan berkas dokumen administrasi, serta layanan informasi kemitraan LPK Saindo secara profesional.',
     bioJa: '入学願書の受付、査証・在留資格申請書類の点検管理、外部受入企業・広報窓口業務を正確かつ迅速に対応。',
-    image: '/assets/staff/placeholder-sensei.svg',
+    image: '/assets/staff/rudi-sensei.png',
     experience: 'Tim Manajemen & Admisi',
   },
   {

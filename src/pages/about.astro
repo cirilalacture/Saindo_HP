@@ -301,7 +301,7 @@ import { leadershipAndStaff, facilitiesData } from '../data/about';
                     src={staff.image}
                     alt={staff.name}
                     class={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${
-                      staff.image.includes('pimpinan.png')
+                      staff.image.endsWith('.png')
                         ? 'object-contain object-bottom pt-3 bg-gradient-to-b from-[#FAF8F5] to-[#EFECE4]'
                         : 'object-cover'
                     }`}
