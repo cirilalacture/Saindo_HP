@@ -2,9 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "saindohp",
   "main": "./dist/_worker.js/index.js",
-  "compatibility_date": "2024-11-01",
+  "compatibility_date": "2025-08-15",
   "compatibility_flags": [
-    "nodejs_compat"
+    "nodejs_compat",
+    "expose_global_message_channel"
   ],
   "assets": {
     "binding": "ASSETS",
@@ -14,7 +15,7 @@
     {
       "binding": "DB",
       "database_name": "lpksaindo_db",
-      "database_id": "local-lpksaindo-id",
+      "database_id": "1d52b68f-95c5-4064-9e25-01559a03cb81",
       "migrations_dir": "migrations"
     }
   ],
