@@ -2,6 +2,7 @@
 import { eq } from 'drizzle-orm';
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { getDb, schema } from '../../../db/client';
+import { resolveCoverMediaId } from '../../../lib/media';
 
 const db = Astro.locals.runtime?.env?.DB;
 let mediaList: Array<{ id: string; filename: string; displayUrl: string }> = [];
@@ -27,7 +28,8 @@ if (Astro.request.method === 'POST') {
     const descriptionId = formData.get('descriptionId')?.toString().trim() || null;
     const descriptionJa = formData.get('descriptionJa')?.toString().trim() || null;
     const eventDate = formData.get('eventDate')?.toString().trim() || null;
-    const coverMediaId = formData.get('coverMediaId')?.toString().trim() || null;
+    const externalCoverUrl = formData.get('externalCoverUrl')?.toString().trim() || null;
+    const coverMediaIdInput = formData.get('coverMediaId')?.toString().trim() || null;
     const isPublished = formData.get('isPublished')?.toString() === '1' ? 1 : 0;
     const sortOrder = parseInt(formData.get('sortOrder')?.toString() || '0', 10);
 
@@ -37,6 +39,13 @@ if (Astro.request.method === 'POST') {
       errorMessage = 'Koneksi D1 tidak aktif.';
     } else {
       const d1 = getDb(db);
+
+      // Resolve cover from external URL (e.g. ImgBB) or library media
+      const coverMediaId = await resolveCoverMediaId(db, {
+        externalUrl: externalCoverUrl,
+        selectedMediaId: coverMediaIdInput,
+        title: titleId,
+      });
 
       if (!slug) {
         slug = titleId
@@ -204,25 +213,76 @@ if (Astro.request.method === 'POST') {
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-brand-border/60">
-          <div class="space-y-1.5">
-            <label for="coverMediaId" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
-              Foto Sampul Album
-            </label>
-            <select
-              id="coverMediaId"
-              name="coverMediaId"
-              class="w-full px-3 py-2 rounded border border-brand-border bg-brand-porcelain text-xs font-heading text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
-            >
-              <option value="">— Tanpa Sampul —</option>
-              {mediaList.map((med) => (
-                <option value={med.id}>
-                  {med.filename}
-                </option>
-              ))}
-            </select>
+        <!-- Cover Image Options -->
+        <div class="p-5 rounded-lg border border-brand-border bg-brand-porcelain/60 space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-brand-border/80">
+            <span class="w-2 h-2 rounded-full bg-brand-vermilion"></span>
+            <h3 class="text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
+              Pengaturan Sampul Album
+            </h3>
           </div>
 
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Option A: External URL -->
+            <div class="space-y-1.5">
+              <label for="externalCoverUrl" class="block text-xs font-heading font-bold text-brand-charcoal">
+                Pilihan 1: Tautan URL Gambar Eksternal (ImgBB, dll)
+              </label>
+              <input
+                id="externalCoverUrl"
+                name="externalCoverUrl"
+                type="url"
+                placeholder="https://i.ibb.co/xyz/sampul.jpg"
+                class="w-full px-3.5 py-2 rounded border border-brand-border bg-white text-xs font-mono text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion placeholder:text-brand-stone"
+              />
+              <p class="text-[11px] font-body text-brand-stone">
+                Bisa link langsung dari ImgBB, Unsplash, atau hosting gambar lainnya.
+              </p>
+            </div>
+
+            <!-- Option B: Select from library -->
+            <div class="space-y-1.5">
+              <label for="coverMediaId" class="block text-xs font-heading font-bold text-brand-charcoal">
+                Pilihan 2: Atau Pilih dari Media Library
+              </label>
+              <select
+                id="coverMediaId"
+                name="coverMediaId"
+                class="w-full px-3 py-2 rounded border border-brand-border bg-white text-xs font-heading text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-vermilion/20 focus:border-brand-vermilion"
+              >
+                <option value="" data-url="">— Tanpa Sampul —</option>
+                {mediaList.map((med) => (
+                  <option value={med.id} data-url={med.displayUrl}>
+                    {med.filename}
+                  </option>
+                ))}
+              </select>
+              <p class="text-[11px] font-body text-brand-stone">
+                Pilih dari koleksi gambar yang telah tersimpan sebelumnya.
+              </p>
+            </div>
+          </div>
+
+          <!-- Live Preview Box -->
+          <div class="pt-2">
+            <span class="block text-[11px] font-heading font-semibold text-brand-stone mb-1.5">
+              Pratinjau Sampul:
+            </span>
+            <div class="w-full max-w-xs aspect-[16/9] rounded border border-dashed border-brand-border bg-brand-sand/40 overflow-hidden relative flex items-center justify-center">
+              <img
+                id="coverPreviewImg"
+                src=""
+                alt="Pratinjau Sampul"
+                class="w-full h-full object-cover hidden"
+              />
+              <span id="coverPreviewPlaceholder" class="text-xs text-brand-stone font-heading">
+                Belum ada foto sampul
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-brand-border/60">
           <div class="space-y-1.5">
             <label for="isPublished" class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-charcoal">
               Status Publikasi
@@ -271,4 +331,53 @@ if (Astro.request.method === 'POST') {
     </div>
 
   </div>
+
+  <script is:inline>
+    (function() {
+      const urlInput = document.getElementById('externalCoverUrl');
+      const selectMedia = document.getElementById('coverMediaId');
+      const previewImg = document.getElementById('coverPreviewImg');
+      const placeholder = document.getElementById('coverPreviewPlaceholder');
+
+      function updatePreview() {
+        const urlVal = urlInput ? urlInput.value.trim() : '';
+        let targetUrl = '';
+
+        if (urlVal && (urlVal.startsWith('http://') || urlVal.startsWith('https://'))) {
+          targetUrl = urlVal;
+        } else if (selectMedia && selectMedia.value) {
+          const selectedOption = selectMedia.options[selectMedia.selectedIndex];
+          targetUrl = selectedOption ? selectedOption.getAttribute('data-url') || '' : '';
+        }
+
+        if (targetUrl) {
+          previewImg.src = targetUrl;
+          previewImg.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        } else {
+          previewImg.src = '';
+          previewImg.classList.add('hidden');
+          placeholder.classList.remove('hidden');
+        }
+      }
+
+      if (urlInput) {
+        urlInput.addEventListener('input', function() {
+          if (urlInput.value.trim() && selectMedia) {
+            selectMedia.value = '';
+          }
+          updatePreview();
+        });
+      }
+
+      if (selectMedia) {
+        selectMedia.addEventListener('change', function() {
+          if (selectMedia.value && urlInput) {
+            urlInput.value = '';
+          }
+          updatePreview();
+        });
+      }
+    })();
+  </script>
 </AdminLayout>
