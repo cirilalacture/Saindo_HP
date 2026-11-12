@@ -42,8 +42,8 @@ export const programsData: ProgramDetail[] = [
     durationJa: '4〜6ヶ月（技能測定試験対策含む）',
     target: 'Sertifikat Keahlian SSW + JFT-Basic A2 / JLPT N4',
     targetJa: '各分野技能測定試験合格 ＋ JFT-Basic A2',
-    schedule: 'Senin – Sabtu (Pelatihan Bahasa & Praktik Kejuruan)',
-    scheduleJa: '月曜〜土曜（座学および実技訓練）',
+    schedule: 'Senin – Jumat (Pelatihan Bahasa & Praktik Kejuruan)',
+    scheduleJa: '月曜〜金曜（座学および実技訓練）',
     pricing: 'Biaya Pendidikan Rp 10 Jt (dari 0) / Rp 5 Jt (jika ada JFT) • Matching Job Rp 31 Jt (Include Visa & Tiket)',
     pricingJa: '基礎講習 1,000万ルピア〜 / 就労マッチング 3,100万ルピア（ビザ・航空券込）',
     syllabus: [
