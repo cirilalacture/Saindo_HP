@@ -3,19 +3,31 @@ import { eq } from 'drizzle-orm';
 import { getDb, schema } from '../db/client';
 
 export const GET: APIRoute = async ({ locals }) => {
-  const baseUrl = 'https://lpksaindo.com';
+  const baseUrl = 'https://saindopassion.com';
   const db = locals.runtime?.env?.DB;
 
   const staticPages = [
     '',
     '/about',
     '/programs',
+    '/programs/tokutei-ginou',
+    '/programs/engineer-gijinkoku',
+    '/programs/matching-job',
+    '/programs/bahasa-jepang',
+    '/programs/magang-jepang',
+    '/programs/simulasi-wawancara',
     '/gallery',
     '/blog',
     '/contact',
     '/ja',
     '/ja/about',
     '/ja/programs',
+    '/ja/programs/tokutei-ginou',
+    '/ja/programs/engineer-gijinkoku',
+    '/ja/programs/matching-job',
+    '/ja/programs/bahasa-jepang',
+    '/ja/programs/magang-jepang',
+    '/ja/programs/simulasi-wawancara',
     '/ja/gallery',
     '/ja/blog',
     '/ja/contact',

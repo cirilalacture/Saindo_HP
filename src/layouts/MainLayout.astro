@@ -6,13 +6,26 @@ interface Props {
   title?: string;
   description?: string;
   lang?: 'id' | 'ja';
+  canonical?: string;
+  image?: string;
 }
 
 const {
   title = 'LPK Saindo — Pelatihan Bahasa & Penempatan Kerja ke Jepang',
   description = 'Lembaga Pelatihan Kerja resmi ke Jepang. Program Pemagangan (Ginou Jisshuusei) dan Tenaga Kerja Berketerampilan Spesifik (Tokutei Ginou / SSW).',
   lang = 'id',
+  canonical,
+  image = '/assets/logo/logo.png',
 } = Astro.props;
+
+const site = 'https://saindopassion.com';
+const currentPath = Astro.url.pathname;
+const canonicalUrl = canonical ? site + canonical : site + currentPath;
+const ogImageUrl = image.startsWith('http') ? image : site + image;
+const ogLocale = lang === 'ja' ? 'ja_JP' : 'id_ID';
+const isJaPage = currentPath === '/ja' || currentPath.startsWith('/ja/');
+const jaPath = isJaPage ? currentPath : currentPath === '/' ? '/ja' : '/ja' + currentPath;
+const idPath = isJaPage ? currentPath.replace(/^\/ja(?=\/|$)/, '') || '/' : currentPath;
 ---
 
 <!doctype html>
@@ -28,13 +41,20 @@ const {
     <meta name="description" content={description} />
     
     <!-- Open Graph / Meta -->
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="id" href={site + idPath} />
+    <link rel="alternate" hreflang="ja" href={site + jaPath} />
+    <link rel="alternate" hreflang="x-default" href={site + idPath} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://lpksaindo.com/assets/logo/logo.png" />
-    <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'id_ID'} />
-    <link rel="alternate" hreflang="id" href="https://lpksaindo.com/" />
-    <link rel="alternate" hreflang="ja" href="https://lpksaindo.com/ja/" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- JSON-LD Structured Data for EducationalOrganization -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -42,8 +62,8 @@ const {
       '@type': 'EducationalOrganization',
       name: 'LPK Sukses Abadi Indonesia (Saindo Passion Global)',
       alternateName: 'LPK Saindo',
-      url: 'https://lpksaindo.com',
-      logo: 'https://lpksaindo.com/assets/logo/logo.png',
+      url: 'https://saindopassion.com',
+      logo: 'https://saindopassion.com/assets/logo/logo.png',
       description: description,
       address: {
         '@type': 'PostalAddress',
