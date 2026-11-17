@@ -63,6 +63,15 @@ export const leadershipAndStaff: StaffProfile[] = [
     experience: '3 Thn Program IM Japan',
   },
   {
+    name: 'Agung sensei',
+    role: 'Instruktur Kelas JFT',
+    roleJa: 'JFTベーシック専門クラス講師',
+    bio: 'Instruktur kelas JFT-Basic yang membimbing siswa hingga lulus ujian JFT-Basic A2 sebagai syarat utama program Tokutei Ginou, dengan fokus pada pemahaman bacaan, percakapan, dan latihan soal.',
+    bioJa: '特定技能制度に必須のJFT-Basic A2試験合格に向け、読解・聴解・会話の基礎から実践的な模擬試験対策までを指導する専任講師。',
+    image: '/assets/staff/placeholder-sensei.svg',
+    experience: 'Instruktur Kelas JFT',
+  },
+  {
     name: 'Aan sensei',
     role: 'Pelatih Fisik, Kebugaran & Disiplin',
     roleJa: '体力練成・健康管理・生活指導担当',
