@@ -8,6 +8,8 @@ interface Props {
   lang?: 'id' | 'ja';
   canonical?: string;
   image?: string;
+  ogType?: string;
+  structuredData?: Record<string, unknown>;
 }
 
 const {
@@ -15,7 +17,9 @@ const {
   description = 'Lembaga Pelatihan Kerja resmi ke Jepang. Program Pemagangan (Ginou Jisshuusei) dan Tenaga Kerja Berketerampilan Spesifik (Tokutei Ginou / SSW).',
   lang = 'id',
   canonical,
-  image = '/assets/logo/logo.png',
+  image = '/assets/logo/og-image.png',
+  ogType = 'website',
+  structuredData,
 } = Astro.props;
 
 const site = 'https://saindopassion.com';
@@ -45,7 +49,7 @@ const idPath = isJaPage ? currentPath.replace(/^\/ja(?=\/|$)/, '') || '/' : curr
     <link rel="alternate" hreflang="id" href={site + idPath} />
     <link rel="alternate" hreflang="ja" href={site + jaPath} />
     <link rel="alternate" hreflang="x-default" href={site + idPath} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -84,6 +88,9 @@ const idPath = isJaPage ? currentPath.replace(/^\/ja(?=\/|$)/, '') || '/' : curr
         'https://facebook.com/lpksaindo',
       ],
     })} />
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
     <!-- Font Size Controller Script (Zero FOUC) -->
     <script is:inline>
       (function() {

@@ -1,0 +1,50 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Container from '../../components/ui/Container.astro';
+import Button from '../../components/ui/Button.astro';
+---
+
+<MainLayout
+  title="ページが見つかりません (404) — LPK Saindo"
+  description="お探しのページは見つかりませんでした。LPK Saindoトップページへお戻りいただくか、日本就労プログラムをご覧ください。"
+  lang="ja"
+  canonical="/ja/404"
+>
+  <Navbar currentLang="ja" />
+
+  <main class="font-ja">
+    <section class="py-24 md:py-32 bg-[#FAFAF8]">
+      <Container>
+        <div class="max-w-xl mx-auto text-center space-y-6">
+          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+            <span>エラー 404</span>
+            <span class="text-brand-stone">/</span>
+            <span class="text-brand-stone">NOT FOUND</span>
+          </div>
+          <p class="font-japanese text-7xl sm:text-8xl font-extrabold text-brand-sand select-none leading-none">
+            404
+          </p>
+          <h1 class="text-3xl sm:text-4xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+            ページが見つかりませんでした。
+          </h1>
+          <p class="text-base text-brand-slate font-body leading-relaxed">
+            お探しのページは移動または削除された可能性があります。
+            トップページへお戻りください。
+          </p>
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button variant="primary" size="lg" href="/ja">
+              トップへ戻る
+            </Button>
+            <Button variant="outline" size="lg" href="/ja/programs">
+              プログラムを見る
+            </Button>
+          </div>
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="ja" />
+</MainLayout>

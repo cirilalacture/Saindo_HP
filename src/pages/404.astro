@@ -1,0 +1,50 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<MainLayout
+  title="Halaman Tidak Ditemukan (404) — LPK Saindo"
+  description="Maaf, halaman yang Anda cari tidak ditemukan. Kembali ke beranda LPK Saindo atau jelajahi program pelatihan kerja ke Jepang kami."
+  lang="id"
+  canonical="/404"
+>
+  <Navbar currentLang="id" />
+
+  <main>
+    <section class="py-24 md:py-32 bg-[#FAFAF8]">
+      <Container>
+        <div class="max-w-xl mx-auto text-center space-y-6">
+          <div class="inline-flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-widest text-brand-vermilion">
+            <span>ERROR 404</span>
+            <span class="text-brand-stone">/</span>
+            <span class="font-japanese text-brand-stone">見つかりません</span>
+          </div>
+          <p class="font-japanese text-7xl sm:text-8xl font-extrabold text-brand-sand select-none leading-none">
+            404
+          </p>
+          <h1 class="text-3xl sm:text-4xl font-heading font-extrabold text-brand-charcoal tracking-tight">
+            Halaman Tidak Ditemukan.
+          </h1>
+          <p class="text-base text-brand-slate font-body leading-relaxed">
+            Maaf, halaman yang Anda cari sudah dipindahkan atau tidak tersedia.
+            Mari kembali dan lanjutkan perjalanan Anda menuju karier di Jepang.
+          </p>
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button variant="primary" size="lg" href="/">
+              Kembali ke Beranda
+            </Button>
+            <Button variant="outline" size="lg" href="/programs">
+              Lihat Program
+            </Button>
+          </div>
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <Footer currentLang="id" />
+</MainLayout>
