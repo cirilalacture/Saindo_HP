@@ -29,6 +29,8 @@ if (mapsUrl.includes('hl=id')) {
   mapsUrl = mapsUrl.replace('hl=id', 'hl=ja');
 }
 const mapsDirectLink = 'https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9';
+const building2EmbedUrl = 'https://maps.google.com/maps?q=-7.4189851,111.018273&hl=ja&z=17&output=embed';
+const building2DirectLink = 'https://maps.app.goo.gl/8hSuTXfr9MX5XTLH6';
 ---
 
 <MainLayout
@@ -284,18 +286,64 @@ const mapsDirectLink = 'https://maps.app.goo.gl/6x4hLdpSgc6i9X9n9';
           </div>
         </div>
 
-        <div class="rounded-lg overflow-hidden border border-brand-border bg-brand-sand aspect-[21/9] min-h-[350px] shadow-sm relative">
-          <iframe
-            title="LPK Saindo 本部アクセスマップ"
-            src={mapsUrl}
-            width="100%"
-            height="100%"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            class="w-full h-full"
-          ></iframe>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-4">
+              <h3 class="text-base font-heading font-bold text-brand-charcoal">
+                第1校舎 — 本部・メインキャンパス
+              </h3>
+              <a
+                href={mapsDirectLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shrink-0 text-xs font-heading font-semibold text-brand-vermilion hover:underline"
+              >
+                ルート ↗
+              </a>
+            </div>
+            <div class="rounded-lg overflow-hidden border border-brand-border bg-brand-sand aspect-[16/10] min-h-[300px] shadow-sm relative">
+              <iframe
+                title="LPK Saindo 第1校舎アクセスマップ"
+                src={mapsUrl}
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                class="w-full h-full"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-4">
+              <h3 class="text-base font-heading font-bold text-brand-charcoal">
+                第2校舎 — LPK Saindo 2
+              </h3>
+              <a
+                href={building2DirectLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shrink-0 text-xs font-heading font-semibold text-brand-vermilion hover:underline"
+              >
+                ルート ↗
+              </a>
+            </div>
+            <div class="rounded-lg overflow-hidden border border-brand-border bg-brand-sand aspect-[16/10] min-h-[300px] shadow-sm relative">
+              <iframe
+                title="LPK Saindo 第2校舎アクセスマップ"
+                src={building2EmbedUrl}
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                class="w-full h-full"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </Container>
     </section>
